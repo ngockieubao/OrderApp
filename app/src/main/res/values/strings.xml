@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">OrderApp</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="string_todo">TODO</string>
+    <string name="string_email">Email</string>
+    <string name="string_password">Password</string>
+    <string name="string_login">Login</string>
+    <string name="string_not_exist_an_account">Doesn\'t exist an account?</string>
+    <string name="string_sign_up">Sign up</string>
+    <string name="string_name">Name</string>
+    <string name="string_sign_up_now">Sign up now!</string>
+    <string name="string_already_have_an_account">Already have an account?</string>
+    <string name="string_grocery_shopping_has_never_been_this_much_fun">Grocery shopping has never been this much fun.</string>
+    <string name="string_donot_have_an_account">Don\'t have an account?</string>
 </resources>

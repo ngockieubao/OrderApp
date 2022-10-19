@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.WelcomeFragment">
+
+        <ImageView
+            android:id="@+id/imageView_welcome_header"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/string_todo"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_welcome"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            android:text="@string/string_grocery_shopping_has_never_been_this_much_fun"
+            android:textColor="#49d1c2"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_welcome_header" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="26dp"
+            android:background="@drawable/corner_btn_login"
+            android:backgroundTint="#49d1c2"
+            android:text="@string/string_login"
+            app:layout_constraintEnd_toEndOf="@+id/textView_welcome"
+            app:layout_constraintHorizontal_bias="0.487"
+            app:layout_constraintStart_toStartOf="@+id/textView_welcome"
+            app:layout_constraintTop_toBottomOf="@+id/textView_welcome" />
+
+        <TextView
+            android:id="@+id/tv_has_not_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/string_donot_have_an_account"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/btn_login"
+            app:layout_constraintStart_toStartOf="@+id/btn_login"
+            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
+        <Button
+            android:id="@+id/btn_sign_up"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/corner_btn_signup"
+            android:text="@string/string_sign_up"
+            android:textColor="#49d1c2"
+            app:layout_constraintEnd_toEndOf="@+id/tv_has_not_account"
+            app:layout_constraintHorizontal_bias="0.486"
+            app:layout_constraintStart_toStartOf="@+id/tv_has_not_account"
+            app:layout_constraintTop_toBottomOf="@+id/tv_has_not_account" />
+
+        <ImageView
+            android:id="@+id/imageView_welcome_footer"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="@string/string_todo"
+            android:paddingHorizontal="30dp"
+            android:src="@drawable/img_footer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
