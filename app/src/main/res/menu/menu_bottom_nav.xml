@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- item's id must same fragment's id in navigation graph -->
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="@string/string_home" />
+
+    <item
+        android:id="@+id/cartFragment"
+        android:icon="@drawable/ic_trolley"
+        android:title="@string/string_cart" />
+
+    <item
+        android:id="@+id/favouriteFragment"
+        android:icon="@drawable/ic_heart"
+        android:title="@string/string_favourite" />
+
+    <item
+        android:id="@+id/noteFragment"
+        android:icon="@drawable/ic_note"
+        android:title="@string/string_note" />
+</menu>

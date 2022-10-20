@@ -1,16 +1,19 @@
-package com.ngockieubao.orderapp.ui.home
+package com.ngockieubao.orderapp.ui.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ngockieubao.orderapp.databinding.FragmentHomeBinding
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.ngockieubao.orderapp.R
+import com.ngockieubao.orderapp.databinding.FragmentMainBinding
 import com.ngockieubao.orderapp.ui.login.SignOutDialog
 
-class HomeFragment : Fragment() {
+class MainFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentMainBinding? = null
     private val binding
         get() = _binding!!
 
@@ -21,7 +24,11 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+
+        val navHostFragment = childFragmentManager.findFragmentById(R.id.fragNavHost) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bottomNavigationView.setupWithNavController(navController)
 
         dialog = SignOutDialog()
         binding.imageViewLogout.setOnClickListener {

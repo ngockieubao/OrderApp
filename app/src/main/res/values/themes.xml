@@ -3,7 +3,7 @@
     <style name="Theme.OrderApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#49d1c2</item>
-        <item name="colorPrimaryVariant">#49d1c2</item>
+        <item name="colorPrimaryVariant">#36B3A5</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -13,8 +13,8 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
 
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
     <!-- Splash Screen theme. -->
@@ -22,4 +22,8 @@
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
+    <!-- Corner radius image. -->
+    <style name="CornerRadiusImage">
+        <item name="cornerSize">25%</item>
+    </style>
 </resources>

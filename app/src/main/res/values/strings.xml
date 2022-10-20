@@ -12,4 +12,15 @@
     <string name="string_already_have_an_account">Already have an account?</string>
     <string name="string_grocery_shopping_has_never_been_this_much_fun">Grocery shopping has never been this much fun.</string>
     <string name="string_donot_have_an_account">Don\'t have an account?</string>
+    <string name="string_note">Note</string>
+    <string name="string_favourite">Favourite</string>
+    <string name="string_cart">Cart</string>
+    <string name="string_home">Home</string>
+    <string name="string_offline">Bạn đang ngoại tuyến</string>
+    <string name="string_welcome">Welcome!</string>
+    <string name="string_let_s_make_some_order">let\'s make some order</string>
+    <string name="string_find_anything_here">find anything here</string>
+    <string name="string_danh_muc_dich_vu">Danh mục các dịch vụ</string>
+    <string name="string_danh_muc_san_pham">Danh sách các sản phẩm</string>
+    <string name="string_san_pham_noi_bat">Sản phẩm nổi bật</string>
 </resources>
