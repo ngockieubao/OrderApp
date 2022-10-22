@@ -44,7 +44,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                             if (task.isSuccessful) {
                                 val getSignUp = Login(email, passwd)
                                 _signUp.value = getSignUp
-//                                addUserData()
+                                addUserData()
                             }
                         }
                         .addOnCompleteListener { task ->
@@ -106,18 +106,19 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             Constants.getUsernameFromEmail(checkCurrentUser()?.email),
             checkCurrentUser()?.email,
             "default",
-            "default",
-            0
+            null,
+            null
         )
         checkCurrentUser()?.uid.let {
-//            db.collection("user")
-//                .document(it).set(user.toHashMap())
-//                .addOnSuccessListener {
-//                    Log.d(TAG, "addUserData: success")
-//                }
-//                .addOnFailureListener { exception ->
-//                    Log.d(TAG, "addUserData: failed")
-//                }
+            db.collection("UserInfo")
+                .document(it!!)
+                .set(user.toHashMap())
+                .addOnSuccessListener {
+                    Log.d(TAG, "addUserData: success")
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "addUserData: $exception - failed")
+                }
         }
     }
 

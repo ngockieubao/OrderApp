@@ -31,7 +31,7 @@ class MainFragment : Fragment() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         dialog = SignOutDialog()
-        binding.imageViewLogout.setOnClickListener {
+        binding.imgvHeaderUser.setOnClickListener {
             dialog.show(parentFragmentManager, "sign_out")
         }
 
