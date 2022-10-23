@@ -30,7 +30,6 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     init {
         addCategory()
-//        addProduct()
         loadProduct()
         loadProductPopular()
     }

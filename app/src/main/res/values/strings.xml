@@ -12,8 +12,8 @@
     <string name="string_already_have_an_account">Already have an account?</string>
     <string name="string_grocery_shopping_has_never_been_this_much_fun">Grocery shopping has never been this much fun.</string>
     <string name="string_donot_have_an_account">Don\'t have an account?</string>
-    <string name="string_note">Note</string>
-    <string name="string_favourite">Favourite</string>
+    <string name="string_note">Receipt</string>
+    <string name="string_notification">Notification</string>
     <string name="string_cart">Cart</string>
     <string name="string_home">Home</string>
     <string name="string_offline">Bạn đang ngoại tuyến</string>

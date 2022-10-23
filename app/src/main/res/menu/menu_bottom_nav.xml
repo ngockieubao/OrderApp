@@ -13,12 +13,12 @@
         android:title="@string/string_cart" />
 
     <item
-        android:id="@+id/favouriteFragment"
-        android:icon="@drawable/ic_heart"
-        android:title="@string/string_favourite" />
+        android:id="@+id/notificationFragment"
+        android:icon="@drawable/ic_bell"
+        android:title="@string/string_notification" />
 
     <item
-        android:id="@+id/noteFragment"
+        android:id="@+id/receiptFragment"
         android:icon="@drawable/ic_note"
         android:title="@string/string_note" />
 </menu>
