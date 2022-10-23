@@ -42,22 +42,23 @@
 
             <TextView
                 android:id="@+id/textView_product_name"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
                 android:text="@{item.name}"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/imageView_logo_category"
                 app:layout_constraintStart_toStartOf="@+id/imageView_logo_category"
                 app:layout_constraintTop_toBottomOf="@+id/imageView_logo_category"
-                tools:text="Pizza Cheese" />
+                tools:text="Chicken Premium Cheese" />
 
             <TextView
                 android:id="@+id/textView_product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="3dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/textView_product_name"
                 app:layout_constraintStart_toStartOf="@+id/textView_product_name"
@@ -67,7 +68,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="3dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="@+id/textView_product_price"

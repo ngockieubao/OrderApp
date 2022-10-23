@@ -1,14 +1,23 @@
 package com.ngockieubao.orderapp.ui.main
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.ngockieubao.orderapp.data.Category
 import com.ngockieubao.orderapp.data.Product
 
 class OrderViewModel(application: Application) : ViewModel() {
+
+    private val db = Firebase.firestore
+    private val auth = Firebase.auth.currentUser
 
     private val _listCategory = MutableLiveData<List<Category>>()
     val listCategory: LiveData<List<Category>> = _listCategory
@@ -21,7 +30,9 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     init {
         addCategory()
-        addProduct()
+//        addProduct()
+        loadProduct()
+        loadProductPopular()
     }
 
     private fun addCategory() {
@@ -49,83 +60,68 @@ class OrderViewModel(application: Application) : ViewModel() {
         _listCategory.value = list
     }
 
-    private fun addProduct() {
-        val list = mutableListOf<Product>()
-        val item1 = Product(
-            "Khô gà cháy tỏi 32gram",
-            "12 hours",
-            "Chân gà cay Tứ Xuyên",
-            38000.0,
-            7,
-            4.8,
-            "Lẩu",
-            "https://i.ibb.co/G332np3/depositphotos-20136185-stock-photo-delicious-italian-pizza.jpg",
-            "200 grams"
-        )
-        list.add(item1)
-        val item2 = Product(
-            "Khô gà cháy tỏi 32gram",
-            "12 hours",
-            "Chân gà cay Tứ Xuyên",
-            38000.0,
-            7,
-            4.8,
-            "Lẩu",
-            "https://i.ibb.co/G332np3/depositphotos-20136185-stock-photo-delicious-italian-pizza.jpg",
-            "200 grams"
-        )
-        list.add(item2)
-        val item3 = Product(
-            "Khô gà cháy tỏi 32gram",
-            "12 hours",
-            "Chân gà cay Tứ Xuyên",
-            38000.0,
-            7,
-            4.8,
-            "Lẩu",
-            "https://i.ibb.co/G332np3/depositphotos-20136185-stock-photo-delicious-italian-pizza.jpg",
-            "200 grams"
-        )
-        list.add(item3)
-        val item4 = Product(
-            "Khô gà cháy tỏi 32gram",
-            "12 hours",
-            "Chân gà cay Tứ Xuyên",
-            38000.0,
-            7,
-            4.8,
-            "Lẩu",
-            "https://i.ibb.co/G332np3/depositphotos-20136185-stock-photo-delicious-italian-pizza.jpg",
-            "200 grams"
-        )
-        list.add(item4)
-        val item5 = Product(
-            "Khô gà cháy tỏi 32gram",
-            "12 hours",
-            "Chân gà cay Tứ Xuyên",
-            38000.0,
-            7,
-            4.8,
-            "Lẩu",
-            "https://i.ibb.co/G332np3/depositphotos-20136185-stock-photo-delicious-italian-pizza.jpg",
-            "200 grams"
-        )
-        list.add(item5)
-        val item6 = Product(
-            "Khô gà cháy tỏi 32gram",
-            "12 hours",
-            "Chân gà cay Tứ Xuyên",
-            38000.0,
-            7,
-            4.8,
-            "Lẩu",
-            "https://i.ibb.co/G332np3/depositphotos-20136185-stock-photo-delicious-italian-pizza.jpg",
-            "200 grams"
-        )
-        list.add(item6)
+    private fun loadProduct() {
+        val list = mutableListOf<String>()
+        val listToObj = mutableListOf<Product>()
 
-        _listProduct.value = list
-        _listProductPopular.value = list
+        db.collection("Product").get()
+            .addOnSuccessListener { result ->
+//                Log.d(TAG, "loadProduct: ${result.isEmpty}")
+//                Log.d(TAG, "loadProduct: ${result.documents}")
+                for (document in result) {
+//                    Log.d(TAG, "loadProduct: ${document.id} => ${document.data}")
+                    list.add(document.id)
+                }
+                for (item in list) {
+                    db.collection("Product").document(item).get()
+                        .addOnSuccessListener { documentSnapshot ->
+                            val itemToObj = documentSnapshot.toObject<Product>()
+//                            Log.d(TAG, "loadProduct: $itemToObj")
+                            if (itemToObj != null) {
+                                listToObj.add(itemToObj)
+                            }
+                            _listProduct.value = listToObj
+                        }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents.", exception)
+            }
+    }
+
+    private fun loadProductPopular() {
+        val list = mutableListOf<String>()
+        val listToObj = mutableListOf<Product>()
+
+        db.collection("Product").whereGreaterThan("rating", 4.5).get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+//                    Log.d(TAG, "${document.id} => ${document.data}")
+                    list.add(document.id)
+                }
+                for (item in list) {
+                    db.collection("Product").document(item).get()
+                        .addOnSuccessListener { documentSnapshot ->
+                            val itemToObj = documentSnapshot.toObject<Product>()
+                            if (itemToObj != null) {
+                                listToObj.add(itemToObj)
+                            }
+                            _listProductPopular.value = listToObj
+                        }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+            }
+    }
+
+    fun checkCurrentUser(): FirebaseUser? {
+        val user = auth
+        if (user != null) {
+            return user
+        } else {
+            return null
+        }
     }
 
     class OrderViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
@@ -136,5 +132,9 @@ class OrderViewModel(application: Application) : ViewModel() {
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }
+    }
+
+    companion object {
+        private const val TAG = "OrderViewModel"
     }
 }
