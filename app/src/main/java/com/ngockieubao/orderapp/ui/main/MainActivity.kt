@@ -1,38 +1,38 @@
 package com.ngockieubao.orderapp.ui.main
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ngockieubao.orderapp.R
-import com.ngockieubao.orderapp.databinding.FragmentMainBinding
+import com.ngockieubao.orderapp.databinding.ActivityMainBinding
 import com.ngockieubao.orderapp.ui.login.SignOutDialog
 
-class MainFragment : Fragment() {
+class MainActivity : AppCompatActivity() {
 
-    private var _binding: FragmentMainBinding? = null
+    private var _binding: ActivityMainBinding? = null
     private val binding
         get() = _binding!!
 
     private lateinit var dialog: SignOutDialog
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        val navHostFragment = childFragmentManager.findFragmentById(R.id.fragNavHost) as NavHostFragment
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragNavHost) as NavHostFragment
         val navController = navHostFragment.navController
+
         binding.bottomNavigationView.setupWithNavController(navController)
 
         dialog = SignOutDialog()
         binding.imgvHeaderUser.setOnClickListener {
-            dialog.show(parentFragmentManager, "sign_out")
+            dialog.show(supportFragmentManager, "sign_out")
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -54,12 +54,15 @@ class MainFragment : Fragment() {
                 }
             }
         }
-
-        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.fragNavHost)
+        return navController.navigateUp()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 }

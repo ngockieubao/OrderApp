@@ -7,8 +7,6 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -19,6 +17,7 @@ import com.ngockieubao.orderapp.data.User
 import com.ngockieubao.orderapp.util.Constants
 import com.ngockieubao.orderapp.util.TextUtils
 
+@Suppress("KotlinConstantConditions")
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     @SuppressLint("StaticFieldLeak")
@@ -27,8 +26,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val auth: FirebaseAuth = Firebase.auth
     private val db = Firebase.firestore
 
-    private val _signUp = MutableLiveData<Login>()
-    val signUp: LiveData<Login>
+    private val _signUp = MutableLiveData<Login?>()
+    val signUp: LiveData<Login?>
         get() = _signUp
 
     private val _login = MutableLiveData<Login?>()
@@ -45,11 +44,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                                 val getSignUp = Login(email, passwd)
                                 _signUp.value = getSignUp
                                 addUserData()
-                            }
-                        }
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                // Sign-in success, update UI with user's info signed-in success
+                                // Cause sign-up success then user logged so need to sign out & login again
+                                auth.signOut()
                                 Toast.makeText(context, "Register success", Toast.LENGTH_SHORT).show()
                             }
                         }
@@ -72,17 +68,20 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 if (TextUtils.checkPassword(passwd)) {
                     auth.signInWithEmailAndPassword(email!!, passwd!!)
                         .addOnCompleteListener { task ->
-                            if (email == auth.currentUser?.email) {
-                                val getLogin = Login(email, passwd)
-                                _login.value = getLogin
-                            }
-                        }
-                        .addOnCompleteListener() { task ->
                             if (task.isSuccessful) {
+                                if (email == auth.currentUser?.email) {
+                                    val getLogin = Login(email, passwd)
+                                    _login.value = getLogin
+                                }
                                 Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show()
                             }
-                        }.addOnFailureListener() { exception ->
-                            Toast.makeText(context, "The email or password is not correct", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener() { exception ->
+                            val strErr = exception
+                            if (strErr == exception)
+                                Toast.makeText(context, "Your email is not exist", Toast.LENGTH_SHORT).show()
+                            else
+                                Toast.makeText(context, "The email or password is not correct", Toast.LENGTH_SHORT).show()
                         }
                 } else Toast.makeText(context, "Password has length more 6 character", Toast.LENGTH_SHORT).show()
             } else Toast.makeText(context, "Invalid email format", Toast.LENGTH_SHORT).show()
@@ -122,14 +121,11 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    class LoginViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return LoginViewModel(application) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
+    override fun onCleared() {
+        super.onCleared()
+
+        _signUp.value = null
+        _login.value = null
     }
 
     companion object {
