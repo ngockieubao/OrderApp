@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ngockieubao.orderapp.data.Order
 import com.ngockieubao.orderapp.databinding.FragmentCartBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
+import kotlinx.coroutines.launch
 
 class CartFragment : Fragment(), DeleteInterface {
 
@@ -18,7 +20,7 @@ class CartFragment : Fragment(), DeleteInterface {
     private val binding
         get() = _binding!!
 
-    private val shareViewModel: OrderViewModel by activityViewModels()
+    private val sharedViewModel: OrderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,43 +36,52 @@ class CartFragment : Fragment(), DeleteInterface {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkCart()
+
         val rcvOrder = binding.rcvOrderInfo
-        val adapterOrder = OrderListAdapter {}
+        val adapterOrder = OrderListAdapter({}, this)
 
         rcvOrder.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         rcvOrder.adapter = adapterOrder
 
-        shareViewModel.listOrder.observe(this.viewLifecycleOwner) {
-            adapterOrder.submitList(it)
+        lifecycle.coroutineScope.launch {
+            sharedViewModel.getAllOrder().collect() {
+                adapterOrder.submitList(it)
+            }
         }
+
+        lifecycle.coroutineScope.launch {
+        sharedViewModel.calOrder(sharedViewModel.fullOrder())
+        }
+        sharedViewModel.sumOrder.observe(this.viewLifecycleOwner) {
+            binding.tvTotalPrice.text = it.toString()
+        }
+
 
         binding.imageButtonBack.setOnClickListener {
             this.findNavController().navigateUp()
         }
     }
 
+    override fun deleteItemOrder(order: Order?) {
+        if (order != null) {
+            sharedViewModel.deleteOrder(order)
+        }
+    }
 
-//    private fun adjustQuantity() {
-//        binding.textViewQuantity.text = sharedViewModel.defaultQuantity.toString()
-//
-//        binding.textViewQuantityDecrease.setOnClickListener {
-//            sharedViewModel.decreasing()
-//            sharedViewModel.finalQuantity.observe(this.viewLifecycleOwner) {
-//                if (it == null) return@observe
-//                else binding.textViewQuantity.text = it.toString()
-//            }
-//        }
-//
-//        binding.textViewQuantityIncrease.setOnClickListener {
-//            sharedViewModel.increasing()
-//            sharedViewModel.finalQuantity.observe(this.viewLifecycleOwner) {
-//                if (it == null) return@observe
-//                else binding.textViewQuantity.text = it.toString()
-//            }
-//        }
-
-    override fun deleteOrder(order: Order?) {
+    private fun checkCart() {
+        sharedViewModel.itemInCart.observe(this.viewLifecycleOwner) {
+            if (sharedViewModel.itemInCart.value == 0) {
+                binding.apply {
+                    tvCheckCart.visibility = View.VISIBLE
+                    rcvOrderInfo.visibility = View.GONE
+                    constraintLayoutReceipt.visibility = View.GONE
+                }
+            } else {
+                binding.tvCheckCart.visibility = View.GONE
+            }
+        }
     }
 
     override fun onDestroyView() {

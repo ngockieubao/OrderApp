@@ -44,9 +44,15 @@ class OrderFragment : Fragment() {
 
         binding.constraintAddToCart.setOnClickListener {
             if (item == null) return@setOnClickListener
-            sharedViewModel.createOrder(item.url, item.name, item.description, item.price, sharedViewModel.finalQuantity.value!!)
-            Toast.makeText(requireActivity(), "Added to cart", Toast.LENGTH_LONG)
-                .show()
+
+            sharedViewModel.createOrder(
+                item.url,
+                item.name,
+                item.description,
+                item.price,
+                sharedViewModel.finalQuantity.value!!
+            )
+            Toast.makeText(requireActivity(), "Added to cart", Toast.LENGTH_LONG).show()
             this.findNavController().navigate(R.id.homeFragment)
             resetOrder()
         }

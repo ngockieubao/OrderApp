@@ -9,7 +9,8 @@ import com.ngockieubao.orderapp.data.Order
 import com.ngockieubao.orderapp.databinding.RcvOrderBinding
 
 class OrderListAdapter(
-    private val onItemClicked: (Order) -> Unit
+    private val onItemClicked: (Order) -> Unit,
+    val deleteOrderInterface: DeleteInterface
 ) :
     ListAdapter<Order, OrderListAdapter.OrderViewHolder>(DiffCallBack) {
 
@@ -21,6 +22,10 @@ class OrderListAdapter(
                 binding.item = item
                 tvItemOrderPrice.text = item.price.toString()
                 textViewQuantity.text = item.quantity.toString()
+
+                imageButtonDelete.setOnClickListener {
+                    deleteOrderInterface.deleteItemOrder(item)
+                }
             }
         }
     }
