@@ -35,6 +35,22 @@ class MainFragment : Fragment() {
             dialog.show(parentFragmentManager, "sign_out")
         }
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.orderFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.cartFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                }
+                else -> {
+                    binding.constraintHeader.visibility = View.VISIBLE
+                    binding.bottomNavigationView.visibility = View.VISIBLE
+                }
+            }
+        }
+
         return binding.root
     }
 

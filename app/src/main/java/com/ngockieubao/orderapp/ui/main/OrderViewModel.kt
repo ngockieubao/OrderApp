@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.ngockieubao.orderapp.data.Category
+import com.ngockieubao.orderapp.data.Order
 import com.ngockieubao.orderapp.data.Product
 
 class OrderViewModel(application: Application) : ViewModel() {
@@ -27,6 +28,15 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     private val _listProductPopular = MutableLiveData<List<Product>>()
     val listProductPopular: LiveData<List<Product>> = _listProductPopular
+
+    private val _defaultQuantity = 1
+    val defaultQuantity = _defaultQuantity
+
+    private val _finalQuantity = MutableLiveData<Int>(1)
+    val finalQuantity: LiveData<Int> = _finalQuantity
+
+    private val _listOrder = MutableLiveData<List<Order>>()
+    val listOrder: LiveData<List<Order>> = _listOrder
 
     init {
         addCategory()
@@ -112,6 +122,38 @@ class OrderViewModel(application: Application) : ViewModel() {
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents: ", exception)
             }
+    }
+
+    // Handles adjust quantity order
+    fun decreasing() {
+        val adjust = _finalQuantity
+        val adjustDe = adjust.value?.minus(1)
+        if (adjust.value!! <= 1) {
+            _finalQuantity.value = 1
+        } else {
+            adjust.value = adjustDe
+            _finalQuantity.value = adjust.value
+        }
+    }
+
+    fun increasing() {
+        val adjust = _finalQuantity
+        val adjustIn = adjust.value?.plus(1)
+        adjust.value = adjustIn
+        _finalQuantity.value = adjust.value
+    }
+
+    fun resetOrder() {
+        _finalQuantity.value = 1
+    }
+
+    fun createOrder(url: String, name: String, description: String, price: Double, quantity: Int = 1) {
+        val list = mutableListOf<Order>()
+
+        val order = Order(url, name, description, price, quantity)
+        list.add(order)
+
+        _listOrder.value = list
     }
 
     fun checkCurrentUser(): FirebaseUser? {

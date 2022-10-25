@@ -11,6 +11,7 @@
     <string name="string_sign_up_now">Sign up now!</string>
     <string name="string_already_have_an_account">Already have an account?</string>
     <string name="string_grocery_shopping_has_never_been_this_much_fun">Grocery shopping has never been this much fun.</string>
+    <string name="string_long_txt">Grocery shopping has never been this much fun. Grocery shopping has never been this much fun. Grocery shopping has never been this much fun. Grocery shopping has never been this much fun. Grocery shopping has never been this much fun. Grocery shopping has never been this much fun.</string>
     <string name="string_donot_have_an_account">Don\'t have an account?</string>
     <string name="string_note">Receipt</string>
     <string name="string_notification">Notification</string>
@@ -23,4 +24,15 @@
     <string name="string_danh_muc_dich_vu">Danh mục các dịch vụ</string>
     <string name="string_danh_muc_san_pham">Danh sách các sản phẩm</string>
     <string name="string_san_pham_noi_bat">Sản phẩm nổi bật</string>
+    <string name="string_decrease">-</string>
+    <string name="string_increase">+</string>
+    <string name="string_details">Details</string>
+    <string name="string_description">Description</string>
+    <string name="string_add_to_cart">Add to cart</string>
+    <string name="string_subtotal">Subtotal</string>
+    <string name="string_delivery">Delivery</string>
+    <string name="string_free">Free</string>
+    <string name="string_total">Total:</string>
+    <string name="string_checkout">Checkout</string>
+    <string name="string_total_price">Total Price</string>
 </resources>

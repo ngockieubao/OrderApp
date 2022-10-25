@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ngockieubao.orderapp.data.Product
 import com.ngockieubao.orderapp.databinding.RcvProductBinding
 
-class ProductListAdapter(private val onItemClicked: (Product) -> Unit) :
+class ProductListAdapter(
+    private val onItemClicked: (Product) -> Unit
+) :
     ListAdapter<Product, ProductListAdapter.ProductViewHolder>(DiffCallBack) {
 
     class ProductViewHolder(private val binding: RcvProductBinding) : RecyclerView.ViewHolder(binding.root) {
