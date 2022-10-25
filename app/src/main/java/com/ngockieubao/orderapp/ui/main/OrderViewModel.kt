@@ -1,24 +1,27 @@
 package com.ngockieubao.orderapp.ui.main
 
 import android.app.Application
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.ngockieubao.orderapp.data.Category
 import com.ngockieubao.orderapp.data.Order
 import com.ngockieubao.orderapp.data.Product
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.tasks.await
 
 class OrderViewModel(application: Application) : ViewModel() {
 
     private val db = Firebase.firestore
     private val auth = Firebase.auth.currentUser
+    private val job = Job()
+    private val scope: CoroutineScope = CoroutineScope(job + Dispatchers.IO)
+    private lateinit var idDocument: String
 
     private val _listCategory = MutableLiveData<List<Category>>()
     val listCategory: LiveData<List<Category>> = _listCategory
@@ -40,8 +43,6 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     init {
         addCategory()
-        loadProduct()
-        loadProductPopular()
     }
 
     private fun addCategory() {
@@ -69,59 +70,31 @@ class OrderViewModel(application: Application) : ViewModel() {
         _listCategory.value = list
     }
 
-    private fun loadProduct() {
-        val list = mutableListOf<String>()
+    suspend fun getProduct() {
         val listToObj = mutableListOf<Product>()
+        val query = db.collection("Product").get().await()
 
-        db.collection("Product").get()
-            .addOnSuccessListener { result ->
-//                Log.d(TAG, "loadProduct: ${result.isEmpty}")
-//                Log.d(TAG, "loadProduct: ${result.documents}")
-                for (document in result) {
-//                    Log.d(TAG, "loadProduct: ${document.id} => ${document.data}")
-                    list.add(document.id)
-                }
-                for (item in list) {
-                    db.collection("Product").document(item).get()
-                        .addOnSuccessListener { documentSnapshot ->
-                            val itemToObj = documentSnapshot.toObject<Product>()
-//                            Log.d(TAG, "loadProduct: $itemToObj")
-                            if (itemToObj != null) {
-                                listToObj.add(itemToObj)
-                            }
-                            _listProduct.value = listToObj
-                        }
-                }
+        if (query.documents.isNotEmpty()) {
+            val queryToObj = query.toObjects<Product>()
+            for (item in queryToObj) {
+                listToObj.add(item)
             }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents.", exception)
-            }
+            _listProduct.value = listToObj
+        }
     }
 
-    private fun loadProductPopular() {
-        val list = mutableListOf<String>()
+    suspend fun getProductPopular() {
         val listToObj = mutableListOf<Product>()
+        val query = db.collection("Product")
+            .whereGreaterThan("rating", 4.5).get().await()
 
-        db.collection("Product").whereGreaterThan("rating", 4.5).get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-//                    Log.d(TAG, "${document.id} => ${document.data}")
-                    list.add(document.id)
-                }
-                for (item in list) {
-                    db.collection("Product").document(item).get()
-                        .addOnSuccessListener { documentSnapshot ->
-                            val itemToObj = documentSnapshot.toObject<Product>()
-                            if (itemToObj != null) {
-                                listToObj.add(itemToObj)
-                            }
-                            _listProductPopular.value = listToObj
-                        }
-                }
+        if (query.documents.isNotEmpty()) {
+            val queryToObj = query.toObjects<Product>()
+            for (item in queryToObj) {
+                listToObj.add(item)
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
+            _listProductPopular.value = listToObj
+        }
     }
 
     // Handles adjust quantity order

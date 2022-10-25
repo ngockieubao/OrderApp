@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ngockieubao.orderapp.databinding.FragmentHomeBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -49,6 +51,11 @@ class HomeFragment : Fragment() {
         val adapterProductPopular = ProductListAdapter {
             val action = HomeFragmentDirections.actionHomeFragmentToOrderFragment(it)
             this.findNavController().navigate(action)
+        }
+
+        lifecycleScope.launch {
+            orderViewModel.getProduct()
+            orderViewModel.getProductPopular()
         }
 
         rcvCategory.layoutManager =
