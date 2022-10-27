@@ -43,7 +43,6 @@ class OrderFragment : Fragment() {
 
         binding.constraintAddToCart.setOnClickListener {
             if (item == null) return@setOnClickListener
-
             sharedViewModel.createOrder(
                 item.url,
                 item.name,
@@ -59,6 +58,7 @@ class OrderFragment : Fragment() {
 
         binding.imageButtonBack.setOnClickListener {
             this.findNavController().navigateUp()
+            resetOrder()
         }
     }
 

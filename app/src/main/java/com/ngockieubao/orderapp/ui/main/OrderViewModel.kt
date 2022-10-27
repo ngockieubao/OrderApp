@@ -1,16 +1,14 @@
 package com.ngockieubao.orderapp.ui.main
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
-import com.ngockieubao.orderapp.data.Category
-import com.ngockieubao.orderapp.data.Order
-import com.ngockieubao.orderapp.data.OrderRepository
-import com.ngockieubao.orderapp.data.Product
+import com.ngockieubao.orderapp.data.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -52,6 +50,9 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val _sumOrder = MutableLiveData(0.0)
     val sumOrder: LiveData<Double> = _sumOrder
 
+    private val _receipt = MutableLiveData<List<Order>?>()
+    val receipt: MutableLiveData<List<Order>?> = _receipt
+
     init {
         addCategory()
         countOrder()
@@ -60,23 +61,17 @@ class OrderViewModel(application: Application) : ViewModel() {
     private fun addCategory() {
         val list = mutableListOf<Category>()
 
-        val item1 =
-            Category("default", "Cơm")
+        val item1 = Category("default", "Cơm")
         list.add(item1)
-        val item2 =
-            Category("default", "Phở")
+        val item2 = Category("default", "Phở")
         list.add(item2)
-        val item3 =
-            Category("default", "Lẩu")
+        val item3 = Category("default", "Lẩu")
         list.add(item3)
-        val item4 =
-            Category("default", "Đồ ăn vặt")
+        val item4 = Category("default", "Đồ ăn vặt")
         list.add(item4)
-        val item5 =
-            Category("default", "Đồ ăn nhanh")
+        val item5 = Category("default", "Đồ ăn nhanh")
         list.add(item5)
-        val item6 =
-            Category("default", "Đồ uống")
+        val item6 = Category("default", "Đồ uống")
         list.add(item6)
 
         _listCategory.value = list
@@ -97,8 +92,7 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     suspend fun getProductPopular() {
         val listToObj = mutableListOf<Product>()
-        val query = db.collection("Product")
-            .whereGreaterThan("rating", 4.5).get().await()
+        val query = db.collection("Product").whereGreaterThan("rating", 4.5).get().await()
 
         if (query.documents.isNotEmpty()) {
             val queryToObj = query.toObjects<Product>()
@@ -202,6 +196,29 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     suspend fun fullOrder(): List<Order> = orderRepository.fullOrder()
 
+    fun makeReceipt(list: List<Order>, name: String, contact: String, address: String, note: String) {
+        var sum = 0.0
+        _receipt.value = null
+        for (item in list) {
+            sum += item.price * item.quantity
+        }
+        val receipt = Receipt(name, contact, note, sum, address)
+        checkCurrentUser()?.uid.let {
+            db.collection("ReceiptDetail")
+                .document(it!!).set(receipt.toHashMap())
+                .addOnSuccessListener {
+                    _receipt.value = list
+                    for (item in list){
+                        deleteOrder(item)
+                    }
+                    Log.d(TAG, "makeReceipt: success")
+                }
+                .addOnFailureListener { ex ->
+                    Log.d(TAG, "makeReceipt: ${ex.message} - failed")
+                }
+        }
+    }
+
     fun checkCurrentUser(): FirebaseUser? {
         val user = auth
         if (user != null) {
@@ -214,8 +231,7 @@ class OrderViewModel(application: Application) : ViewModel() {
     class OrderViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(OrderViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return OrderViewModel(application) as T
+                @Suppress("UNCHECKED_CAST") return OrderViewModel(application) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

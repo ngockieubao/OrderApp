@@ -94,7 +94,7 @@
                     android:id="@+id/edt_input_purchase_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/app_name"
+                    android:hint="@string/string_name"
                     android:inputType="text"
                     android:maxLength="26" />
             </com.google.android.material.textfield.TextInputLayout>

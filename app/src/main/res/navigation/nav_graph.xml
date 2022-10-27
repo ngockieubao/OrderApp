@@ -36,9 +36,7 @@
         tools:layout="@layout/fragment_cart">
         <action
             android:id="@+id/action_cartFragment_to_confirmOrderFragment"
-            app:destination="@id/confirmOrderFragment"
-            app:popUpTo="@id/confirmOrderFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/confirmOrderFragment" />
     </fragment>
     <fragment
         android:id="@+id/receiptFragment"
