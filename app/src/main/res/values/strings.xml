@@ -36,4 +36,16 @@
     <string name="string_checkout">Checkout</string>
     <string name="string_total_price">Total Price</string>
     <string name="string_check_cart">Bạn chưa có đơn hàng nào trong giỏ</string>
+    <string name="string_purchase">Thanh toán</string>
+    <string name="string_complete_purchase">Hoàn tất thanh toán</string>
+    <string name="string_phone_number">Phone number</string>
+    <string name="string_address">Address</string>
+    <string name="string_type_purchase">Phương thức thanh toán</string>
+    <string name="string_order_detail">Chi tiết đơn hàng</string>
+    <string name="string_confirm">Xác nhận</string>
+
+    <string-array name="spinner_purchase">
+        <item>Thanh toán khi nhận hàng</item>
+        <item>Thanh toán MOMO</item>
+    </string-array>
 </resources>

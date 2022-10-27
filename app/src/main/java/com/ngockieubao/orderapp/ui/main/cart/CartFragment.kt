@@ -1,10 +1,10 @@
 package com.ngockieubao.orderapp.ui.main.cart
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
@@ -27,7 +27,6 @@ class CartFragment : Fragment(), DeleteInterface {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         _binding = FragmentCartBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -52,12 +51,16 @@ class CartFragment : Fragment(), DeleteInterface {
         }
 
         lifecycle.coroutineScope.launch {
-        sharedViewModel.calOrder(sharedViewModel.fullOrder())
+            sharedViewModel.calOrder(sharedViewModel.fullOrder())
         }
         sharedViewModel.sumOrder.observe(this.viewLifecycleOwner) {
             binding.tvTotalPrice.text = it.toString()
         }
 
+        binding.btnCheckout.setOnClickListener {
+            val action = CartFragmentDirections.actionCartFragmentToConfirmOrderFragment()
+            this.findNavController().navigate(action)
+        }
 
         binding.imageButtonBack.setOnClickListener {
             this.findNavController().navigateUp()

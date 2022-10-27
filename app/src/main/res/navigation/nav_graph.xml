@@ -23,12 +23,23 @@
             android:name="item"
             app:argType="com.ngockieubao.orderapp.data.Product"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_orderFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.ngockieubao.orderapp.ui.main.cart.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_cartFragment_to_confirmOrderFragment"
+            app:destination="@id/confirmOrderFragment"
+            app:popUpTo="@id/confirmOrderFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/receiptFragment"
         android:name="com.ngockieubao.orderapp.ui.main.receipt.ReceiptFragment"
@@ -39,4 +50,15 @@
         android:name="com.ngockieubao.orderapp.ui.main.notification.NotificationFragment"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/confirmOrderFragment"
+        android:name="com.ngockieubao.orderapp.ui.main.receipt.ConfirmOrderFragment"
+        android:label="ConfirmOrderFragment"
+        tools:layout="@layout/fragment_confirm_order">
+        <action
+            android:id="@+id/action_confirmOrderFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

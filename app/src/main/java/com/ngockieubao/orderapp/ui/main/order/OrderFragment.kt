@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.data.Product
 import com.ngockieubao.orderapp.databinding.FragmentOrderBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
@@ -52,8 +51,9 @@ class OrderFragment : Fragment() {
                 item.price,
                 sharedViewModel.finalQuantity.value!!
             )
+            val action = OrderFragmentDirections.actionOrderFragmentToHomeFragment()
             Toast.makeText(requireActivity(), "Added to cart", Toast.LENGTH_LONG).show()
-            this.findNavController().navigate(R.id.homeFragment)
+            this.findNavController().navigate(action)
             resetOrder()
         }
 
