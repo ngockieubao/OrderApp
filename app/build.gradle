@@ -18,6 +18,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField("String", "WEB_CLIENT_ID", '"225762679400-gkrd6ohtqr0b7dguitnslk6cb1ur1jj7.apps.googleusercontent.com"')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -49,10 +50,13 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    // Google Auth
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:31.0.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    // Auth
+    // Firebase Auth
     implementation 'com.google.firebase:firebase-auth-ktx'
     // Firestore
     implementation 'com.google.firebase:firebase-firestore-ktx'

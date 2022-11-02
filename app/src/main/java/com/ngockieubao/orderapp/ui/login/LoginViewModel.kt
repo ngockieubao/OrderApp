@@ -99,7 +99,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         else return null
     }
 
-    private fun addUserData() {
+    fun addUserData() {
         val user = User(
             checkCurrentUser()?.uid,
             Constants.getUsernameFromEmail(checkCurrentUser()?.email),
@@ -123,7 +123,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     override fun onCleared() {
         super.onCleared()
-
         _signUp.value = null
         _login.value = null
     }

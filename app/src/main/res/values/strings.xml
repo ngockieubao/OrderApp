@@ -43,6 +43,7 @@
     <string name="string_type_purchase">Phương thức thanh toán</string>
     <string name="string_order_detail">Chi tiết đơn hàng</string>
     <string name="string_confirm">Xác nhận</string>
+    <string name="string_sign_in_with_google">Sign in with Google</string>
 
     <string-array name="spinner_purchase">
         <item>Thanh toán khi nhận hàng</item>

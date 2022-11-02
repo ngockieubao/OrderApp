@@ -13,7 +13,7 @@ class LoginActivity : AppCompatActivity() {
     private val binding
         get() = _binding!!
 
-    lateinit var loginViewModel: LoginViewModel
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
