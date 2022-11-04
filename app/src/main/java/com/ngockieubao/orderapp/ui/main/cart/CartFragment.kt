@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.data.Order
 import com.ngockieubao.orderapp.databinding.FragmentCartBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
@@ -20,7 +21,9 @@ class CartFragment : Fragment(), DeleteInterface {
     private val binding
         get() = _binding!!
 
-    private val sharedViewModel: OrderViewModel by activityViewModels()
+    private val sharedViewModel: OrderViewModel by activityViewModels {
+        OrderViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

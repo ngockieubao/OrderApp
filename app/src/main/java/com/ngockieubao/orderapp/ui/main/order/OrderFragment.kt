@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.data.Product
 import com.ngockieubao.orderapp.databinding.FragmentOrderBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
@@ -18,7 +19,9 @@ class OrderFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val sharedViewModel: OrderViewModel by activityViewModels()
+    private val sharedViewModel: OrderViewModel by activityViewModels {
+        OrderViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

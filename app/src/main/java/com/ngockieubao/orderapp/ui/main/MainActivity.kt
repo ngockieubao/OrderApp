@@ -1,14 +1,17 @@
 package com.ngockieubao.orderapp.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ngockieubao.orderapp.R
+import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.ActivityMainBinding
 import com.ngockieubao.orderapp.ui.login.SignOutDialog
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private val binding
         get() = _binding!!
 
+    private lateinit var mOrderViewModel: OrderViewModel
     private lateinit var dialog: SignOutDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
+
+        mOrderViewModel = ViewModelProvider(this@MainActivity, OrderViewModelFactory(application))[OrderViewModel::class.java]
 
         dialog = SignOutDialog()
         binding.imgvHeaderUser.setOnClickListener {

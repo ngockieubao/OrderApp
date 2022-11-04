@@ -5,11 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentHomeBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
 import kotlinx.coroutines.launch
@@ -19,11 +20,8 @@ class HomeFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val orderViewModel: OrderViewModel by lazy {
-        ViewModelProvider(
-            requireActivity(),
-            OrderViewModel.OrderViewModelFactory(requireActivity().application)
-        )[OrderViewModel::class.java]
+    private val orderViewModel: OrderViewModel by activityViewModels {
+        OrderViewModelFactory(requireActivity().application)
     }
 
     override fun onCreateView(
@@ -32,7 +30,6 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 

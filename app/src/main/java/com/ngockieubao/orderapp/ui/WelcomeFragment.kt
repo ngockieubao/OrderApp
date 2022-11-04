@@ -71,7 +71,9 @@ class WelcomeFragment : Fragment() {
 
         loginViewModel.hasGoogleSignIn.observe(this.viewLifecycleOwner) {
             if (it == false) return@observe
-            else { this.findNavController().navigate(R.id.action_welcomeFragment_to_mainActivity) }
+            if (it == true) {
+                this.findNavController().navigate(R.id.action_welcomeFragment_to_mainActivity)
+            }
             loginViewModel.resetSignInGoogle()
         }
     }

@@ -58,7 +58,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     val login: LiveData<Login?>
         get() = _login
 
-    private val _hasGoogleSignIn = MutableLiveData<Boolean?>(false)
+    private val _hasGoogleSignIn = MutableLiveData<Boolean?>()
     val hasGoogleSignIn: LiveData<Boolean?>
         get() = _hasGoogleSignIn
 
@@ -289,6 +289,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             ?.addOnFailureListener(activity) { e ->
                 // No Google Accounts found. Just continue presenting the signed-out UI.
                 Log.d("btn click", e.localizedMessage!!)
+                Toast.makeText(context, "No google account found!" +
+                        "\nPlease sign in your to use.", Toast.LENGTH_SHORT).show()
             }
     }
 

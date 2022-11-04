@@ -3,7 +3,6 @@ package com.ngockieubao.orderapp.ui.main.receipt
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
 import com.ngockieubao.orderapp.R
+import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentConfirmOrderBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
 import kotlinx.coroutines.launch
@@ -24,7 +24,9 @@ class ConfirmOrderFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val sharedViewModel: OrderViewModel by activityViewModels()
+    private val sharedViewModel: OrderViewModel by activityViewModels {
+        OrderViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +48,12 @@ class ConfirmOrderFragment : Fragment() {
             spinner.adapter = adapter
         }
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         var name: String? = null
         var contact: String? = null
         var address: String? = null
@@ -53,9 +61,7 @@ class ConfirmOrderFragment : Fragment() {
 
         binding.edtInputPurchaseName.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
                     name = s.toString()
@@ -66,9 +72,7 @@ class ConfirmOrderFragment : Fragment() {
 
         binding.edtInputPurchaseContact.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
                     contact = s.toString()
@@ -79,36 +83,30 @@ class ConfirmOrderFragment : Fragment() {
 
         binding.edtInputPurchaseAddress.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
                     address = s.toString()
                 } else
-                    Toast.makeText(requireActivity(), "addres is not empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), "address is not empty", Toast.LENGTH_SHORT).show()
             }
         })
 
         binding.btnConfirm.setOnClickListener {
             lifecycle.coroutineScope.launch {
-                sharedViewModel.makeReceipt(sharedViewModel.fullOrder(), "name!!", contact!!, "address!!", "note")
+                sharedViewModel.makeReceipt(sharedViewModel.fullOrder(), "name!!", contact!!, address!!, "note")
             }
         }
 
         sharedViewModel.receipt.observe(this.viewLifecycleOwner) {
             if (it == null) return@observe
-            else Log.d("SignUpFragment", "onCreateView: $it")
-            val action = ConfirmOrderFragmentDirections.actionConfirmOrderFragmentToHomeFragment()
-            this.findNavController().navigate(action)
-            Toast.makeText(requireActivity(), "Đặt hàng thành công - $contact - $name - $address", Toast.LENGTH_SHORT).show()
+            else {
+                val action = ConfirmOrderFragmentDirections.actionConfirmOrderFragmentToHomeFragment()
+                this.findNavController().navigate(action)
+                Toast.makeText(requireActivity(), "Đặt hàng thành công - $contact - $name - $address", Toast.LENGTH_SHORT).show()
+                sharedViewModel.resetMakeReceipt()
+            }
         }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         binding.imageButtonBack.setOnClickListener {
             this.findNavController().navigateUp()

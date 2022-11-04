@@ -22,7 +22,6 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val auth = Firebase.auth.currentUser
     private val job = Job()
     private val scope: CoroutineScope = CoroutineScope(job + Dispatchers.IO)
-    private lateinit var idDocument: String
 
     private val orderRepository: OrderRepository = OrderRepository(application)
 
@@ -50,8 +49,8 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val _sumOrder = MutableLiveData(0.0)
     val sumOrder: LiveData<Double> = _sumOrder
 
-    private val _receipt = MutableLiveData<List<Order>?>()
-    val receipt: MutableLiveData<List<Order>?> = _receipt
+    private val _receipt = MutableLiveData<Receipt?>()
+    val receipt: MutableLiveData<Receipt?> = _receipt
 
     init {
         addCategory()
@@ -198,17 +197,16 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     fun makeReceipt(list: List<Order>, name: String, contact: String, address: String, note: String) {
         var sum = 0.0
-        _receipt.value = null
         for (item in list) {
             sum += item.price * item.quantity
         }
         val receipt = Receipt(name, contact, note, sum, address)
         checkCurrentUser()?.uid.let {
-            db.collection("ReceiptDetail")
-                .document(it!!).set(receipt.toHashMap())
+            db.collection("Receipt")
+                .add(receipt.toHashMap())
                 .addOnSuccessListener {
-                    _receipt.value = list
-                    for (item in list){
+                    _receipt.value = receipt
+                    for (item in list) {
                         deleteOrder(item)
                     }
                     Log.d(TAG, "makeReceipt: success")
@@ -228,13 +226,8 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
-    class OrderViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(OrderViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST") return OrderViewModel(application) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
+    fun resetMakeReceipt() {
+        _receipt.value = null
     }
 
     companion object {
