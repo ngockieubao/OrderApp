@@ -97,6 +97,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="5"
                         android:background="@null"
+                        android:focusable="auto"
                         android:hint="@string/string_find_anything_here"
                         android:importantForAutofill="no"
                         android:inputType="text"

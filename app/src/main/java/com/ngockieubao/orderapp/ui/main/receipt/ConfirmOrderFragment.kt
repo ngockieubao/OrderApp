@@ -94,7 +94,7 @@ class ConfirmOrderFragment : Fragment() {
 
         binding.btnConfirm.setOnClickListener {
             lifecycle.coroutineScope.launch {
-                sharedViewModel.makeReceipt(sharedViewModel.fullOrder(), "name!!", contact!!, address!!, "note")
+                sharedViewModel.makeReceipt("Vagabond", contact!!, address!!, "Non-note")
             }
         }
 
@@ -103,7 +103,7 @@ class ConfirmOrderFragment : Fragment() {
             else {
                 val action = ConfirmOrderFragmentDirections.actionConfirmOrderFragmentToHomeFragment()
                 this.findNavController().navigate(action)
-                Toast.makeText(requireActivity(), "Đặt hàng thành công - $contact - $name - $address", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Đặt hàng thành công - $contact - Vagabond - $address", Toast.LENGTH_SHORT).show()
                 sharedViewModel.resetMakeReceipt()
             }
         }

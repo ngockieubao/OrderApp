@@ -15,6 +15,8 @@ class OrderRepository(application: Application) {
 
     suspend fun insertOrder(order: Order) = orderDao.insert(order)
 
+    suspend fun insertListOrder(list: List<Order>) = orderDao.insertList(list)
+
     suspend fun deleteOrder(order: Order) = orderDao.delete(order)
 
     fun getAllOrder(): Flow<List<Order>> = orderDao.getAllOrder()

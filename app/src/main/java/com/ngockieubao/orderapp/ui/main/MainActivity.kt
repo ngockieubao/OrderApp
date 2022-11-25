@@ -54,6 +54,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.cartFragment -> {
                     binding.constraintHeader.visibility = View.GONE
                 }
+                R.id.notificationFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                }
+                R.id.receiptFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                }
                 else -> {
                     binding.constraintHeader.visibility = View.VISIBLE
                     binding.bottomNavigationView.visibility = View.VISIBLE

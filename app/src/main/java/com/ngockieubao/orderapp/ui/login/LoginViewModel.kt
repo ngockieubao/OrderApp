@@ -138,9 +138,19 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             null
         )
         checkCurrentUser()?.uid.let {
+            // Create user
             db.collection("UserInfo")
                 .document(it!!)
                 .set(user.toHashMap())
+                .addOnSuccessListener {
+                    Log.d(TAG, "addUserData: success")
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "addUserData: $exception - failed")
+                }
+            // Create cart
+            db.collection("Cart")
+                .document(it).set(user.toHashMap())
                 .addOnSuccessListener {
                     Log.d(TAG, "addUserData: success")
                 }
@@ -289,8 +299,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             ?.addOnFailureListener(activity) { e ->
                 // No Google Accounts found. Just continue presenting the signed-out UI.
                 Log.d("btn click", e.localizedMessage!!)
-                Toast.makeText(context, "No google account found!" +
-                        "\nPlease sign in your to use.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context, "No google account found!" +
+                            "\nPlease sign in your to use.", Toast.LENGTH_SHORT
+                ).show()
             }
     }
 

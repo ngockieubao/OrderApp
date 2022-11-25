@@ -9,10 +9,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.ngockieubao.orderapp.data.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
+//import kotlinx.coroutines.CoroutineScope
+//import kotlinx.coroutines.Dispatchers
+//import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -20,8 +19,11 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     private val db = Firebase.firestore
     private val auth = Firebase.auth.currentUser
-    private val job = Job()
-    private val scope: CoroutineScope = CoroutineScope(job + Dispatchers.IO)
+
+    //    private val job = Job()
+//    private val scope: CoroutineScope = CoroutineScope(job + Dispatchers.IO)
+    private val itemInCartCurUser = db.collection("Cart")
+        .document(checkCurrentUser()!!.uid).collection("ItemInCart")
 
     private val orderRepository: OrderRepository = OrderRepository(application)
 
@@ -34,6 +36,9 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val _listProductPopular = MutableLiveData<List<Product>>()
     val listProductPopular: LiveData<List<Product>> = _listProductPopular
 
+    private var _listCart = MutableLiveData<List<Order>?>()
+    val listCart: LiveData<List<Order>?> = _listCart
+
     private val _defaultQuantity = 1
     val defaultQuantity = _defaultQuantity
 
@@ -42,7 +47,7 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     private val _itemOrder = MutableLiveData<Order>()
 
-    private val _itemInCart = MutableLiveData(0)
+    private val _itemInCart = MutableLiveData<Int>(0)
     val itemInCart: LiveData<Int> = _itemInCart
     private var count = 0
 
@@ -51,6 +56,10 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     private val _receipt = MutableLiveData<Receipt?>()
     val receipt: MutableLiveData<Receipt?> = _receipt
+
+    private val _itemCartId = MutableLiveData(1)
+    val itemCartId: LiveData<Int> = _itemCartId
+    private var id = 1
 
     init {
         addCategory()
@@ -125,39 +134,44 @@ class OrderViewModel(application: Application) : ViewModel() {
         _finalQuantity.value = 1
     }
 
-    fun createOrder(url: String, name: String, description: String, price: Double, quantity: Int) {
+    fun createOrder(
+        id: Int, url: String, name: String, description: String, price: Double, quantity: Int
+    ) {
         if (_itemOrder.value == null) {
-            _itemOrder.value = Order("", "", "", 0.0, 0)
+            _itemOrder.value = Order(1, "", "", "", 0.0, 0)
+            _itemOrder.value!!.id = id
             _itemOrder.value!!.url = url
             _itemOrder.value!!.name = name
             _itemOrder.value!!.description = description
             _itemOrder.value!!.price = price
             _itemOrder.value!!.quantity = quantity
         } else {
+            _itemOrder.value!!.id = id
             _itemOrder.value?.url = url
             _itemOrder.value?.name = name
             _itemOrder.value?.description = description
             _itemOrder.value?.price = price
             _itemOrder.value?.quantity = quantity
         }
-
-        addListOrder()
+        addOrderToCart()
     }
 
-    private fun addListOrder() {
+    private fun addOrderToCart() {
         val item = _itemOrder.value
-        val list = mutableListOf<Order>()
-
+        item?.toHashMap()
         if (item != null) {
-            list.add(item)
-            insertOrder(item)
+            itemInCartCurUser.add(item)
+                .addOnSuccessListener {
+                    id++
+                    count++
+                    _itemCartId.postValue(id)
+                    _itemInCart.postValue(count)
+                    Log.d(TAG, "addOrderToCart: success")
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "addOrderToCart: failed")
+                }
         }
-    }
-
-    private fun insertOrder(order: Order) = viewModelScope.launch {
-        orderRepository.insertOrder(order)
-        count++
-        _itemInCart.postValue(count)
     }
 
     fun deleteOrder(order: Order) = viewModelScope.launch {
@@ -168,66 +182,109 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     private fun countOrder() {
         viewModelScope.launch {
-            val list = orderRepository.fullOrder()
+            val list = getUserCart()
             if (list.isEmpty()) _itemInCart.value = 0
             else {
                 for (item in list) {
                     count++
                 }
-                _itemInCart.value = count
+                _itemInCart.postValue(count)
             }
         }
     }
 
-    fun getAllOrder(): Flow<List<Order>> = orderRepository.getAllOrder()
+    private suspend fun getUserCart(): List<Order> {
+        val listCart = mutableListOf<Order>()
+        val queryCart = itemInCartCurUser.get().await()
 
-    fun calOrder(
-        order: List<Order>
+        if (queryCart.documents.isNotEmpty()) {
+            val queryToObj = queryCart.toObjects<Order>()
+            for (item in queryToObj) {
+                listCart.add(item)
+            }
+        }
+        return listCart
+    }
+
+    suspend fun populateCart() {
+        val list = getUserCart()
+        _listCart.value = list
+    }
+
+    suspend fun calOrder(
     ) {
-        val size = order.size
+        val list = getUserCart()
+        val size = list.size
         var sum = 0.0
 
         for (i in 0 until size) {
-            sum += order[i].price * order[i].quantity
+            sum += list[i].price * list[i].quantity
         }
         _sumOrder.postValue(sum)
     }
 
-    suspend fun fullOrder(): List<Order> = orderRepository.fullOrder()
-
-    fun makeReceipt(list: List<Order>, name: String, contact: String, address: String, note: String) {
+    suspend fun makeReceipt(name: String, contact: String, address: String, note: String) {
         var sum = 0.0
-        for (item in list) {
+        val listOrder = getUserCart()
+        for (item in listOrder) {
             sum += item.price * item.quantity
         }
-        val receipt = Receipt(name, contact, note, sum, address)
+        val receipt = Receipt(name, contact, note, sum, address, listOrder)
         checkCurrentUser()?.uid.let {
             db.collection("Receipt")
-                .add(receipt.toHashMap())
-                .addOnSuccessListener {
-                    _receipt.value = receipt
-                    for (item in list) {
-                        deleteOrder(item)
-                    }
-                    Log.d(TAG, "makeReceipt: success")
-                }
-                .addOnFailureListener { ex ->
-                    Log.d(TAG, "makeReceipt: ${ex.message} - failed")
-                }
+                .add(receipt.toHashMap()).await()
+            _receipt.value = receipt
+            // create receipt success -> clear cart
+            clearCart()
         }
     }
 
-    fun checkCurrentUser(): FirebaseUser? {
+    private suspend fun clearCart() {
+        val listId = mutableListOf<String>()
+//        val listInCart =
+        itemInCartCurUser.get()
+            .addOnSuccessListener { listInCart ->
+                for (item in listInCart) {
+                    listId.add(item.id)
+                }
+                for (item in 0 until listInCart.size()) {
+                    if (listId[item] == listInCart.documents[item].id) {
+                        itemInCartCurUser.document(listInCart.documents[item].id).delete()
+                            .addOnSuccessListener {
+                                count--
+                                Log.d(TAG, "clearCart: success")
+                            }.addOnFailureListener {
+                                Log.d(TAG, "clearCart: failed")
+                            }
+                        _itemInCart.postValue(0)
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "clearCart: null")
+            }
+    }
+
+    private fun checkCurrentUser(): FirebaseUser? {
         val user = auth
-        if (user != null) {
-            return user
+        return if (user != null) {
+            user
         } else {
-            return null
+            null
         }
     }
 
     fun resetMakeReceipt() {
-        _receipt.value = null
+        _receipt.postValue(null)
+        id = 1
+        _itemCartId.postValue(1)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+//        _listCart.value = null
+        _receipt.postValue(null)
+        _itemCartId.postValue(null)
     }
 
     companion object {

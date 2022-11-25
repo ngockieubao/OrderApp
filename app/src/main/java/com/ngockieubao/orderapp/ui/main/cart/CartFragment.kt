@@ -38,8 +38,6 @@ class CartFragment : Fragment(), DeleteInterface {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkCart()
-
         val rcvOrder = binding.rcvOrderInfo
         val adapterOrder = OrderListAdapter({}, this)
 
@@ -48,13 +46,20 @@ class CartFragment : Fragment(), DeleteInterface {
         rcvOrder.adapter = adapterOrder
 
         lifecycle.coroutineScope.launch {
-            sharedViewModel.getAllOrder().collect() {
-                adapterOrder.submitList(it)
-            }
+            sharedViewModel.populateCart()
+//            sharedViewModel.getAllOrder().collect() {
+//                adapterOrder.submitList(it)
+//            }
+        }
+
+        checkCart()
+
+        sharedViewModel.listCart.observe(this.viewLifecycleOwner) {
+            adapterOrder.submitList(it)
         }
 
         lifecycle.coroutineScope.launch {
-            sharedViewModel.calOrder(sharedViewModel.fullOrder())
+            sharedViewModel.calOrder()
         }
         sharedViewModel.sumOrder.observe(this.viewLifecycleOwner) {
             binding.tvTotalPrice.text = it.toString()
@@ -78,7 +83,7 @@ class CartFragment : Fragment(), DeleteInterface {
 
     private fun checkCart() {
         sharedViewModel.itemInCart.observe(this.viewLifecycleOwner) {
-            if (sharedViewModel.itemInCart.value == 0) {
+            if (it == 0) {
                 binding.apply {
                     tvCheckCart.visibility = View.VISIBLE
                     rcvOrderInfo.visibility = View.GONE
@@ -86,8 +91,22 @@ class CartFragment : Fragment(), DeleteInterface {
                 }
             } else {
                 binding.tvCheckCart.visibility = View.GONE
+                binding.rcvOrderInfo.visibility = View.VISIBLE
+                binding.constraintLayoutReceipt.visibility = View.VISIBLE
             }
         }
+
+//        sharedViewModel.listCart.observe(this.viewLifecycleOwner) {
+//            if (it == null) {
+//                binding.apply {
+//                    tvCheckCart.visibility = View.VISIBLE
+//                    rcvOrderInfo.visibility = View.GONE
+//                    constraintLayoutReceipt.visibility = View.GONE
+//                }
+//            } else {
+//                binding.tvCheckCart.visibility = View.GONE
+//            }
+//        }
     }
 
     override fun onDestroyView() {

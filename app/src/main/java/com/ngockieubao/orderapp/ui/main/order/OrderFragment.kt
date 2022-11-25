@@ -47,6 +47,7 @@ class OrderFragment : Fragment() {
         binding.constraintAddToCart.setOnClickListener {
             if (item == null) return@setOnClickListener
             sharedViewModel.createOrder(
+                sharedViewModel.itemCartId.value!!,
                 item.url,
                 item.name,
                 item.description,
