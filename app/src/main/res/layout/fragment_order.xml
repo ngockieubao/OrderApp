@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="15dp"
-            android:weightSum="22"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/black"
-                tools:ignore="TouchTargetSizeCheck" />
+                tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/string_thong_tin_san_pham"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -55,7 +68,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
 
                 <ImageView
                     android:id="@+id/imageView_detail_order"
@@ -64,10 +78,10 @@
                     android:contentDescription="@string/string_todo"
                     android:padding="28dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_pizza_cheese"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/img_pizza_cheese" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -113,7 +127,8 @@
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="8dp"
                                 android:contentDescription="@string/string_todo"
-                                android:src="@drawable/ic_star_48" />
+                                android:src="@drawable/ic_star_48"
+                                tools:ignore="ImageContrastCheck" />
 
                             <TextView
                                 android:id="@+id/textView_rating"
@@ -140,7 +155,8 @@
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="8dp"
                                 android:contentDescription="@string/string_todo"
-                                android:src="@drawable/ic_weighing_machine" />
+                                android:src="@drawable/ic_weighing_machine"
+                                tools:ignore="ImageContrastCheck" />
 
                             <TextView
                                 android:id="@+id/textView_weight"

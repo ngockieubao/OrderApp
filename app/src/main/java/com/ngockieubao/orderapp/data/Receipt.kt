@@ -8,9 +8,10 @@ data class Receipt(
     val note: String,
     val price: Double,
     val address: String,
-    val receipts: List<Order>
+    val receipts: List<Order>,
+    val time: String
 ) : Serializable {
-    constructor() : this("", "", "", 0.0, "", emptyList())
+    constructor() : this("", "", "", 0.0, "", emptyList(), "")
 
     fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
@@ -19,7 +20,8 @@ data class Receipt(
             "note" to note,
             "price" to price,
             "address" to address,
-            "receipts" to receipts
+            "receipts" to receipts,
+            "time" to time
         )
     }
 }

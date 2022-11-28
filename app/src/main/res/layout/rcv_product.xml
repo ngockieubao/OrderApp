@@ -37,7 +37,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/img_pizza_cheese" />
+                app:setUrl="@{item.url}"
+                tools:srcCompat="@drawable/img_splash_logo" />
 
             <TextView
                 android:id="@+id/textView_product_name"

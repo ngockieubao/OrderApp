@@ -95,18 +95,6 @@ class CartFragment : Fragment(), DeleteInterface {
                 binding.constraintLayoutReceipt.visibility = View.VISIBLE
             }
         }
-
-//        sharedViewModel.listCart.observe(this.viewLifecycleOwner) {
-//            if (it == null) {
-//                binding.apply {
-//                    tvCheckCart.visibility = View.VISIBLE
-//                    rcvOrderInfo.visibility = View.GONE
-//                    constraintLayoutReceipt.visibility = View.GONE
-//                }
-//            } else {
-//                binding.tvCheckCart.visibility = View.GONE
-//            }
-//        }
     }
 
     override fun onDestroyView() {

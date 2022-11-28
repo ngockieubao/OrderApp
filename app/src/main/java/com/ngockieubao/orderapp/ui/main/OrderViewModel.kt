@@ -10,19 +10,21 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.ngockieubao.orderapp.data.*
 import com.ngockieubao.orderapp.util.TextUtils
+import com.ngockieubao.orderapp.util.Utils
 //import kotlinx.coroutines.CoroutineScope
 //import kotlinx.coroutines.Dispatchers
 //import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.util.Calendar
 
 class OrderViewModel(application: Application) : ViewModel() {
 
     private val db = Firebase.firestore
     private val auth = Firebase.auth.currentUser
-
-    //    private val job = Job()
+//    private val job = Job()
 //    private val scope: CoroutineScope = CoroutineScope(job + Dispatchers.IO)
+
     private val itemInCartCurUser = db.collection("Cart")
         .document(checkCurrentUser()!!.uid).collection("ItemInCart")
 
@@ -236,7 +238,8 @@ class OrderViewModel(application: Application) : ViewModel() {
                 sum += item.price * item.quantity
             }
 
-            val receipt = Receipt(name, contact, note, sum, address, listOrder)
+            val time = Calendar.getInstance().time
+            val receipt = Receipt(name, contact, note, sum, address, listOrder, "${Utils.formatTime(time)} GMT+7, ${Utils.formatDate(time)}")
             checkCurrentUser()?.uid.let {
                 db.collection("Receipt")
                     .add(receipt.toHashMap()).await()

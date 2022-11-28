@@ -16,9 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentConfirmOrderBinding
-import com.ngockieubao.orderapp.ui.login.LoginFragment
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
-import com.ngockieubao.orderapp.util.TextUtils
 import kotlinx.coroutines.launch
 
 class ConfirmOrderFragment : Fragment() {
@@ -111,6 +109,9 @@ class ConfirmOrderFragment : Fragment() {
 //                name == null ||
                 address == null
             ) {
+                lifecycle.coroutineScope.launch {
+                    sharedViewModel.makeReceipt("Vagabond", "0382320936", "hanoi", "Non-note")
+                }
                 Toast.makeText(requireActivity(), "fields are not empty", Toast.LENGTH_SHORT).show()
             } else {
                 lifecycle.coroutineScope.launch {
@@ -123,7 +124,7 @@ class ConfirmOrderFragment : Fragment() {
             else {
                 val action = ConfirmOrderFragmentDirections.actionConfirmOrderFragmentToHomeFragment()
                 this.findNavController().navigate(action)
-                Toast.makeText(requireActivity(), "Đặt hàng thành công - $contact - Vagabond - $address", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Đặt hàng thành công - 0382320936 - Vagabond - hanoi", Toast.LENGTH_SHORT).show()
                 sharedViewModel.resetMakeReceipt()
             }
         }

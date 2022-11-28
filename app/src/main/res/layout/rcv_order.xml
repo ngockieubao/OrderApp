@@ -41,9 +41,10 @@
                 android:layout_marginStart="5dp"
                 android:contentDescription="@string/string_todo"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_pizza_cheese"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:setUrl="@{item.url}"
+                tools:src="@drawable/img_pizza_cheese" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint_quantity"
@@ -142,6 +143,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_item_order_quantity_size"
+                    tools:ignore="TextContrastCheck"
                     tools:text="11.150.000 VNĐ" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -157,7 +159,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="TouchTargetSizeCheck" />
+                tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 

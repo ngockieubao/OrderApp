@@ -12,6 +12,7 @@ import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.data.Product
 import com.ngockieubao.orderapp.databinding.FragmentOrderBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
+import com.ngockieubao.orderapp.util.setUrl
 
 class OrderFragment : Fragment() {
 
@@ -28,7 +29,6 @@ class OrderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -70,6 +70,7 @@ class OrderFragment : Fragment() {
         if (item == null) return
         else {
             binding.apply {
+                imageViewDetailOrder.setUrl(item.url)
                 tvOrderName.text = item.name
                 textViewWeight.text = item.weight
                 textViewExpiry.text = item.expiry
@@ -82,7 +83,6 @@ class OrderFragment : Fragment() {
 
     private fun adjustQuantity() {
         binding.textViewQuantity.text = sharedViewModel.defaultQuantity.toString()
-
         binding.btnQuantityDecrease.setOnClickListener {
             sharedViewModel.decreasing()
             sharedViewModel.finalQuantity.observe(this.viewLifecycleOwner) {
@@ -90,7 +90,6 @@ class OrderFragment : Fragment() {
                 else binding.textViewQuantity.text = it.toString()
             }
         }
-
         binding.btnQuantityIncrease.setOnClickListener {
             sharedViewModel.increasing()
             sharedViewModel.finalQuantity.observe(this.viewLifecycleOwner) {

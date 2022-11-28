@@ -24,6 +24,7 @@
     <string name="string_danh_muc_dich_vu">Danh mục các dịch vụ</string>
     <string name="string_danh_muc_san_pham">Danh sách các sản phẩm</string>
     <string name="string_san_pham_noi_bat">Sản phẩm nổi bật</string>
+    <string name="string_thong_tin_san_pham">Thông tin sản phẩm</string>
     <string name="string_decrease">-</string>
     <string name="string_increase">+</string>
     <string name="string_details">Details</string>
@@ -44,6 +45,10 @@
     <string name="string_order_detail">Chi tiết đơn hàng</string>
     <string name="string_confirm">Xác nhận</string>
     <string name="string_sign_in_with_google">Sign in with Google</string>
+
+    <!-- format string value  -->
+    <string name="fm_time">HH:mm:ss</string>
+    <string name="fm_date"> dd-MM-yyyy</string>
 
     <string-array name="spinner_purchase">
         <item>Thanh toán khi nhận hàng</item>
