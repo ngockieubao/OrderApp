@@ -1,5 +1,6 @@
 package com.ngockieubao.orderapp.ui.main.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,10 +10,13 @@ import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.data.Category
 import com.ngockieubao.orderapp.databinding.RcvCategoryBinding
 
-class CategoryListAdapter(private val onItemClicked: (Category) -> Unit) :
+class CategoryListAdapter(
+    private val onItemClicked: (Category) -> Unit,
+    private val switchCategoryInterface: SwitchCategoryInterface
+) :
     ListAdapter<Category, CategoryListAdapter.CategoryViewHolder>(DiffCallBack) {
 
-    class CategoryViewHolder(private val binding: RcvCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CategoryViewHolder(private val binding: RcvCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Category?) {
             if (item == null) return
 
@@ -26,6 +30,9 @@ class CategoryListAdapter(private val onItemClicked: (Category) -> Unit) :
                     "Đồ ăn vặt" -> binding.imageViewLogoCategory.setImageResource(R.drawable.ic_snack)
                     "Đồ ăn nhanh" -> binding.imageViewLogoCategory.setImageResource(R.drawable.ic_fastfood)
                     "Đồ uống" -> binding.imageViewLogoCategory.setImageResource(R.drawable.ic_drink)
+                }
+                imageViewLogoCategory.setOnClickListener {
+                    switchCategoryInterface.clickToSwitchCategory(item)
                 }
             }
         }
@@ -42,6 +49,7 @@ class CategoryListAdapter(private val onItemClicked: (Category) -> Unit) :
         val item = getItem(position)
         holder.itemView.setOnClickListener {
             onItemClicked(item)
+            Log.d(TAG, "bind: ${item.name}")
         }
         holder.bind(item)
     }
@@ -56,5 +64,7 @@ class CategoryListAdapter(private val onItemClicked: (Category) -> Unit) :
                 return oldItem == newItem
             }
         }
+
+        private const val TAG = "CategoryListAdapter"
     }
 }

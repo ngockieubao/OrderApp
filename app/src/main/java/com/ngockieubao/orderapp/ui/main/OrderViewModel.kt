@@ -36,6 +36,9 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val _listProduct = MutableLiveData<List<Product>>()
     val listProduct: LiveData<List<Product>> = _listProduct
 
+    private val _listProductCategory = MutableLiveData<List<Product>>()
+    val listProductCategory: LiveData<List<Product>> = _listProductCategory
+
     private val _listProductPopular = MutableLiveData<List<Product>>()
     val listProductPopular: LiveData<List<Product>> = _listProductPopular
 
@@ -111,6 +114,19 @@ class OrderViewModel(application: Application) : ViewModel() {
                 listToObj.add(item)
             }
             _listProductPopular.value = listToObj
+        }
+    }
+
+    suspend fun getProductByCategory(type: String) {
+        val listToObj = mutableListOf<Product>()
+        val query = db.collection("Product").whereEqualTo("type", type).get().await()
+
+        if (query.documents.isNotEmpty()) {
+            val queryToObj = query.toObjects<Product>()
+            for (item in queryToObj) {
+                listToObj.add(item)
+            }
+            _listProductCategory.value = listToObj
         }
     }
 

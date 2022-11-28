@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.ActivityMainBinding
-import com.ngockieubao.orderapp.ui.login.LoginActivity
 import com.ngockieubao.orderapp.ui.login.SignOutDialog
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-            dialog = SignOutDialog()
+        dialog = SignOutDialog()
         binding.imgvHeaderUser.setOnClickListener {
             dialog.show(supportFragmentManager, "sign_out")
         }
@@ -52,6 +51,10 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomNavigationView.visibility = View.GONE
                 }
                 R.id.confirmOrderFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.categoryFragment -> {
                     binding.constraintHeader.visibility = View.GONE
                     binding.bottomNavigationView.visibility = View.GONE
                 }

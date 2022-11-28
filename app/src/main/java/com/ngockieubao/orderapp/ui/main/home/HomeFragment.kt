@@ -11,14 +11,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
+import com.ngockieubao.orderapp.data.Category
 import com.ngockieubao.orderapp.databinding.FragmentHomeBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
 import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), SwitchCategoryInterface {
+
     private var _binding: FragmentHomeBinding? = null
-    private val binding
-        get() = _binding!!
+    private val binding get() = _binding!!
 
     private val orderViewModel: OrderViewModel by activityViewModels {
         OrderViewModelFactory(requireActivity().application)
@@ -40,7 +41,7 @@ class HomeFragment : Fragment() {
         val rcvProduct = binding.rcvProduct
         val rcvProductPopular = binding.rcvProductPopular
 
-        val adapterCategory = CategoryListAdapter {}
+        val adapterCategory = CategoryListAdapter({}, this)
         val adapterProduct = ProductListAdapter {
             val action = HomeFragmentDirections.actionHomeFragmentToOrderFragment(it)
             this.findNavController().navigate(action)
@@ -83,5 +84,11 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun clickToSwitchCategory(item: Category?) {
+        if (item == null) return
+        val action = HomeFragmentDirections.actionHomeFragmentToCategoryFragment(item)
+        this.findNavController().navigate(action)
     }
 }

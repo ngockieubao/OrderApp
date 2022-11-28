@@ -1,0 +1,1 @@
+package com.ngockieubao.orderapp.ui.main.homeimport com.ngockieubao.orderapp.data.Categoryinterface SwitchCategoryInterface {    fun clickToSwitchCategory(item: Category?)}
