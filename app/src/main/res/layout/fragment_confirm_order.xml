@@ -65,7 +65,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout_confirm_info"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +75,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_input_purchase_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="350dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:counterEnabled="true"
@@ -92,7 +92,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_input_purchase_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/string_name"
                     android:inputType="text"
@@ -102,12 +102,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_input_purchase_contact"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="350dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:counterEnabled="true"
-                app:counterMaxLength="25"
-                app:endIconMode="clear_text"
+                app:counterMaxLength="12"
                 app:errorEnabled="true"
                 app:helperText="Required*"
                 app:helperTextTextColor="#FF0000"
@@ -119,21 +118,21 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_input_purchase_contact"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/string_phone_number"
                     android:inputType="number"
-                    android:maxLength="26" />
+                    android:maxLength="13" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_input_purchase_address"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="350dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:counterEnabled="true"
-                app:counterMaxLength="25"
+                app:counterMaxLength="29"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:helperText="Required*"
@@ -146,11 +145,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_input_purchase_address"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/string_address"
                     android:inputType="text"
-                    android:maxLength="26" />
+                    android:maxLength="30" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

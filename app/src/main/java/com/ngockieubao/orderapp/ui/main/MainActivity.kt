@@ -10,15 +10,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.ActivityMainBinding
+import com.ngockieubao.orderapp.ui.login.LoginActivity
 import com.ngockieubao.orderapp.ui.login.SignOutDialog
-
 
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding
         get() = _binding!!
-
     private lateinit var mOrderViewModel: OrderViewModel
     private lateinit var dialog: SignOutDialog
 
@@ -36,7 +35,12 @@ class MainActivity : AppCompatActivity() {
 
         mOrderViewModel = ViewModelProvider(this@MainActivity, OrderViewModelFactory(application))[OrderViewModel::class.java]
 
-        dialog = SignOutDialog()
+
+        if (mOrderViewModel.checkCurrentUser() == null) {
+            finish()
+        }
+
+            dialog = SignOutDialog()
         binding.imgvHeaderUser.setOnClickListener {
             dialog.show(supportFragmentManager, "sign_out")
         }
@@ -76,5 +80,15 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (mOrderViewModel.checkCurrentUser() != null) {
+//            LoginActivity().finish()
+            this.finish()
+        } else {
+//            finish()
+        }
     }
 }

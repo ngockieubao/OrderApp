@@ -63,7 +63,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         get() = _hasGoogleSignIn
 
     fun createAccount(email: String?, passwd: String?) {
-        if (!TextUtils.checkNull(email, passwd)) {
+        if (!TextUtils.checkEmailPasswdNull(email, passwd)) {
             if (TextUtils.isValidEmail(email)) {
                 if (TextUtils.checkPassword(passwd)) {
                     auth.createUserWithEmailAndPassword(email!!, passwd!!)
@@ -91,7 +91,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun signIn(email: String?, passwd: String?) {
-        if (!TextUtils.checkNull(email, passwd)) {
+        if (!TextUtils.checkEmailPasswdNull(email, passwd)) {
             if (TextUtils.isValidEmail(email)) {
                 if (TextUtils.checkPassword(passwd)) {
                     auth.signInWithEmailAndPassword(email!!, passwd!!)
@@ -122,10 +122,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun checkCurrentUser(): FirebaseUser? {
-        val user = Firebase.auth.currentUser
-        if (user != null) {
-            return user
-        } else return null
+        return Firebase.auth.currentUser
     }
 
     private fun addUserData() {

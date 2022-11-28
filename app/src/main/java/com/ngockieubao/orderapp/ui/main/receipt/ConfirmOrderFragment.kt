@@ -3,6 +3,7 @@ package com.ngockieubao.orderapp.ui.main.receipt
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,9 @@ import androidx.navigation.fragment.findNavController
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentConfirmOrderBinding
+import com.ngockieubao.orderapp.ui.login.LoginFragment
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
+import com.ngockieubao.orderapp.util.TextUtils
 import kotlinx.coroutines.launch
 
 class ConfirmOrderFragment : Fragment() {
@@ -71,13 +74,24 @@ class ConfirmOrderFragment : Fragment() {
         })
 
         binding.edtInputPurchaseContact.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s!!.length > 12) {
+                    binding.edtInputPurchaseContact.error = "No more!"
+                }
+                if (s.isEmpty()) {
+                    binding.edtInputPurchaseContact.error = null
+                    Log.d("LoginFragment", "onCreateView: $contact")
+                }
+            }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
                     contact = s.toString()
-                } else
+                } else {
+                    binding.edtInputPurchaseContact.error = null
                     Toast.makeText(requireActivity(), "Contact is not empty", Toast.LENGTH_SHORT).show()
+                }
             }
         })
 
@@ -93,11 +107,17 @@ class ConfirmOrderFragment : Fragment() {
         })
 
         binding.btnConfirm.setOnClickListener {
-            lifecycle.coroutineScope.launch {
-                sharedViewModel.makeReceipt("Vagabond", contact!!, address!!, "Non-note")
+            if (contact == null ||
+//                name == null ||
+                address == null
+            ) {
+                Toast.makeText(requireActivity(), "fields are not empty", Toast.LENGTH_SHORT).show()
+            } else {
+                lifecycle.coroutineScope.launch {
+                    sharedViewModel.makeReceipt("Vagabond", contact!!, address!!, "Non-note")
+                }
             }
         }
-
         sharedViewModel.receipt.observe(this.viewLifecycleOwner) {
             if (it == null) return@observe
             else {

@@ -18,16 +18,24 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory(application))[LoginViewModel::class.java]
+        checkUser()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.loginActNavHost)
         return navController.navigateUp()
+    }
+
+    fun checkUser() {
+        if (loginViewModel.checkCurrentUser() != null) {
+            this.finish()
+        } else {
+//            finish()
+        }
     }
 
     override fun onDestroy() {

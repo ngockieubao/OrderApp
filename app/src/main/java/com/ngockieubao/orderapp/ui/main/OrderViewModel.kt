@@ -9,6 +9,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.ngockieubao.orderapp.data.*
+import com.ngockieubao.orderapp.util.TextUtils
 //import kotlinx.coroutines.CoroutineScope
 //import kotlinx.coroutines.Dispatchers
 //import kotlinx.coroutines.Job
@@ -212,30 +213,37 @@ class OrderViewModel(application: Application) : ViewModel() {
     }
 
     suspend fun calOrder(
-    ) {
+    ): Double {
+        var sum = 0.0
         val list = getUserCart()
         val size = list.size
-        var sum = 0.0
 
         for (i in 0 until size) {
             sum += list[i].price * list[i].quantity
         }
         _sumOrder.postValue(sum)
+        return sum
     }
 
     suspend fun makeReceipt(name: String, contact: String, address: String, note: String) {
-        var sum = 0.0
-        val listOrder = getUserCart()
-        for (item in listOrder) {
-            sum += item.price * item.quantity
-        }
-        val receipt = Receipt(name, contact, note, sum, address, listOrder)
-        checkCurrentUser()?.uid.let {
-            db.collection("Receipt")
-                .add(receipt.toHashMap()).await()
-            _receipt.value = receipt
-            // create receipt success -> clear cart
-            clearCart()
+        if (!TextUtils.checkEdtNull(name) ||
+            !TextUtils.checkPhoneNumber(contact) ||
+            !TextUtils.checkEdtNull(note)
+        ) {
+            var sum = 0.0
+            val listOrder = getUserCart()
+            for (item in listOrder) {
+                sum += item.price * item.quantity
+            }
+
+            val receipt = Receipt(name, contact, note, sum, address, listOrder)
+            checkCurrentUser()?.uid.let {
+                db.collection("Receipt")
+                    .add(receipt.toHashMap()).await()
+                _receipt.value = receipt
+                // create receipt success -> clear cart
+                clearCart()
+            }
         }
     }
 
@@ -265,13 +273,8 @@ class OrderViewModel(application: Application) : ViewModel() {
             }
     }
 
-    private fun checkCurrentUser(): FirebaseUser? {
-        val user = auth
-        return if (user != null) {
-            user
-        } else {
-            null
-        }
+    fun checkCurrentUser(): FirebaseUser? {
+        return auth
     }
 
     fun resetMakeReceipt() {

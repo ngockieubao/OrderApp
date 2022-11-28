@@ -48,6 +48,7 @@ class LoginFragment : Fragment() {
                     Log.d(TAG, "onCreateView: $email")
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -66,6 +67,7 @@ class LoginFragment : Fragment() {
                     Log.d(TAG, "onCreateView: $passwd")
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -94,6 +96,14 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun checkUser() {
+//        if (loginViewModel.checkCurrentUser() != null) {
+//            this.finish()
+//        } else {
+////            finish()
+//        }
     }
 
     companion object {
