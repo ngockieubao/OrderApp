@@ -21,8 +21,8 @@
     <string name="string_welcome">Welcome!</string>
     <string name="string_let_s_make_some_order">let\'s make some order</string>
     <string name="string_find_anything_here">find anything here</string>
-    <string name="string_danh_muc_dich_vu">Danh mục các dịch vụ</string>
-    <string name="string_danh_muc_san_pham">Danh sách các sản phẩm</string>
+    <string name="string_suggest">Gợi ý cho bạn</string>
+    <string name="string_danh_muc_san_pham">Danh mục các sản phẩm</string>
     <string name="string_san_pham_noi_bat">Sản phẩm nổi bật</string>
     <string name="string_thong_tin_san_pham">Thông tin sản phẩm</string>
     <string name="string_decrease">-</string>
@@ -143,4 +143,5 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="string_cost">Đơn giá</string>
 </resources>

@@ -50,13 +50,12 @@ class MainActivity : AppCompatActivity() {
                     binding.constraintHeader.visibility = View.GONE
                     binding.bottomNavigationView.visibility = View.GONE
                 }
-                R.id.confirmOrderFragment -> {
-                    binding.constraintHeader.visibility = View.GONE
-                    binding.bottomNavigationView.visibility = View.GONE
-                }
                 R.id.categoryFragment -> {
                     binding.constraintHeader.visibility = View.GONE
                     binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.confirmOrderFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
                 }
                 R.id.cartFragment -> {
                     binding.constraintHeader.visibility = View.GONE

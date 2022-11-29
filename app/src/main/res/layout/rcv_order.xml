@@ -17,145 +17,123 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/corner_confirm_order"
-            android:paddingVertical="5dp">
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="8dp"
+            android:background="@drawable/shadow_layout">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout_imageView_receipt"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageView_item_in_cart"
                 android:layout_width="100dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/corner_btn_element"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="120dp"
-                android:layout_height="128dp"
-                android:layout_marginStart="5dp"
+                android:layout_height="100dp"
                 android:contentDescription="@string/string_todo"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:setUrl="@{item.url}"
+                app:shapeAppearanceOverlay="@style/CornerRadiusImageLeft"
+                tools:ignore="ImageContrastCheck"
                 tools:src="@drawable/img_pizza_cheese" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraint_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="130dp"
-                android:background="@drawable/corner_layout_adjust_quantity"
-                app:layout_constraintEnd_toEndOf="@+id/constraintLayout_imageView_receipt"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/constraintLayout_imageView_receipt"
-                app:layout_constraintTop_toTopOf="@+id/imageView">
-
-                <TextView
-                    android:id="@+id/textView_quantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#D3E3FD"
-                    android:gravity="center"
-                    android:paddingHorizontal="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="1" />
-
-                <ImageView
-                    android:id="@+id/textView_quantity_decrease"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginEnd="1dp"
-                    android:contentDescription="@string/string_todo"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_minus"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView_quantity"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/textView_quantity_increase"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginStart="1dp"
-                    android:contentDescription="@string/string_todo"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_plus"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView_quantity"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginHorizontal="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_item_in_cart"
                 app:layout_constraintEnd_toStartOf="@+id/imageButton_delete"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toEndOf="@+id/imageView_item_in_cart"
+                app:layout_constraintTop_toTopOf="@+id/imageView_item_in_cart">
 
                 <TextView
                     android:id="@+id/tv_item_order_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="3dp"
                     android:text="@{item.name}"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textColor="#7C7C7C"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_item_order_quantity_size"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry"
                     tools:text="Pizza Cheese" />
 
-                <TextView
-                    android:id="@+id/tv_item_order_quantity_size"
-                    android:layout_width="match_parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_quantity"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="@{item.description}"
-                    android:textSize="16sp"
+                    android:layout_marginBottom="3dp"
+                    android:paddingHorizontal="3dp"
+                    android:paddingVertical="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Description Description Description Description Description " />
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/textView_quantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="70" />
+
+                    <ImageView
+                        android:id="@+id/textView_quantity_decrease"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="1dp"
+                        android:background="@drawable/corner_layout_adjust_quantity"
+                        android:contentDescription="@string/string_todo"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_minus"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/textView_quantity"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/textView_quantity_increase"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="1dp"
+                        android:background="@drawable/corner_layout_adjust_quantity"
+                        android:contentDescription="@string/string_todo"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_plus"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView_quantity"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/tv_item_order_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#00C853"
-                    android:textSize="22sp"
+                    android:paddingStart="3dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_item_order_quantity_size"
-                    tools:ignore="TextContrastCheck"
+                    app:layout_constraintStart_toStartOf="@+id/tv_item_order_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_item_order_name"
+                    tools:ignore="RtlSymmetry,TextContrastCheck"
                     tools:text="11.150.000 VNĐ" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageButton
                 android:id="@+id/imageButton_delete"
-                android:layout_width="45dp"
-                android:layout_height="match_parent"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="3dp"
                 android:background="@drawable/corner_btn"
                 android:contentDescription="@string/string_todo"
                 android:padding="11dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_error"
+                android:src="@drawable/ic_delete"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

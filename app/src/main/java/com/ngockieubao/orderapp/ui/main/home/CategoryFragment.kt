@@ -42,7 +42,7 @@ class CategoryFragment : Fragment() {
         val item = args.item ?: return
 
         val rcvCategoryDetail = binding.rcvCategoryDetail
-        val adapterCategoryDetail = ProductListAdapter {}
+        val adapterCategoryDetail = ProductCategoryAdapter {}
 
         rcvCategoryDetail.adapter = adapterCategoryDetail
         populateCategory(item)
@@ -62,13 +62,29 @@ class CategoryFragment : Fragment() {
                 "Cơm" -> {
                     // handles run by coroutine: load data done -> populate ui
                     delay(1000)
-                    orderViewModel.getProductByCategory("Cơm")
+                    binding.tvCategoryTitleHeader.text = item.name
+                    orderViewModel.getProductByCategory(item.name)
                 }
-                "Phở" -> orderViewModel.getProductByCategory("Phở")
-                "Lẩu" -> orderViewModel.getProductByCategory("Lẩu")
-                "Đồ ăn vặt" -> orderViewModel.getProductByCategory("Đồ ăn vặt")
-                "Đồ ăn nhanh" -> orderViewModel.getProductByCategory("Đồ ăn nhanh")
-                "Đồ uống" -> orderViewModel.getProductByCategory("Đồ uống")
+                "Phở" -> {
+                    binding.tvCategoryTitleHeader.text = item.name
+                    orderViewModel.getProductByCategory(item.name)
+                }
+                "Lẩu" -> {
+                    binding.tvCategoryTitleHeader.text = item.name
+                    orderViewModel.getProductByCategory(item.name)
+                }
+                "Đồ ăn vặt" -> {
+                    binding.tvCategoryTitleHeader.text = item.name
+                    orderViewModel.getProductByCategory(item.name)
+                }
+                "Đồ ăn nhanh" -> {
+                    binding.tvCategoryTitleHeader.text = item.name
+                    orderViewModel.getProductByCategory(item.name)
+                }
+                "Đồ uống" -> {
+                    binding.tvCategoryTitleHeader.text = item.name
+                    orderViewModel.getProductByCategory(item.name)
+                }
             }
         }
     }

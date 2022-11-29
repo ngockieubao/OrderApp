@@ -6,21 +6,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ngockieubao.orderapp.data.Product
-import com.ngockieubao.orderapp.databinding.RcvProductBinding
+import com.ngockieubao.orderapp.databinding.RcvCategoryProductBinding
 import com.ngockieubao.orderapp.util.Utils
 
-class ProductListAdapter(
+class ProductCategoryAdapter(
     private val onItemClicked: (Product) -> Unit
 ) :
-    ListAdapter<Product, ProductListAdapter.ProductViewHolder>(DiffCallBack) {
+    ListAdapter<Product, ProductCategoryAdapter.ProductViewHolder>(DiffCallBack) {
 
-    class ProductViewHolder(private val binding: RcvProductBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ProductViewHolder(private val binding: RcvCategoryProductBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Product?) {
             if (item == null) return
 
             binding.apply {
                 binding.item = item
-                binding.textViewProductSold.text = Utils.roundSold(item.sold)
+                binding.textViewProductDelivery.text = item.delivery.toString()
                 binding.textViewProductPrice.text = Utils.formatPrice(item.price)
             }
         }
@@ -29,7 +29,7 @@ class ProductListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ProductViewHolder(
-            RcvProductBinding.inflate(inflater)
+            RcvCategoryProductBinding.inflate(inflater)
         )
     }
 

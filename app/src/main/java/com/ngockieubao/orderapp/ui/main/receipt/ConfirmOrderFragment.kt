@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +12,14 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentConfirmOrderBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
 import kotlinx.coroutines.launch
 
-class ConfirmOrderFragment : Fragment() {
+class ConfirmOrderFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentConfirmOrderBinding? = null
     private val binding
@@ -127,10 +127,6 @@ class ConfirmOrderFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Đặt hàng thành công - 0382320936 - Vagabond - hanoi", Toast.LENGTH_SHORT).show()
                 sharedViewModel.resetMakeReceipt()
             }
-        }
-
-        binding.imageButtonBack.setOnClickListener {
-            this.findNavController().navigateUp()
         }
     }
 

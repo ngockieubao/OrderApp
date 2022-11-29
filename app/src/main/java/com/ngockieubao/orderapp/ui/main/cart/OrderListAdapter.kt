@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ngockieubao.orderapp.data.Order
 import com.ngockieubao.orderapp.databinding.RcvOrderBinding
+import com.ngockieubao.orderapp.util.Utils
 
 class OrderListAdapter(
     private val onItemClicked: (Order) -> Unit,
@@ -20,7 +21,7 @@ class OrderListAdapter(
 
             binding.apply {
                 binding.item = item
-                tvItemOrderPrice.text = item.price.toString()
+                tvItemOrderPrice.text = Utils.formatPrice(item.price)
                 textViewQuantity.text = item.quantity.toString()
 
                 imageButtonDelete.setOnClickListener {

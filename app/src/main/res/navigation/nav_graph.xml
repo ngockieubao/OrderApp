@@ -51,7 +51,7 @@
         android:name="com.ngockieubao.orderapp.ui.main.notification.NotificationFragment"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" />
-    <fragment
+    <dialog
         android:id="@+id/confirmOrderFragment"
         android:name="com.ngockieubao.orderapp.ui.main.receipt.ConfirmOrderFragment"
         android:label="ConfirmOrderFragment"
@@ -61,7 +61,7 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/confirmOrderFragment"
             app:popUpToInclusive="true" />
-    </fragment>
+    </dialog>
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.ngockieubao.orderapp.ui.main.home.CategoryFragment"

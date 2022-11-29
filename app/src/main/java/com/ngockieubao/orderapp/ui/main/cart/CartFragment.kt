@@ -13,6 +13,7 @@ import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.data.Order
 import com.ngockieubao.orderapp.databinding.FragmentCartBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
+import com.ngockieubao.orderapp.util.Utils
 import kotlinx.coroutines.launch
 
 class CartFragment : Fragment(), DeleteInterface {
@@ -62,16 +63,12 @@ class CartFragment : Fragment(), DeleteInterface {
             sharedViewModel.calOrder()
         }
         sharedViewModel.sumOrder.observe(this.viewLifecycleOwner) {
-            binding.tvTotalPrice.text = it.toString()
+            binding.tvTotalPrice.text = Utils.formatPrice(it)
         }
 
         binding.btnCheckout.setOnClickListener {
             val action = CartFragmentDirections.actionCartFragmentToConfirmOrderFragment()
             this.findNavController().navigate(action)
-        }
-
-        binding.imageButtonBack.setOnClickListener {
-            this.findNavController().navigateUp()
         }
     }
 

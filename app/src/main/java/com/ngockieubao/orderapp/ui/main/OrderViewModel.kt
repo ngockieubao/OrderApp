@@ -106,7 +106,7 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     suspend fun getProductPopular() {
         val listToObj = mutableListOf<Product>()
-        val query = db.collection("Product").whereGreaterThan("rating", 4.5).get().await()
+        val query = db.collection("Product").whereGreaterThan("sold", 150).get().await()
 
         if (query.documents.isNotEmpty()) {
             val queryToObj = query.toObjects<Product>()

@@ -10,7 +10,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F3F3F3"
         tools:context=".ui.order.OrderFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingHorizontal="15dp"
-            android:paddingVertical="5dp"
+            android:paddingVertical="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +29,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/corner_btn_back"
-                android:backgroundTint="#FAFAFA"
                 android:contentDescription="@string/string_todo"
                 android:elevation="4dp"
                 android:padding="10dp"
@@ -47,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/string_thong_tin_san_pham"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -68,16 +66,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/imageView_detail_order"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="320dp"
                     android:contentDescription="@string/string_todo"
-                    android:padding="28dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -85,19 +81,23 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="270dp"
                     android:background="@drawable/gradient_layout_rcv"
+                    android:elevation="4dp"
                     android:padding="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView_detail_order">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constraintLayout_detail_info"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -107,13 +107,13 @@
                             android:layout_width="180dp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:textSize="22sp"
+                            android:textSize="20sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="Spicy Chicken Dimsum" />
 
                         <LinearLayout
-                            android:id="@+id/ln_rating"
+                            android:id="@+id/ln_delivery"
                             android:layout_width="wrap_content"
                             android:layout_height="46dp"
                             app:layout_constraintBottom_toBottomOf="@+id/ln_expiry"
@@ -127,17 +127,17 @@
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="8dp"
                                 android:contentDescription="@string/string_todo"
-                                android:src="@drawable/ic_star_48"
+                                android:src="@drawable/ic_delivery_man"
                                 tools:ignore="ImageContrastCheck" />
 
                             <TextView
-                                android:id="@+id/textView_rating"
+                                android:id="@+id/textView_delivery"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:textColor="@color/black"
-                                android:textSize="18sp"
-                                tools:text="4.8" />
+                                android:textSize="16sp"
+                                tools:text="20 - 30 mins" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -146,7 +146,7 @@
                             android:layout_height="46dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/ln_expiry"
-                            app:layout_constraintStart_toEndOf="@+id/ln_rating"
+                            app:layout_constraintStart_toEndOf="@+id/ln_delivery"
                             tools:ignore="UseCompoundDrawables">
 
                             <ImageView
@@ -164,7 +164,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:textColor="@color/black"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 tools:text="1.5 kilograms" />
                         </LinearLayout>
 
@@ -172,7 +172,7 @@
                             android:id="@+id/ln_expiry"
                             android:layout_width="wrap_content"
                             android:layout_height="46dp"
-                            android:layout_marginTop="25dp"
+                            android:layout_marginTop="20dp"
                             app:layout_constraintBottom_toBottomOf="@+id/ln_weight"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_order_name"
@@ -192,7 +192,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:textColor="@color/black"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 tools:text="12 hours" />
                         </LinearLayout>
 
@@ -257,7 +257,7 @@
                         android:layout_marginTop="10dp"
                         android:text="@string/string_details"
                         android:textColor="@color/black"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/constraintLayout_detail_info" />
@@ -266,9 +266,10 @@
                         android:id="@+id/textView_description_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="3dp"
                         android:textColor="#606060"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView_description_title"
                         tools:text="@string/string_long_txt" />
@@ -277,21 +278,20 @@
                         android:id="@+id/textView_price_title"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
                         android:text="@string/string_total_price"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView_description_content" />
+                        app:layout_constraintTop_toTopOf="@+id/constraint_add_to_cart" />
 
                     <TextView
                         android:id="@+id/textView_price"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/constraint_add_to_cart"
                         app:layout_constraintEnd_toEndOf="@+id/textView_price_title"
                         app:layout_constraintStart_toStartOf="@+id/textView_price_title"
                         app:layout_constraintTop_toBottomOf="@+id/textView_price_title"
@@ -301,11 +301,12 @@
                         android:id="@+id/constraint_add_to_cart"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
+                        android:layout_marginTop="15dp"
                         android:background="@drawable/corner_btn_element_cart"
                         android:paddingHorizontal="5dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView_price"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView_price_title"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_description_content"
                         app:layout_constraintVertical_bias="1.0">
 
                         <TextView

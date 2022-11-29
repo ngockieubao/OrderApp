@@ -13,43 +13,43 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F9F9F9"
         android:padding="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/corner_product"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="8dp"
+            android:background="@drawable/shadow_layout"
+            android:paddingBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView_logo_category"
-                android:layout_width="100dp"
+                android:layout_width="190dp"
                 android:layout_height="100dp"
                 android:contentDescription="@string/string_todo"
                 android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:setUrl="@{item.url}"
+                app:shapeAppearanceOverlay="@style/CornerRadiusImageTop"
+                tools:ignore="ImageContrastCheck"
                 tools:srcCompat="@drawable/img_splash_logo" />
 
             <TextView
                 android:id="@+id/textView_product_name"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="5dp"
-                android:gravity="center"
+                android:singleLine="true"
                 android:text="@{item.name}"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/imageView_logo_category"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/imageView_logo_category"
                 app:layout_constraintTop_toBottomOf="@+id/imageView_logo_category"
                 tools:text="Chicken Premium Cheese" />
@@ -58,37 +58,41 @@
                 android:id="@+id/textView_product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="1dp"
+                android:textColor="@color/black"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/textView_product_name"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/textView_product_name"
                 app:layout_constraintTop_toBottomOf="@+id/textView_product_name"
                 tools:text="400.000 VNĐ" />
 
             <LinearLayout
+                android:id="@+id/linearLayout_delivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="@+id/textView_product_price"
                 app:layout_constraintStart_toStartOf="@+id/textView_product_price"
                 app:layout_constraintTop_toBottomOf="@+id/textView_product_price"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:contentDescription="@string/string_todo"
-                    android:src="@drawable/ic_star_48" />
+                    android:src="@drawable/ic_delivery_man"
+                    tools:ignore="ImageContrastCheck" />
 
                 <TextView
-                    android:id="@+id/textView_product_rating"
+                    android:id="@+id/textView_product_delivery"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center"
                     android:textSize="14sp"
-                    tools:text="4.8" />
+                    tools:text="20 - 30 mins" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

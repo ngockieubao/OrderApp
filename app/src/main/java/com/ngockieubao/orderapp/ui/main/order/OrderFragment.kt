@@ -12,6 +12,7 @@ import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.data.Product
 import com.ngockieubao.orderapp.databinding.FragmentOrderBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
+import com.ngockieubao.orderapp.util.Utils
 import com.ngockieubao.orderapp.util.setUrl
 
 class OrderFragment : Fragment() {
@@ -74,8 +75,8 @@ class OrderFragment : Fragment() {
                 tvOrderName.text = item.name
                 textViewWeight.text = item.weight
                 textViewExpiry.text = item.expiry
-                textViewRating.text = item.rating.toString()
-                textViewPrice.text = item.price.toString()
+                textViewDelivery.text = item.delivery
+                textViewPrice.text = Utils.formatPrice(item.price)
                 textViewDescriptionContent.text = item.description
             }
         }

@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingVertical="18dp"
+                android:paddingVertical="8dp"
                 android:paddingStart="18dp"
                 tools:ignore="RtlSymmetry">
 
@@ -55,7 +55,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/string_let_s_make_some_order"
                     android:textSize="19sp"
                     android:textStyle="bold" />
@@ -63,7 +63,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shape_imgv_voucher"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="185dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="18dp"
                     android:scaleType="centerCrop"
@@ -116,7 +116,7 @@
                         android:id="@+id/tv_category_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/string_danh_muc_dich_vu"
+                        android:text="@string/string_danh_muc_san_pham"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -146,7 +146,7 @@
                         android:id="@+id/tv_product_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/string_danh_muc_san_pham"
+                        android:text="@string/string_suggest"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -159,7 +159,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/gradient_layout_rcv"
                     android:orientation="horizontal"
                     android:overScrollMode="never"
                     android:scrollbars="none"
@@ -210,7 +209,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/gradient_layout_rcv"
                     android:orientation="horizontal"
                     android:overScrollMode="never"
                     android:scrollbars="none"

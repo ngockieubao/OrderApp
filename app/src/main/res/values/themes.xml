@@ -24,6 +24,16 @@
 
     <!-- Corner radius image. -->
     <style name="CornerRadiusImage">
-        <item name="cornerSize">25%</item>
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="CornerRadiusImageTop">
+        <item name="cornerSizeTopLeft">10%</item>
+        <item name="cornerSizeTopRight">10%</item>
+    </style>
+
+    <style name="CornerRadiusImageLeft">
+        <item name="cornerSizeTopLeft">10%</item>
+        <item name="cornerSizeBottomLeft">10%</item>
     </style>
 </resources>
