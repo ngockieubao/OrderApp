@@ -5,15 +5,16 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "order_table")
 data class Order(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int,
     var url: String,
     var name: String,
     var description: String,
     var price: Double,
     var quantity: Int
 ) {
-    constructor() : this(1, "", "", "", 0.0, 0)
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 1
+
+    constructor() : this("", "", "", 0.0, 0)
 
     fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(

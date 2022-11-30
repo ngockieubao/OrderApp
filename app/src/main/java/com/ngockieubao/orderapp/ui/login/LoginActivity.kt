@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
         return navController.navigateUp()
     }
 
-    fun checkUser() {
+    private fun checkUser() {
         if (loginViewModel.checkCurrentUser() != null) {
             this.finish()
         } else {

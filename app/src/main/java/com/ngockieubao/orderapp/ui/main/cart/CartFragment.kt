@@ -18,10 +18,7 @@ import kotlinx.coroutines.launch
 
 class CartFragment : Fragment(), DeleteInterface {
 
-    private var _binding: FragmentCartBinding? = null
-    private val binding
-        get() = _binding!!
-
+    private lateinit var binding: FragmentCartBinding
     private val sharedViewModel: OrderViewModel by activityViewModels {
         OrderViewModelFactory(requireActivity().application)
     }
@@ -31,8 +28,7 @@ class CartFragment : Fragment(), DeleteInterface {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCartBinding.inflate(inflater, container, false)
-
+        binding = FragmentCartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,23 +43,27 @@ class CartFragment : Fragment(), DeleteInterface {
         rcvOrder.adapter = adapterOrder
 
         lifecycle.coroutineScope.launch {
-            sharedViewModel.populateCart()
-//            sharedViewModel.getAllOrder().collect() {
-//                adapterOrder.submitList(it)
-//            }
+            sharedViewModel.getAllOrderFlow().collect() {
+                if (it.isNotEmpty()) {
+                    binding.apply {
+                        tvCheckCart.visibility = View.GONE
+                        rcvOrderInfo.visibility = View.VISIBLE
+                        constraintLayoutReceipt.visibility = View.VISIBLE
+                    }
+                    adapterOrder.submitList(it)
+                } else {
+                    binding.apply {
+                        tvCheckCart.visibility = View.VISIBLE
+                        rcvOrderInfo.visibility = View.GONE
+                        constraintLayoutReceipt.visibility = View.GONE
+                    }
+                }
+            }
         }
-
-        checkCart()
-
-        sharedViewModel.listCart.observe(this.viewLifecycleOwner) {
-            adapterOrder.submitList(it)
-        }
-
         lifecycle.coroutineScope.launch {
-            sharedViewModel.calOrder()
-        }
-        sharedViewModel.sumOrder.observe(this.viewLifecycleOwner) {
-            binding.tvTotalPrice.text = Utils.formatPrice(it)
+            sharedViewModel.calOrder().collect() {
+                binding.tvTotalPrice.text = Utils.formatPrice(it)
+            }
         }
 
         binding.btnCheckout.setOnClickListener {
@@ -76,26 +76,5 @@ class CartFragment : Fragment(), DeleteInterface {
         if (order != null) {
             sharedViewModel.deleteOrder(order)
         }
-    }
-
-    private fun checkCart() {
-        sharedViewModel.itemInCart.observe(this.viewLifecycleOwner) {
-            if (it == 0) {
-                binding.apply {
-                    tvCheckCart.visibility = View.VISIBLE
-                    rcvOrderInfo.visibility = View.GONE
-                    constraintLayoutReceipt.visibility = View.GONE
-                }
-            } else {
-                binding.tvCheckCart.visibility = View.GONE
-                binding.rcvOrderInfo.visibility = View.VISIBLE
-                binding.constraintLayoutReceipt.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -30,14 +30,12 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragNavHost) as NavHostFragment
         val navController = navHostFragment.navController
 
+        mOrderViewModel = ViewModelProvider(this@MainActivity, OrderViewModelFactory(application))[OrderViewModel::class.java]
         binding.bottomNavigationView.setupWithNavController(navController)
 
-        mOrderViewModel = ViewModelProvider(this@MainActivity, OrderViewModelFactory(application))[OrderViewModel::class.java]
-
-
-        if (mOrderViewModel.checkCurrentUser() == null) {
-            finish()
-        }
+//        if (mOrderViewModel.checkCurrentUser() == null) {
+//            finish()
+//        }
 
         dialog = SignOutDialog()
         binding.imgvHeaderUser.setOnClickListener {
@@ -86,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (mOrderViewModel.checkCurrentUser() != null) {
+        if (mOrderViewModel.checkCurrentUser() == null) {
 //            LoginActivity().finish()
             this.finish()
         } else {

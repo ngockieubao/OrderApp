@@ -15,11 +15,11 @@ class OrderRepository(application: Application) {
 
     suspend fun insertOrder(order: Order) = orderDao.insert(order)
 
-    suspend fun insertListOrder(list: List<Order>) = orderDao.insertList(list)
-
     suspend fun deleteOrder(order: Order) = orderDao.delete(order)
+
+    suspend fun clear() = orderDao.clear()
 
     fun getAllOrder(): Flow<List<Order>> = orderDao.getAllOrder()
 
-    suspend fun fullOrder(): List<Order> = orderDao.fullOrder()
+    suspend fun getOrders(): List<Order> = orderDao.getOrders()
 }

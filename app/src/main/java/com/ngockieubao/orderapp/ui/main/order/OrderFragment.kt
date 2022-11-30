@@ -42,6 +42,17 @@ class OrderFragment : Fragment() {
         val args = OrderFragmentArgs.fromBundle(bundle)
         val item = args.item
 
+//        lifecycleScope.launch {
+//            if (item != null) {
+//                sharedViewModel.checkItemInCart(item).collect() {
+//                    binding.tvAddToCart.text = "Added to cart"
+//                    binding.imageButtonCart.visibility = View.GONE
+//                    binding.constraintAddToCart.isClickable = false
+//                    binding.constraintAddToCart.setBackgroundResource(R.color.green)
+//                }
+//            }
+//        }
+
         showItemInfoFromHome(item)
         adjustQuantity()
 
@@ -102,6 +113,10 @@ class OrderFragment : Fragment() {
 
     private fun resetOrder() {
         sharedViewModel.resetOrder()
+    }
+
+    private fun resetCheckCart() {
+        sharedViewModel.resetCheckCart()
     }
 
     override fun onDestroyView() {

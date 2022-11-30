@@ -1,7 +1,6 @@
 package com.ngockieubao.orderapp.ui.main
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -11,9 +10,9 @@ import com.google.firebase.ktx.Firebase
 import com.ngockieubao.orderapp.data.*
 import com.ngockieubao.orderapp.util.TextUtils
 import com.ngockieubao.orderapp.util.Utils
-//import kotlinx.coroutines.CoroutineScope
-//import kotlinx.coroutines.Dispatchers
-//import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.util.Calendar
@@ -24,9 +23,6 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val auth = Firebase.auth.currentUser
 //    private val job = Job()
 //    private val scope: CoroutineScope = CoroutineScope(job + Dispatchers.IO)
-
-    private val itemInCartCurUser = db.collection("Cart")
-        .document(checkCurrentUser()!!.uid).collection("ItemInCart")
 
     private val orderRepository: OrderRepository = OrderRepository(application)
 
@@ -42,34 +38,30 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val _listProductPopular = MutableLiveData<List<Product>>()
     val listProductPopular: LiveData<List<Product>> = _listProductPopular
 
-    private var _listCart = MutableLiveData<List<Order>?>()
-    val listCart: LiveData<List<Order>?> = _listCart
-
     private val _defaultQuantity = 1
     val defaultQuantity = _defaultQuantity
 
-    private val _finalQuantity = MutableLiveData<Int>(1)
+    private val _finalQuantity = MutableLiveData(1)
     val finalQuantity: LiveData<Int> = _finalQuantity
 
-    private val _itemOrder = MutableLiveData<Order>()
-
-    private val _itemInCart = MutableLiveData<Int>(0)
-    val itemInCart: LiveData<Int> = _itemInCart
-    private var count = 0
-
-    private val _sumOrder = MutableLiveData(0.0)
-    val sumOrder: LiveData<Double> = _sumOrder
+    private val mItemOrder = MutableLiveData<Order>()
 
     private val _receipt = MutableLiveData<Receipt?>()
-    val receipt: MutableLiveData<Receipt?> = _receipt
+    val receipt: LiveData<Receipt?> = _receipt
 
     private val _itemCartId = MutableLiveData(1)
     val itemCartId: LiveData<Int> = _itemCartId
+
+    private var count = 0
     private var id = 1
+
+    private val ordersFlow: Flow<List<Order>> get() = orderRepository.getAllOrder()
+
+    private val _hasOrder = MutableLiveData<Boolean>()
+    val hasOrder: LiveData<Boolean> get() = _hasOrder
 
     init {
         addCategory()
-        countOrder()
     }
 
     private fun addCategory() {
@@ -156,91 +148,79 @@ class OrderViewModel(application: Application) : ViewModel() {
     fun createOrder(
         id: Int, url: String, name: String, description: String, price: Double, quantity: Int
     ) {
-        if (_itemOrder.value == null) {
-            _itemOrder.value = Order(1, "", "", "", 0.0, 0)
-            _itemOrder.value!!.id = id
-            _itemOrder.value!!.url = url
-            _itemOrder.value!!.name = name
-            _itemOrder.value!!.description = description
-            _itemOrder.value!!.price = price
-            _itemOrder.value!!.quantity = quantity
+        if (mItemOrder.value == null) {
+            mItemOrder.value = Order("", "", "", 0.0, 0)
+            mItemOrder.value!!.id = id
+            mItemOrder.value!!.url = url
+            mItemOrder.value!!.name = name
+            mItemOrder.value!!.description = description
+            mItemOrder.value!!.price = price
+            mItemOrder.value!!.quantity = quantity
         } else {
-            _itemOrder.value!!.id = id
-            _itemOrder.value?.url = url
-            _itemOrder.value?.name = name
-            _itemOrder.value?.description = description
-            _itemOrder.value?.price = price
-            _itemOrder.value?.quantity = quantity
+            mItemOrder.value!!.id = id
+            mItemOrder.value?.url = url
+            mItemOrder.value?.name = name
+            mItemOrder.value?.description = description
+            mItemOrder.value?.price = price
+            mItemOrder.value?.quantity = quantity
         }
-        addOrderToCart()
+//        addOrderToCart()
+        addItemToCart()
     }
 
-    private fun addOrderToCart() {
-        val item = _itemOrder.value
-        item?.toHashMap()
-        if (item != null) {
-            itemInCartCurUser.add(item)
-                .addOnSuccessListener {
-                    id++
-                    count++
-                    _itemCartId.postValue(id)
-                    _itemInCart.postValue(count)
-                    Log.d(TAG, "addOrderToCart: success")
-                }
-                .addOnFailureListener {
-                    Log.d(TAG, "addOrderToCart: failed")
-                }
+    private fun addItemToCart() {
+        if (checkCurrentUser() != null) {
+            val item = mItemOrder.value
+            val list = mutableListOf<Order>()
+
+            if (item != null) {
+                list.add(item)
+                insertOrder(item)
+            }
         }
+    }
+
+    private fun insertOrder(order: Order) = viewModelScope.launch {
+        orderRepository.insertOrder(order)
+        id++
+        count++
+        _itemCartId.postValue(id)
     }
 
     fun deleteOrder(order: Order) = viewModelScope.launch {
         orderRepository.deleteOrder(order)
+        id--
         count--
-        _itemInCart.postValue(count)
+        _itemCartId.postValue(id)
     }
 
-    private fun countOrder() {
-        viewModelScope.launch {
-            val list = getUserCart()
-            if (list.isEmpty()) _itemInCart.value = 0
-            else {
-                for (item in list) {
-                    count++
-                }
-                _itemInCart.postValue(count)
+    fun getAllOrderFlow(): Flow<List<Order>> = orderRepository.getAllOrder()
+
+    private suspend fun getAllOrder(): List<Order> = orderRepository.getOrders()
+
+    fun countItemInCart() = flow {
+        ordersFlow.collect {
+            if (it.isEmpty()) count = 0
+            for (item in it) {
+                count++
             }
+            emit(count)
         }
     }
 
-    private suspend fun getUserCart(): List<Order> {
-        val listCart = mutableListOf<Order>()
-        val queryCart = itemInCartCurUser.get().await()
-
-        if (queryCart.documents.isNotEmpty()) {
-            val queryToObj = queryCart.toObjects<Order>()
-            for (item in queryToObj) {
-                listCart.add(item)
+    // calculating items in cart with flow list
+    suspend fun calOrder() = flow {
+        // method conflate() get last values avoid slow collector, collector always gets the most recent value emitted.
+//        ordersFlow.conflate().collect() {
+        ordersFlow.collect {
+            var sum = 0.0
+            for (i in it.indices) {
+                val item = it[i].price * it[i].quantity
+                sum += item
             }
+            delay(300)
+            emit(sum)
         }
-        return listCart
-    }
-
-    suspend fun populateCart() {
-        val list = getUserCart()
-        _listCart.value = list
-    }
-
-    suspend fun calOrder(
-    ): Double {
-        var sum = 0.0
-        val list = getUserCart()
-        val size = list.size
-
-        for (i in 0 until size) {
-            sum += list[i].price * list[i].quantity
-        }
-        _sumOrder.postValue(sum)
-        return sum
     }
 
     suspend fun makeReceipt(name: String, contact: String, address: String, note: String) {
@@ -248,12 +228,13 @@ class OrderViewModel(application: Application) : ViewModel() {
             !TextUtils.checkPhoneNumber(contact) ||
             !TextUtils.checkEdtNull(note)
         ) {
+            // calculating receipt
             var sum = 0.0
-            val listOrder = getUserCart()
+            val listOrder = getAllOrder()
             for (item in listOrder) {
                 sum += item.price * item.quantity
             }
-
+            // make receipt
             val time = Calendar.getInstance().time
             val receipt = Receipt(name, contact, note, sum, address, listOrder, "${Utils.formatTime(time)} GMT+7, ${Utils.formatDate(time)}")
             checkCurrentUser()?.uid.let {
@@ -266,30 +247,22 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
+    suspend fun checkItemInCart(item: Product) = flow {
+        ordersFlow.collect {
+            for (items in it) {
+                if (items.name == item.name) {
+                    emit(it)
+                }
+            }
+        }
+    }
+
+    fun resetCheckCart() {
+        _hasOrder.value = false
+    }
+
     private suspend fun clearCart() {
-        val listId = mutableListOf<String>()
-//        val listInCart =
-        itemInCartCurUser.get()
-            .addOnSuccessListener { listInCart ->
-                for (item in listInCart) {
-                    listId.add(item.id)
-                }
-                for (item in 0 until listInCart.size()) {
-                    if (listId[item] == listInCart.documents[item].id) {
-                        itemInCartCurUser.document(listInCart.documents[item].id).delete()
-                            .addOnSuccessListener {
-                                count--
-                                Log.d(TAG, "clearCart: success")
-                            }.addOnFailureListener {
-                                Log.d(TAG, "clearCart: failed")
-                            }
-                        _itemInCart.postValue(0)
-                    }
-                }
-            }
-            .addOnFailureListener {
-                Log.d(TAG, "clearCart: null")
-            }
+        orderRepository.clear()
     }
 
     fun checkCurrentUser(): FirebaseUser? {
@@ -297,14 +270,13 @@ class OrderViewModel(application: Application) : ViewModel() {
     }
 
     fun resetMakeReceipt() {
-        _receipt.postValue(null)
         id = 1
+        _receipt.postValue(null)
         _itemCartId.postValue(1)
     }
 
     override fun onCleared() {
         super.onCleared()
-//        _listCart.value = null
         _receipt.postValue(null)
         _itemCartId.postValue(null)
     }
