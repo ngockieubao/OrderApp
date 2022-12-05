@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.OrderApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#49d1c2</item>
-        <item name="colorPrimaryVariant">#36B3A5</item>
+        <item name="colorPrimary">@color/red_mix</item>
+        <item name="colorPrimaryVariant">#c85a54</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -35,5 +35,9 @@
     <style name="CornerRadiusImageLeft">
         <item name="cornerSizeTopLeft">10%</item>
         <item name="cornerSizeBottomLeft">10%</item>
+    </style>
+
+    <style name="MarginTopFiveDP">
+        <item name="android:layout_marginTop">5dp</item>
     </style>
 </resources>

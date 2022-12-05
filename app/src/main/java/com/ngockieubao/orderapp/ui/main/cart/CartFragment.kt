@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.data.Order
 import com.ngockieubao.orderapp.databinding.FragmentCartBinding
@@ -24,8 +27,8 @@ class CartFragment : Fragment(), DeleteInterface {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCartBinding.inflate(inflater, container, false)
@@ -39,11 +42,11 @@ class CartFragment : Fragment(), DeleteInterface {
         val adapterOrder = OrderListAdapter({}, this)
 
         rcvOrder.layoutManager =
-            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+                LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         rcvOrder.adapter = adapterOrder
 
         lifecycle.coroutineScope.launch {
-            sharedViewModel.getAllOrderFlow().collect() {
+            sharedViewModel.getAllOrderFlow().collect {
                 if (it.isNotEmpty()) {
                     binding.apply {
                         tvCheckCart.visibility = View.GONE
@@ -61,14 +64,17 @@ class CartFragment : Fragment(), DeleteInterface {
             }
         }
         lifecycle.coroutineScope.launch {
-            sharedViewModel.calOrder().collect() {
+            sharedViewModel.calOrder().collect {
                 binding.tvTotalPrice.text = Utils.formatPrice(it)
             }
         }
 
         binding.btnCheckout.setOnClickListener {
-            val action = CartFragmentDirections.actionCartFragmentToConfirmOrderFragment()
-            this.findNavController().navigate(action)
+            lifecycleScope.launch {
+                val listOrder = sharedViewModel.getAllOrder()
+                val bundle = bundleOf("myKey" to listOrder)
+                this@CartFragment.findNavController().navigate(R.id.action_cartFragment_to_confirmOrderFragment, bundle)
+            }
         }
     }
 

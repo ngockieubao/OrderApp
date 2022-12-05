@@ -1,7 +1,10 @@
 package com.ngockieubao.orderapp.ui.main
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -15,7 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.util.Calendar
+import java.util.*
 
 class OrderViewModel(application: Application) : ViewModel() {
 
@@ -196,7 +199,7 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     fun getAllOrderFlow(): Flow<List<Order>> = orderRepository.getAllOrder()
 
-    private suspend fun getAllOrder(): List<Order> = orderRepository.getOrders()
+     suspend fun getAllOrder(): List<Order> = orderRepository.getOrders()
 
     fun countItemInCart() = flow {
         ordersFlow.collect {

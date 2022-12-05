@@ -16,6 +16,7 @@
     <string name="string_note">Receipt</string>
     <string name="string_notification">Notification</string>
     <string name="string_cart">Cart</string>
+    <string name="string_cart_vi">Giỏ hàng</string>
     <string name="string_home">Home</string>
     <string name="string_offline">Bạn đang ngoại tuyến</string>
     <string name="string_welcome">Welcome!</string>
@@ -143,5 +144,15 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="string_cost">Đơn giá</string>
+    <string name="string_cost_vi">Đơn giá</string>
+    <string name="string_history_vi">Lịch sử</string>
+    <string name="string_purchase_total_vi">Tổng tiền:</string>
+    <string name="string_purchase_type_vi">Hình thức:</string>
+    <string name="string_receipt_code_vi">Mã đơn hàng:</string>
+    <string name="string_full_name_vi">Họ tên</string>
+    <string name="string_phone_number_vi">Số điện thoại</string>
+    <string name="string_address_vi">Địa chỉ:</string>
+    <string name="string_meu_vi">Thực đơn</string>
+    <string name="string_time_order_vi">Ngày đặt hàng:</string>
+    <string name="string_total_vi">Tổng:</string>
 </resources>

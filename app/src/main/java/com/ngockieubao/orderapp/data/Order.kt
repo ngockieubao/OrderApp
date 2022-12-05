@@ -1,8 +1,12 @@
 package com.ngockieubao.orderapp.data
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "order_table")
 data class Order(
     var url: String,
@@ -10,7 +14,8 @@ data class Order(
     var description: String,
     var price: Double,
     var quantity: Int
-) {
+) : Parcelable {
+    @IgnoredOnParcel
     @PrimaryKey(autoGenerate = true)
     var id: Int = 1
 

@@ -53,9 +53,9 @@
         tools:layout="@layout/fragment_notification" />
     <dialog
         android:id="@+id/confirmOrderFragment"
-        android:name="com.ngockieubao.orderapp.ui.main.receipt.ConfirmOrderFragment"
+        android:name="com.ngockieubao.orderapp.ui.main.cart.ConfirmOrderBtmSheet"
         android:label="ConfirmOrderFragment"
-        tools:layout="@layout/fragment_confirm_order">
+        tools:layout="@layout/fragment_btm_sheet_confirm_order">
         <action
             android:id="@+id/action_confirmOrderFragment_to_homeFragment"
             app:destination="@id/homeFragment"

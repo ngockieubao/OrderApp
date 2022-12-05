@@ -10,18 +10,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp"
         tools:context=".ui.main.cart.CartFragment">
 
         <TextView
             android:id="@+id/textView_title"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/red_mix"
             android:gravity="center"
-            android:text="@string/string_cart"
-            android:textColor="@color/black"
+            android:text="@string/string_cart_vi"
+            android:textColor="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,6 +31,7 @@
             android:layout_height="0dp"
             android:layout_marginVertical="10dp"
             android:overScrollMode="never"
+            android:padding="5dp"
             android:paddingHorizontal="8dp"
             android:scrollbars="none"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout_receipt"
@@ -44,7 +44,7 @@
             android:id="@+id/constraintLayout_receipt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_margin="5dp"
             android:background="@drawable/corner_cart_element"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
