@@ -10,7 +10,7 @@ import com.ngockieubao.orderapp.databinding.RcvListOrderBinding
 import com.ngockieubao.orderapp.util.Utils
 
 class ConfirmOrderListAdapter :
-    ListAdapter<Order, ConfirmOrderListAdapter.ConfirmOrderViewHolder>(DiffCallBack) {
+        ListAdapter<Order, ConfirmOrderListAdapter.ConfirmOrderViewHolder>(DiffCallBack) {
 
     inner class ConfirmOrderViewHolder(private val binding: RcvListOrderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Order?) {
@@ -26,7 +26,7 @@ class ConfirmOrderListAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConfirmOrderViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ConfirmOrderViewHolder(
-            RcvListOrderBinding.inflate(inflater)
+                RcvListOrderBinding.inflate(inflater)
         )
     }
 

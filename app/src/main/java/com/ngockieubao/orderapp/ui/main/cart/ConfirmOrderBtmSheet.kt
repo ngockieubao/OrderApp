@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -77,10 +78,11 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var name: String? = null
-        var contact: String? = null
         var address: String? = null
+        var contact: String? = null
+        var name: String? = null
         var note: String? = null
+        var type: String? = null
 
         binding.edtInputPurchaseName.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -124,26 +126,52 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
             }
         })
 
+        binding.spinnerSelectPurchase.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                type = parent?.getItemAtPosition(position).toString()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
         binding.btnConfirm.setOnClickListener {
-            if (contact == null ||
-//                name == null ||
-                    address == null) {
+            if (
+                    address == null ||
+                    contact == null ||
+                    name == null ||
+                    type == null
+            ) {
                 lifecycle.coroutineScope.launch {
-                    sharedViewModel.makeReceipt("Vagabond", "0382320936", "hanoi", "Non-note")
+                    sharedViewModel.makeReceipt(
+                            address = "hanoi",
+                            contact = "0382320936",
+                            name = "Vagabond",
+                            note = "Non-note",
+                            type = "Thanh toán khi nhận hàng"
+                    )
                 }
                 Toast.makeText(requireActivity(), "fields are not empty", Toast.LENGTH_SHORT).show()
             } else {
                 lifecycle.coroutineScope.launch {
-                    sharedViewModel.makeReceipt("Vagabond", contact!!, address!!, "Non-note")
+                    sharedViewModel.makeReceipt(
+                            address = address!!,
+                            contact = contact!!,
+                            name = name!!,
+                            note = "Non-note",
+                            type = type!!
+                    )
                 }
             }
+            checkMakeReceipt()
         }
+    }
+
+    private fun checkMakeReceipt() {
         sharedViewModel.receipt.observe(this.viewLifecycleOwner) {
             if (it == null) return@observe
             else {
                 val action = ConfirmOrderBtmSheetDirections.actionConfirmOrderFragmentToHomeFragment()
-                this.findNavController().navigate(action)
-                Toast.makeText(requireActivity(), "Đặt hàng thành công - 0382320936 - Vagabond - hanoi", Toast.LENGTH_SHORT).show()
+                this@ConfirmOrderBtmSheet.findNavController().navigate(action)
+                Toast.makeText(requireActivity(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show()
                 sharedViewModel.resetMakeReceipt()
             }
         }

@@ -149,10 +149,11 @@
     <string name="string_purchase_total_vi">Tổng tiền:</string>
     <string name="string_purchase_type_vi">Hình thức:</string>
     <string name="string_receipt_code_vi">Mã đơn hàng:</string>
-    <string name="string_full_name_vi">Họ tên</string>
-    <string name="string_phone_number_vi">Số điện thoại</string>
+    <string name="string_full_name_vi">Họ tên:</string>
+    <string name="string_phone_number_vi">Số điện thoại:</string>
     <string name="string_address_vi">Địa chỉ:</string>
-    <string name="string_meu_vi">Thực đơn</string>
+    <string name="string_menu_vi">Thực đơn:</string>
     <string name="string_time_order_vi">Ngày đặt hàng:</string>
+    <string name="string_status_vi">Trạng thái:</string>
     <string name="string_total_vi">Tổng:</string>
 </resources>

@@ -184,23 +184,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageButton
-                        android:id="@+id/img_btn_shop"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="5dp"
-                        android:background="@null"
-                        android:contentDescription="@string/string_todo"
-                        android:padding="5dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_arrowhead_right"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.65"
-                        app:tint="#818080"
-                        tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

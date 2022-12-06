@@ -1,6 +1,7 @@
 package com.ngockieubao.orderapp.ui.main
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -54,6 +55,9 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     private val _itemCartId = MutableLiveData(1)
     val itemCartId: LiveData<Int> = _itemCartId
+
+    private val _listHistory = MutableLiveData<List<Receipt>>()
+    val listHistory: LiveData<List<Receipt>> get() = _listHistory
 
     private var count = 0
     private var id = 1
@@ -149,7 +153,7 @@ class OrderViewModel(application: Application) : ViewModel() {
     }
 
     fun createOrder(
-        id: Int, url: String, name: String, description: String, price: Double, quantity: Int
+            id: Int, url: String, name: String, description: String, price: Double, quantity: Int
     ) {
         if (mItemOrder.value == null) {
             mItemOrder.value = Order("", "", "", 0.0, 0)
@@ -171,18 +175,6 @@ class OrderViewModel(application: Application) : ViewModel() {
         addItemToCart()
     }
 
-    private fun addItemToCart() {
-        if (checkCurrentUser() != null) {
-            val item = mItemOrder.value
-            val list = mutableListOf<Order>()
-
-            if (item != null) {
-                list.add(item)
-                insertOrder(item)
-            }
-        }
-    }
-
     private fun insertOrder(order: Order) = viewModelScope.launch {
         orderRepository.insertOrder(order)
         id++
@@ -199,17 +191,7 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     fun getAllOrderFlow(): Flow<List<Order>> = orderRepository.getAllOrder()
 
-     suspend fun getAllOrder(): List<Order> = orderRepository.getOrders()
-
-    fun countItemInCart() = flow {
-        ordersFlow.collect {
-            if (it.isEmpty()) count = 0
-            for (item in it) {
-                count++
-            }
-            emit(count)
-        }
-    }
+    suspend fun getAllOrder(): List<Order> = orderRepository.getOrders()
 
     // calculating items in cart with flow list
     suspend fun calOrder() = flow {
@@ -226,27 +208,25 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
-    suspend fun makeReceipt(name: String, contact: String, address: String, note: String) {
-        if (!TextUtils.checkEdtNull(name) ||
-            !TextUtils.checkPhoneNumber(contact) ||
-            !TextUtils.checkEdtNull(note)
-        ) {
-            // calculating receipt
-            var sum = 0.0
-            val listOrder = getAllOrder()
-            for (item in listOrder) {
-                sum += item.price * item.quantity
+    private fun addItemToCart() {
+        if (checkCurrentUser() != null) {
+            val item = mItemOrder.value
+            val list = mutableListOf<Order>()
+
+            if (item != null) {
+                list.add(item)
+                insertOrder(item)
             }
-            // make receipt
-            val time = Calendar.getInstance().time
-            val receipt = Receipt(name, contact, note, sum, address, listOrder, "${Utils.formatTime(time)} GMT+7, ${Utils.formatDate(time)}")
-            checkCurrentUser()?.uid.let {
-                db.collection("Receipt")
-                    .add(receipt.toHashMap()).await()
-                _receipt.value = receipt
-                // create receipt success -> clear cart
-                clearCart()
+        }
+    }
+
+    fun countItemInCart() = flow {
+        ordersFlow.collect {
+            if (it.isEmpty()) count = 0
+            for (item in it) {
+                count++
             }
+            emit(count)
         }
     }
 
@@ -268,14 +248,93 @@ class OrderViewModel(application: Application) : ViewModel() {
         orderRepository.clear()
     }
 
-    fun checkCurrentUser(): FirebaseUser? {
-        return auth
+    suspend fun makeReceipt(
+            address: String,
+            contact: String,
+            name: String,
+            note: String,
+            type: String
+    ) {
+        if (!TextUtils.checkEdtNull(name) ||
+                !TextUtils.checkPhoneNumber(contact) ||
+                !TextUtils.checkEdtNull(note)
+        ) {
+            // calculating receipt
+            var sum = 0.0
+            val listOrder = getAllOrder()
+            for (item in listOrder) {
+                sum += item.price * item.quantity
+            }
+            // init receipt
+            val time = Calendar.getInstance().time
+            val receipt = Receipt(
+                    address = address,
+                    contact = contact,
+                    name = name,
+                    note = note,
+                    receipts = listOrder,
+                    status = "Đặt hàng thành công",
+                    time = "${Utils.formatDate(time)}, ${Utils.formatTime(time)} GMT+7",
+                    total = sum,
+                    type = type
+            )
+            // add receipt to firestore
+            checkCurrentUser()?.uid.let {
+                // no user
+                if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
+                else {
+                    // for admin
+                    db.collection("ReceiptDetail").add(receipt.toHashMap()).await()
+                    // for user
+                    db.collection("Cart").document(it)
+                            .collection("Receipt").add(receipt.toHashMap()).await()
+                    _receipt.value = receipt
+                    // create receipt success -> clear cart
+                    clearCart()
+                }
+            }
+        }
     }
 
     fun resetMakeReceipt() {
         id = 1
         _receipt.postValue(null)
         _itemCartId.postValue(1)
+    }
+
+    // get list receipt for admin
+    suspend fun getListReceipt() {
+        val listReceipt = db.collection("Receipt").get().await()
+        val listToObj = listReceipt.toObjects<Receipt>()
+
+        if (listToObj.isEmpty()) {
+            Log.d(TAG, "getHistory: null")
+        } else {
+            _listHistory.postValue(listToObj)
+        }
+    }
+
+    suspend fun getHistory() {
+        checkCurrentUser()?.uid.let {
+            // no user
+            if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
+            // has user
+            else {
+                val listReceipt = db.collection("Cart").document(it)
+                        .collection("Receipt").get().await()
+                val listToObj = listReceipt.toObjects<Receipt>()
+
+                if (listToObj.isEmpty()) {
+                    Log.d(TAG, "getHistory: null")
+                } else {
+                    _listHistory.postValue(listToObj)
+                }
+            }
+        }
+    }
+
+    fun checkCurrentUser(): FirebaseUser? {
+        return auth
     }
 
     override fun onCleared() {

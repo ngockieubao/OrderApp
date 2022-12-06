@@ -3,25 +3,42 @@ package com.ngockieubao.orderapp.data
 import java.io.Serializable
 
 data class Receipt(
-    val name: String,
-    val contact: String,
-    val note: String,
-    val price: Double,
-    val address: String,
-    val receipts: List<Order>,
-    val time: String
+        val address: String,
+        val contact: String,
+        val name: String,
+        val note: String,
+        val receipts: List<Order>,
+        val status: String,
+        val time: String,
+        val total: Double,
+        val type: String
 ) : Serializable {
-    constructor() : this("", "", "", 0.0, "", emptyList(), "")
+
+    var id: Int = 1
+
+    constructor() : this(
+            address = "",
+            contact = "",
+            name = "",
+            note = "",
+            receipts = emptyList(),
+            status = "",
+            time = "",
+            total = 0.0,
+            type = ""
+    )
 
     fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
-            "name" to name,
-            "contact" to contact,
-            "note" to note,
-            "price" to price,
-            "address" to address,
-            "receipts" to receipts,
-            "time" to time
+                "address" to address,
+                "contact" to contact,
+                "name" to name,
+                "note" to note,
+                "receipts" to receipts,
+                "status" to status,
+                "time" to time,
+                "total" to total,
+                "type" to type
         )
     }
 }
