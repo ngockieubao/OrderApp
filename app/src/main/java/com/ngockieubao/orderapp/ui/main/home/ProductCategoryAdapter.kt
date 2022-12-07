@@ -20,7 +20,6 @@ class ProductCategoryAdapter(
 
             binding.apply {
                 binding.item = item
-                binding.textViewProductDelivery.text = item.delivery.toString()
                 binding.textViewProductPrice.text = Utils.formatPrice(item.price)
             }
         }

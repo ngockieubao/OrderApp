@@ -25,8 +25,8 @@ class CategoryFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
@@ -42,7 +42,10 @@ class CategoryFragment : Fragment() {
         val item = args.item ?: return
 
         val rcvCategoryDetail = binding.rcvCategoryDetail
-        val adapterCategoryDetail = ProductCategoryAdapter {}
+        val adapterCategoryDetail = ProductCategoryAdapter {
+            val action = CategoryFragmentDirections.actionCategoryFragmentToOrderFragment(it)
+            this@CategoryFragment.findNavController().navigate(action)
+        }
 
         rcvCategoryDetail.adapter = adapterCategoryDetail
         populateCategory(item)

@@ -71,5 +71,8 @@
             android:name="item"
             app:argType="com.ngockieubao.orderapp.data.Category"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_categoryFragment_to_orderFragment"
+            app:destination="@id/orderFragment" />
     </fragment>
 </navigation>
