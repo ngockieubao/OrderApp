@@ -5,24 +5,41 @@
 
     <data>
 
-        <variable
-            name="item"
-            type="com.ngockieubao.orderapp.data.Receipt" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.main.receipt.ReceiptDetailBtmSheet">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/red_mix">
+
+            <TextView
+                android:id="@+id/tv_receipt_detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/string_receipt_detail_vi"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/ln_receipt_container"
+            android:id="@+id/ln_receipt_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/shadow_layout"
             android:orientation="vertical"
-            android:padding="10dp"
-            tools:ignore="UselessParent">
+            android:padding="15dp">
 
             <LinearLayout
                 android:id="@+id/ln_receipt_code"
@@ -32,12 +49,13 @@
                 tools:layout_editor_absoluteX="10dp">
 
                 <TextView
-                    android:id="@+id/tv_receipt_code"
+                    android:id="@+id/tv_receipt_code_label"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/string_receipt_code_vi" />
 
                 <TextView
+                    android:id="@+id/tv_receipt_code_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -52,16 +70,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/ln_receipt_code">
 
                 <TextView
-                    android:id="@+id/tv_receipt_username"
+                    android:id="@+id/tv_receipt_username_label"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/string_full_name_vi" />
 
                 <TextView
+                    android:id="@+id/tv_receipt_username_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="@{item.name}"
                     tools:text="Vagabond" />
             </LinearLayout>
 
@@ -73,16 +91,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/ln_receipt_username">
 
                 <TextView
-                    android:id="@+id/tv_receipt_phone_number"
+                    android:id="@+id/tv_receipt_phone_number_label"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:text="@string/string_phone_number_vi" />
 
                 <TextView
+                    android:id="@+id/tv_receipt_phone_number_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
-                    android:text="@{item.contact}"
                     tools:text="03555889678" />
             </LinearLayout>
 
@@ -94,43 +112,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/ln_receipt_phone_number">
 
                 <TextView
-                    android:id="@+id/tv_receipt_address"
+                    android:id="@+id/tv_receipt_address_label"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:text="@string/string_address_vi" />
 
                 <TextView
+                    android:id="@+id/tv_receipt_address_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
-                    android:text="@{item.address}"
                     tools:text="Mai Dịch - Cầu Giấy" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ln_receipt_list_order"
-                style="@style/MarginTopFiveDP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/ln_receipt_address">
-
-                <TextView
-                    android:id="@+id/tv_receipt_menu"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="@string/string_menu_vi" />
-
-                <TextView
-                    android:id="@+id/tv_order_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:textColor="@color/black"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/rcv_list_order"
-                    tools:text="- Trà sữa chân châu (40.000 VNĐ) - Số lượng: 10
-                    \n- Lẩu cay Tứ Xuyên (240.000 VNĐ) - Số lượng: 10
-                    \n- Khô bò cháy tỏi (50.000 VNĐ) - Số lượng: 10" />
             </LinearLayout>
 
             <LinearLayout
@@ -149,7 +141,6 @@
                     android:id="@+id/tv_receipt_time_order_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@{item.time}"
                     tools:text="20:50:27 GMT+7, 30-11-2022-Th 4" />
             </LinearLayout>
 
@@ -169,18 +160,10 @@
                     android:id="@+id/tv_receipt_status_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@{item.status}"
+                    android:visibility="visible"
                     tools:text="Đặt hàng thành công" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ln_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/red_mix"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/ln_receipt_time_order" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ln_receipt_total_purchase"
@@ -223,6 +206,61 @@
                     android:layout_height="match_parent"
                     tools:text="Thanh toán khi nhận hàng" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ln_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/red_mix"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/ln_receipt_time_order" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/corner_confirm_order">
+
+            <Spinner
+                android:id="@+id/spinner_update_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                tools:listitem="@layout/layout_spn_update_receipt" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_list_product_ordered"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="5dp"
+                android:scrollbars="none"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/rcv_ordered" />
+        </HorizontalScrollView>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/corner_cart_element"
+            android:gravity="center"
+            android:text="@string/string_update_vi"
+            android:textColor="@color/white"
+            app:backgroundTint="#353434" />
     </LinearLayout>
 </layout>

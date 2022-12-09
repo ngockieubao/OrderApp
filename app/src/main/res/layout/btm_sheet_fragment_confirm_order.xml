@@ -12,14 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="10dp"
         tools:context=".ui.main.cart.ConfirmOrderBtmSheet">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@color/red_mix"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,12 +27,11 @@
             <TextView
                 android:id="@+id/textView_title"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@string/string_purchase"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,11 +40,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_header">
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -122,18 +117,27 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout_total_receipt" />
 
-                <Spinner
-                    android:id="@+id/spinner_select_purchase"
+                <LinearLayout
+                    android:id="@+id/ln_spn_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/corner_purchase_element"
-                    android:paddingVertical="15dp"
+                    android:background="@drawable/corner_confirm_order"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_purchase_title"
-                    tools:listitem="@layout/layout_list_purchase" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_purchase_title">
+
+                    <Spinner
+                        android:id="@+id/spinner_select_purchase"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="15dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:listitem="@layout/layout_list_purchase" />
+                </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout_confirm_info"
@@ -142,7 +146,7 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner_select_purchase">
+                    app:layout_constraintTop_toBottomOf="@+id/ln_spn_container">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/txt_input_purchase_name"

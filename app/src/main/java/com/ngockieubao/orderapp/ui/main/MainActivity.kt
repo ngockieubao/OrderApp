@@ -30,7 +30,10 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragNavHost) as NavHostFragment
         val navController = navHostFragment.navController
 
-        mOrderViewModel = ViewModelProvider(this@MainActivity, OrderViewModelFactory(application))[OrderViewModel::class.java]
+        mOrderViewModel = ViewModelProvider(
+            this@MainActivity,
+            OrderViewModelFactory(application)
+        )[OrderViewModel::class.java]
         binding.bottomNavigationView.setupWithNavController(navController)
 
 //        if (mOrderViewModel.checkCurrentUser() == null) {
@@ -62,6 +65,9 @@ class MainActivity : AppCompatActivity() {
                     binding.constraintHeader.visibility = View.GONE
                 }
                 R.id.receiptFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                }
+                R.id.receiptDetailFragment -> {
                     binding.constraintHeader.visibility = View.GONE
                 }
                 else -> {

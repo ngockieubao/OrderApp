@@ -45,7 +45,11 @@
         android:id="@+id/receiptFragment"
         android:name="com.ngockieubao.orderapp.ui.main.receipt.ReceiptFragment"
         android:label="fragment_receipt"
-        tools:layout="@layout/fragment_receipt" />
+        tools:layout="@layout/fragment_receipt">
+        <action
+            android:id="@+id/action_receiptFragment_to_receiptDetailFragment"
+            app:destination="@id/receiptDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.ngockieubao.orderapp.ui.main.notification.NotificationFragment"
@@ -55,7 +59,7 @@
         android:id="@+id/confirmOrderFragment"
         android:name="com.ngockieubao.orderapp.ui.main.cart.ConfirmOrderBtmSheet"
         android:label="ConfirmOrderFragment"
-        tools:layout="@layout/fragment_btm_sheet_confirm_order">
+        tools:layout="@layout/btm_sheet_fragment_confirm_order">
         <action
             android:id="@+id/action_confirmOrderFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -75,4 +79,14 @@
             android:id="@+id/action_categoryFragment_to_orderFragment"
             app:destination="@id/orderFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/receiptDetailFragment"
+        android:name="com.ngockieubao.orderapp.ui.main.receipt.ReceiptDetailBtmSheet"
+        android:label="ReceiptDetailFragment"
+        tools:layout="@layout/btm_sheet_fragment_receipt_detail">
+        <argument
+            android:name="item"
+            app:argType="com.ngockieubao.orderapp.data.Receipt"
+            app:nullable="true" />
+    </dialog>
 </navigation>

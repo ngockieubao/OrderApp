@@ -9,10 +9,12 @@ import com.ngockieubao.orderapp.data.Receipt
 import com.ngockieubao.orderapp.databinding.RcvPurchaseHistoryBinding
 import com.ngockieubao.orderapp.util.Utils
 
-class ReceiptListAdapter : ListAdapter<Receipt, ReceiptListAdapter.ReceiptViewHolder>(DiffCallBack) {
+class ReceiptListAdapter(
+    private val updateInterface: UpdateInterface,
+) : ListAdapter<Receipt, ReceiptListAdapter.ReceiptViewHolder>(DiffCallBack) {
 
-    inner class ReceiptViewHolder(private val binding: RcvPurchaseHistoryBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    inner class ReceiptViewHolder(private val binding: RcvPurchaseHistoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Receipt?) {
             if (item == null) return
@@ -20,13 +22,16 @@ class ReceiptListAdapter : ListAdapter<Receipt, ReceiptListAdapter.ReceiptViewHo
             binding.tvReceiptTotalPurchaseValue.text = Utils.formatPrice(item.total)
             binding.tvReceiptTypePurchaseValue.text = item.type
             binding.tvOrderList.text = Utils.stringArrToList(item.receipts)
+            binding.lnReceiptContainer.setOnClickListener {
+                updateInterface.clickToUpdateReceipt(item)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReceiptViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ReceiptViewHolder(
-                RcvPurchaseHistoryBinding.inflate(inflater)
+            RcvPurchaseHistoryBinding.inflate(inflater)
         )
     }
 

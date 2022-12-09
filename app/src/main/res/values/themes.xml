@@ -37,6 +37,11 @@
         <item name="cornerSizeBottomLeft">10%</item>
     </style>
 
+    <style name="CornerRadiusImageLeftCustom">
+        <item name="cornerSizeTopLeft">15%</item>
+        <item name="cornerSizeBottomLeft">15%</item>
+    </style>
+
     <style name="MarginTopFiveDP">
         <item name="android:layout_marginTop">5dp</item>
     </style>

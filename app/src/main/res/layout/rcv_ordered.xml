@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.ngockieubao.orderapp.data.Order" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="8dp"
+            android:background="@drawable/shadow_layout">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageView_item_in_cart"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/string_todo"
+                android:scaleType="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:setUrl="@{item.url}"
+                app:shapeAppearanceOverlay="@style/CornerRadiusImageLeftCustom"
+                tools:ignore="ImageContrastCheck"
+                tools:src="@drawable/img_pizza_cheese" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_item_in_cart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView_item_in_cart"
+                app:layout_constraintTop_toTopOf="@+id/imageView_item_in_cart">
+
+                <TextView
+                    android:id="@+id/tv_item_order_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="3dp"
+                    android:text="@{item.name}"
+                    android:textColor="#7C7C7C"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry"
+                    tools:text="Pizza Cheese" />
+
+                <TextView
+                    android:id="@+id/tv_item_order_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="3dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/tv_item_order_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_item_order_name"
+                    tools:ignore="RtlSymmetry,TextContrastCheck"
+                    tools:text="11.150.000 VNĐ" />
+
+                <TextView
+                    android:id="@+id/tv_item_order_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_item_order_price"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_item_order_price"
+                    tools:text="Số lượng: 10" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</layout>

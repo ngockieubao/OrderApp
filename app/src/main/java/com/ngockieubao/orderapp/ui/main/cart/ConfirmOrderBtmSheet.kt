@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
@@ -18,14 +19,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.data.Order
-import com.ngockieubao.orderapp.databinding.FragmentBtmSheetConfirmOrderBinding
+import com.ngockieubao.orderapp.databinding.BtmSheetFragmentConfirmOrderBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
 import com.ngockieubao.orderapp.util.Utils
 import kotlinx.coroutines.launch
 
 class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
 
-    private var _binding: FragmentBtmSheetConfirmOrderBinding? = null
+    private var _binding: BtmSheetFragmentConfirmOrderBinding? = null
     private val binding
         get() = _binding!!
 
@@ -35,26 +36,23 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
 
     private var bundleGetListOrder: List<Order>? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentBtmSheetConfirmOrderBinding.inflate(inflater, container, false)
-
-        val spinner = binding.spinnerSelectPurchase
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter.createFromResource(requireActivity(), R.array.spinner_purchase, android.R.layout.simple_spinner_item).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            spinner.adapter = adapter
-        }
+        _binding = BtmSheetFragmentConfirmOrderBinding.inflate(inflater, container, false)
 
         bundleGetListOrder = arguments?.getParcelableArrayList("myKey")
 
         val rcvListOrder = binding.rcvReceiptDetail
         val adapterListOrder = ConfirmOrderListAdapter()
+        val spinner = binding.spinnerSelectPurchase
 
         rcvListOrder.adapter = adapterListOrder
         showListOrder(adapterListOrder, bundleGetListOrder)
+        initSpn(spinner)
 
         lifecycleScope.launch {
             sharedViewModel.calOrder().collect {
@@ -63,16 +61,6 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
         }
 
         return binding.root
-    }
-
-    private fun showListOrder(adapterListOrder: ConfirmOrderListAdapter, bundle: List<Order>?) {
-        if (bundle != null) {
-            lifecycleScope.launch {
-                adapterListOrder.submitList(bundleGetListOrder)
-            }
-        } else {
-            Toast.makeText(requireActivity(), "bundleGetListOrder: $bundleGetListOrder", Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -130,34 +118,35 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 type = parent?.getItemAtPosition(position).toString()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         binding.btnConfirm.setOnClickListener {
             if (
-                    address == null ||
-                    contact == null ||
-                    name == null ||
-                    type == null
+                address == null ||
+                contact == null ||
+                name == null ||
+                type == null
             ) {
                 lifecycle.coroutineScope.launch {
                     sharedViewModel.makeReceipt(
-                            address = "hanoi",
-                            contact = "0382320936",
-                            name = "Vagabond",
-                            note = "Non-note",
-                            type = "Thanh toán khi nhận hàng"
+                        address = "hanoi",
+                        contact = "0382320936",
+                        name = "Vagabond",
+                        note = "Non-note",
+                        type = "Thanh toán khi nhận hàng"
                     )
                 }
                 Toast.makeText(requireActivity(), "fields are not empty", Toast.LENGTH_SHORT).show()
             } else {
                 lifecycle.coroutineScope.launch {
                     sharedViewModel.makeReceipt(
-                            address = address!!,
-                            contact = contact!!,
-                            name = name!!,
-                            note = "Non-note",
-                            type = type!!
+                        address = address!!,
+                        contact = contact!!,
+                        name = name!!,
+                        note = "Non-note",
+                        type = type!!
                     )
                 }
             }
@@ -174,6 +163,31 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
                 Toast.makeText(requireActivity(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show()
                 sharedViewModel.resetMakeReceipt()
             }
+        }
+    }
+
+    private fun initSpn(spinner: Spinner) {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.spinner_purchase,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
+    }
+
+    private fun showListOrder(adapterListOrder: ConfirmOrderListAdapter, bundle: List<Order>?) {
+        if (bundle != null) {
+            lifecycleScope.launch {
+                adapterListOrder.submitList(bundleGetListOrder)
+            }
+        } else {
+            Toast.makeText(requireActivity(), "bundleGetListOrder: $bundleGetListOrder", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
