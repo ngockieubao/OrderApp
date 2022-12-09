@@ -84,7 +84,7 @@
                         tools:text="70" />
 
                     <ImageView
-                        android:id="@+id/textView_quantity_decrease"
+                        android:id="@+id/imageView_quantity_decrease"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginEnd="1dp"
@@ -97,7 +97,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/textView_quantity_increase"
+                        android:id="@+id/imageView_quantity_increase"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginStart="1dp"

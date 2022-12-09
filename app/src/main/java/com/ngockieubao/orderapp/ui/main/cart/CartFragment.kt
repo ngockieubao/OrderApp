@@ -19,7 +19,7 @@ import com.ngockieubao.orderapp.ui.main.OrderViewModel
 import com.ngockieubao.orderapp.util.Utils
 import kotlinx.coroutines.launch
 
-class CartFragment : Fragment(), DeleteInterface {
+class CartFragment : Fragment(), UpdateInterface {
 
     private lateinit var binding: FragmentCartBinding
     private val sharedViewModel: OrderViewModel by activityViewModels {
@@ -27,8 +27,8 @@ class CartFragment : Fragment(), DeleteInterface {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCartBinding.inflate(inflater, container, false)
@@ -42,7 +42,7 @@ class CartFragment : Fragment(), DeleteInterface {
         val adapterOrder = OrderListAdapter({}, this)
 
         rcvOrder.layoutManager =
-                LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         rcvOrder.adapter = adapterOrder
 
         lifecycle.coroutineScope.launch {
@@ -73,7 +73,8 @@ class CartFragment : Fragment(), DeleteInterface {
             lifecycleScope.launch {
                 val listOrder = sharedViewModel.getAllOrder()
                 val bundle = bundleOf("myKey" to listOrder)
-                this@CartFragment.findNavController().navigate(R.id.action_cartFragment_to_confirmOrderFragment, bundle)
+                this@CartFragment.findNavController()
+                    .navigate(R.id.action_cartFragment_to_confirmOrderFragment, bundle)
             }
         }
     }
@@ -81,6 +82,18 @@ class CartFragment : Fragment(), DeleteInterface {
     override fun deleteItemOrder(order: Order?) {
         if (order != null) {
             sharedViewModel.deleteOrder(order)
+        }
+    }
+
+    override fun increaseQuantity(name: String, quantity: Int) {
+        lifecycleScope.launch {
+            sharedViewModel.increasingCart(name, quantity)
+        }
+    }
+
+    override fun decreaseQuantity(name: String, quantity: Int) {
+        lifecycleScope.launch {
+            sharedViewModel.decreasingCart(name, quantity)
         }
     }
 }

@@ -32,4 +32,10 @@ interface OrderDao {
 
     @Query("SELECT * FROM order_table")
     suspend fun getOrders(): List<Order>
+
+    @Query("UPDATE order_table SET quantity =:quantity WHERE name =:name")
+    suspend fun increasing(name: String, quantity: Int)
+
+    @Query("UPDATE order_table SET quantity =:quantity WHERE name =:name")
+    suspend fun decreasing(name: String, quantity: Int)
 }

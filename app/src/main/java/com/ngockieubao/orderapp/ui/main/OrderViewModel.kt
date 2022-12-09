@@ -129,7 +129,7 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
-    // Handles adjust quantity order
+    // Handles adjust quantity order in order fragment
     fun decreasing() {
         val adjust = _finalQuantity
         val adjustDe = adjust.value?.minus(1)
@@ -148,12 +148,31 @@ class OrderViewModel(application: Application) : ViewModel() {
         _finalQuantity.value = adjust.value
     }
 
+    // Handles adjust quantity order in cart
+    suspend fun decreasingCart(name: String, quantity: Int) {
+        val dbLocal = getAllOrder()
+        for (item in dbLocal) {
+            if (name == item.name) {
+                orderRepository.decreasing(name, quantity.minus(1))
+            }
+        }
+    }
+
+    suspend fun increasingCart(name: String, quantity: Int) {
+        val dbLocal = getAllOrder()
+        for (item in dbLocal) {
+            if (name == item.name) {
+                orderRepository.increasing(name, quantity.plus(1))
+            }
+        }
+    }
+
     fun resetOrder() {
         _finalQuantity.value = 1
     }
 
     fun createOrder(
-            id: Int, url: String, name: String, description: String, price: Double, quantity: Int
+        id: Int, url: String, name: String, description: String, price: Double, quantity: Int
     ) {
         if (mItemOrder.value == null) {
             mItemOrder.value = Order("", "", "", 0.0, 0)
@@ -171,7 +190,6 @@ class OrderViewModel(application: Application) : ViewModel() {
             mItemOrder.value?.price = price
             mItemOrder.value?.quantity = quantity
         }
-//        addOrderToCart()
         addItemToCart()
     }
 
@@ -249,15 +267,15 @@ class OrderViewModel(application: Application) : ViewModel() {
     }
 
     suspend fun makeReceipt(
-            address: String,
-            contact: String,
-            name: String,
-            note: String,
-            type: String
+        address: String,
+        contact: String,
+        name: String,
+        note: String,
+        type: String
     ) {
         if (!TextUtils.checkEdtNull(name) ||
-                !TextUtils.checkPhoneNumber(contact) ||
-                !TextUtils.checkEdtNull(note)
+            !TextUtils.checkPhoneNumber(contact) ||
+            !TextUtils.checkEdtNull(note)
         ) {
             // calculating receipt
             var sum = 0.0
@@ -268,15 +286,15 @@ class OrderViewModel(application: Application) : ViewModel() {
             // init receipt
             val time = Calendar.getInstance().time
             val receipt = Receipt(
-                    address = address,
-                    contact = contact,
-                    name = name,
-                    note = note,
-                    receipts = listOrder,
-                    status = "Đặt hàng thành công",
-                    time = "${Utils.formatDate(time)}, ${Utils.formatTime(time)} GMT+7",
-                    total = sum,
-                    type = type
+                address = address,
+                contact = contact,
+                name = name,
+                note = note,
+                receipts = listOrder,
+                status = "Đặt hàng thành công",
+                time = "${Utils.formatDate(time)}, ${Utils.formatTime(time)} GMT+7",
+                total = sum,
+                type = type
             )
             // add receipt to firestore
             checkCurrentUser()?.uid.let {
@@ -287,7 +305,7 @@ class OrderViewModel(application: Application) : ViewModel() {
                     db.collection("ReceiptDetail").add(receipt.toHashMap()).await()
                     // for user
                     db.collection("Cart").document(it)
-                            .collection("Receipt").add(receipt.toHashMap()).await()
+                        .collection("Receipt").add(receipt.toHashMap()).await()
                     _receipt.value = receipt
                     // create receipt success -> clear cart
                     clearCart()
@@ -321,7 +339,7 @@ class OrderViewModel(application: Application) : ViewModel() {
             // has user
             else {
                 val listReceipt = db.collection("Cart").document(it)
-                        .collection("Receipt").get().await()
+                    .collection("Receipt").get().await()
                 val listToObj = listReceipt.toObjects<Receipt>()
 
                 if (listToObj.isEmpty()) {

@@ -11,11 +11,12 @@ import com.ngockieubao.orderapp.util.Utils
 
 class OrderListAdapter(
     private val onItemClicked: (Order) -> Unit,
-    val deleteOrderInterface: DeleteInterface
+    val updateInterface: UpdateInterface
 ) :
     ListAdapter<Order, OrderListAdapter.OrderViewHolder>(DiffCallBack) {
 
-    inner class OrderViewHolder(private val binding: RcvOrderBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class OrderViewHolder(private val binding: RcvOrderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Order?) {
             if (item == null) return
 
@@ -25,7 +26,13 @@ class OrderListAdapter(
                 textViewQuantity.text = item.quantity.toString()
 
                 imageButtonDelete.setOnClickListener {
-                    deleteOrderInterface.deleteItemOrder(item)
+                    updateInterface.deleteItemOrder(item)
+                }
+                imageViewQuantityIncrease.setOnClickListener {
+                    updateInterface.increaseQuantity(item.name, item.quantity)
+                }
+                imageViewQuantityDecrease.setOnClickListener {
+                    updateInterface.decreaseQuantity(item.name, item.quantity)
                 }
             }
         }

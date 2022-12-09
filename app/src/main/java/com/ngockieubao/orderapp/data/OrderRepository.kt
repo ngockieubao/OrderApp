@@ -22,4 +22,8 @@ class OrderRepository(application: Application) {
     fun getAllOrder(): Flow<List<Order>> = orderDao.getAllOrder()
 
     suspend fun getOrders(): List<Order> = orderDao.getOrders()
+
+    suspend fun increasing(name: String, quantity: Int) = orderDao.increasing(name, quantity)
+
+    suspend fun decreasing(name: String, quantity: Int) = orderDao.decreasing(name, quantity)
 }
