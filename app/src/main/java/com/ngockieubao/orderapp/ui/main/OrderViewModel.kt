@@ -262,7 +262,7 @@ class OrderViewModel(application: Application) : ViewModel() {
         _hasOrder.value = false
     }
 
-    private suspend fun clearCart() {
+    private fun clearCart() {
         orderRepository.clear()
     }
 
@@ -287,6 +287,7 @@ class OrderViewModel(application: Application) : ViewModel() {
             val time = Calendar.getInstance().time
             val receipt = Receipt(
                 address = address,
+                code = "",
                 contact = contact,
                 name = name,
                 note = note,
@@ -304,11 +305,23 @@ class OrderViewModel(application: Application) : ViewModel() {
                     // for admin
                     db.collection("ReceiptDetail").add(receipt.toHashMap()).await()
                     // for user
+                    // create receipt with document id random generate
                     db.collection("Cart").document(it)
-                        .collection("Receipt").add(receipt.toHashMap()).await()
-                    _receipt.value = receipt
-                    // create receipt success -> clear cart
-                    clearCart()
+                        .collection("Receipt").add(receipt.toHashMap())
+                        .addOnSuccessListener { docRef ->
+                            Log.d(TAG, "makeReceipt: ${docRef.id}")
+                            // update code receipt by doc id generated above
+                            db.collection("Cart").document(it)
+                                .collection("Receipt").document(docRef.id)
+                                .update("code", docRef.id)
+                            // assign value
+                            _receipt.value = receipt
+                            // create receipt success -> clear cart
+                            clearCart()
+                        }
+                        .addOnFailureListener {
+                            Log.d(TAG, "makeReceipt: failed")
+                        }
                 }
             }
         }
@@ -352,13 +365,33 @@ class OrderViewModel(application: Application) : ViewModel() {
     }
 
     suspend fun getBanner() = flow {
-        val listBanner = db.collection("Banner").get().await()
+        val listBanner = db.collection("Product")
+            .whereGreaterThanOrEqualTo("sold", 180).get().await()
         val listToObj = listBanner.toObjects<Banner>()
 
         while (true) {
             for (item in listToObj) {
                 emit(item.url)
                 delay(5000)
+            }
+        }
+    }
+
+    suspend fun cancelReceipt(input: String) {
+        checkCurrentUser()?.uid.let {
+            // no user
+            if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
+            // has user
+            else {
+                val listReceipt = db.collection("Cart").document(it)
+                    .collection("Receipt").get().await()
+                val listToObj = listReceipt.toObjects<Receipt>()
+
+                if (listToObj.isEmpty()) {
+                    Log.d(TAG, "cancelReceipt: null")
+                } else {
+//                    _listHistory.postValue(listToObj)
+                }
             }
         }
     }

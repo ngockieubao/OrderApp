@@ -82,7 +82,7 @@ class ReceiptDetailBtmSheet : BottomSheetDialogFragment() {
     private fun showItemInfoFromHome(item: Receipt?, adapter: OrderedListAdapter) {
         if (item == null) return
         binding.apply {
-//            tvReceiptCodeValue.text = item.id
+            tvReceiptCodeValue.text = item.code
             tvReceiptUsernameValue.text = item.name
             tvReceiptPhoneNumberValue.text = item.contact
             tvReceiptAddressValue.text = item.address
