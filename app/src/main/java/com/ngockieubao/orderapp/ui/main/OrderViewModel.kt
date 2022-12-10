@@ -351,6 +351,18 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
+    suspend fun getBanner() = flow {
+        val listBanner = db.collection("Banner").get().await()
+        val listToObj = listBanner.toObjects<Banner>()
+
+        while (true) {
+            for (item in listToObj) {
+                emit(item.url)
+                delay(5000)
+            }
+        }
+    }
+
     fun checkCurrentUser(): FirebaseUser? {
         return auth
     }

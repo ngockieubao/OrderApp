@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                     binding.constraintHeader.visibility = View.GONE
                 }
                 else -> {
-                    binding.constraintHeader.visibility = View.VISIBLE
+//                    binding.constraintHeader.visibility = View.VISIBLE
                     binding.bottomNavigationView.visibility = View.VISIBLE
                 }
             }

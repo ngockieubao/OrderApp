@@ -14,12 +14,13 @@ import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.data.Category
 import com.ngockieubao.orderapp.databinding.FragmentHomeBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
+import com.ngockieubao.orderapp.util.Utils
+import com.ngockieubao.orderapp.util.setUrl
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(), SwitchCategoryInterface {
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentHomeBinding
 
     private val orderViewModel: OrderViewModel by activityViewModels {
         OrderViewModelFactory(requireActivity().application)
@@ -30,12 +31,15 @@ class HomeFragment : Fragment(), SwitchCategoryInterface {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.tvWelcome.text = Utils.formatWelcome(orderViewModel.checkCurrentUser()?.displayName!!)
 
         val rcvCategory = binding.rcvCategory
         val rcvProduct = binding.rcvProduct
@@ -51,6 +55,11 @@ class HomeFragment : Fragment(), SwitchCategoryInterface {
             this.findNavController().navigate(action)
         }
 
+        lifecycleScope.launch {
+            orderViewModel.getBanner().collect {
+                binding.shapeImgvVoucher.setUrl(it)
+            }
+        }
         lifecycleScope.launch {
             orderViewModel.getProduct()
             orderViewModel.getProductPopular()
@@ -79,11 +88,6 @@ class HomeFragment : Fragment(), SwitchCategoryInterface {
         orderViewModel.listProductPopular.observe(this.viewLifecycleOwner) {
             adapterProductPopular.submitList(it)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun clickToSwitchCategory(item: Category?) {
