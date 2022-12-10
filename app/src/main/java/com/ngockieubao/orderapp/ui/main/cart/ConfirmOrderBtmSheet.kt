@@ -69,7 +69,7 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
         var address: String? = null
         var contact: String? = null
         var name: String? = null
-        var note: String? = null
+        var note: String? = ""
         var type: String? = null
 
         binding.edtInputPurchaseName.addTextChangedListener(object : TextWatcher {
@@ -81,7 +81,6 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
                 } else Toast.makeText(requireActivity(), "name is not empty", Toast.LENGTH_SHORT).show()
             }
         })
-
         binding.edtInputPurchaseContact.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s!!.length > 12) {
@@ -103,7 +102,6 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
                 }
             }
         })
-
         binding.edtInputPurchaseAddress.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -111,6 +109,15 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
                 if (s != null) {
                     address = s.toString()
                 } else Toast.makeText(requireActivity(), "address is not empty", Toast.LENGTH_SHORT).show()
+            }
+        })
+        binding.edtInputPurchaseNote.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    note = s.toString()
+                } else Toast.makeText(requireActivity(), "note is not empty", Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -129,15 +136,6 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
                 name == null ||
                 type == null
             ) {
-                lifecycle.coroutineScope.launch {
-                    sharedViewModel.makeReceipt(
-                        address = "hanoi",
-                        contact = "0382320936",
-                        name = "Vagabond",
-                        note = "Non-note",
-                        type = "Thanh toán khi nhận hàng"
-                    )
-                }
                 Toast.makeText(requireActivity(), "fields are not empty", Toast.LENGTH_SHORT).show()
             } else {
                 lifecycle.coroutineScope.launch {
@@ -145,7 +143,7 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
                         address = address!!,
                         contact = contact!!,
                         name = name!!,
-                        note = "Non-note",
+                        note = note!!,
                         type = type!!
                     )
                 }
@@ -158,12 +156,16 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
         sharedViewModel.receipt.observe(this.viewLifecycleOwner) {
             if (it == null) return@observe
             else {
-                val action = ConfirmOrderBtmSheetDirections.actionConfirmOrderFragmentToHomeFragment()
-                this@ConfirmOrderBtmSheet.findNavController().navigate(action)
-                Toast.makeText(requireActivity(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show()
-                sharedViewModel.resetMakeReceipt()
-                lifecycleScope.launch {
-                    sharedViewModel.clearCart()
+                try {
+                    val action = ConfirmOrderBtmSheetDirections.actionConfirmOrderFragmentToHomeFragment()
+                    this@ConfirmOrderBtmSheet.findNavController().navigate(action)
+                    Toast.makeText(requireActivity(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show()
+                    sharedViewModel.resetMakeReceipt()
+                    lifecycleScope.launch {
+                        sharedViewModel.clearCart()
+                    }
+                } catch (ex: Exception) {
+                    Log.d("makeReceipt", "$ex")
                 }
             }
         }

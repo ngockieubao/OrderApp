@@ -169,7 +169,7 @@
                             android:id="@+id/edt_input_purchase_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/string_name"
+                            android:hint="@string/string_name_vi"
                             android:inputType="text"
                             android:maxLength="26" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -194,7 +194,7 @@
                             android:id="@+id/edt_input_purchase_contact"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/string_phone_number"
+                            android:hint="@string/string_phone_number_vi_not_colon"
                             android:inputType="number"
                             android:maxLength="13" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -220,9 +220,33 @@
                             android:id="@+id/edt_input_purchase_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/string_address"
+                            android:hint="@string/string_address_vi_not_colon"
                             android:inputType="text"
                             android:maxLength="30" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txt_input_purchase_note"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="100"
+                        app:endIconMode="clear_text"
+                        app:errorEnabled="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_input_purchase_address"
+                        app:startIconDrawable="@drawable/ic_note_writing">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_input_purchase_note"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/string_note_writing_vi"
+                            android:inputType="text"
+                            android:maxLength="101" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
