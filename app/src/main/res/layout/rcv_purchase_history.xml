@@ -48,7 +48,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_list_order"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/ln_receipt_address">
@@ -74,7 +74,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_time_order"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -103,7 +103,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_total_purchase"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/ln_line">
@@ -125,7 +125,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_type_purchase"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/ln_receipt_total_purchase">

@@ -18,6 +18,11 @@
         android:title="@string/string_note" />
 
     <item
+        android:id="@+id/contactFragment"
+        android:icon="@drawable/ic_contact"
+        android:title="@string/string_contact" />
+
+    <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_user"
         android:title="@string/string_profile" />

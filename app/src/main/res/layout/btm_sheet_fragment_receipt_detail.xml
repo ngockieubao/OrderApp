@@ -64,7 +64,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_username"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/ln_receipt_code">
@@ -85,7 +85,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_phone_number"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/ln_receipt_username">
@@ -106,7 +106,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_address"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/ln_receipt_phone_number">
@@ -127,7 +127,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_time_order"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -146,7 +146,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_status"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -167,7 +167,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_total_purchase"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/ln_line">
@@ -189,7 +189,7 @@
 
             <LinearLayout
                 android:id="@+id/ln_receipt_type_purchase"
-                style="@style/MarginTopFiveDP"
+                style="@style/MarginTopFiveDp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/ln_receipt_total_purchase">

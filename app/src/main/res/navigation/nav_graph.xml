@@ -102,9 +102,23 @@
         android:id="@+id/editProfileBtmFragment"
         android:name="com.ngockieubao.orderapp.ui.main.profile.EditProfileBtmFragment"
         android:label="EditProfileBtmFragment"
-        tools:layout="@layout/fragment_edit_profile_btm">
+        tools:layout="@layout/btm_sheet_fragment_edit_profile">
         <action
             android:id="@+id/action_editProfileBtmFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.ngockieubao.orderapp.ui.main.contact.ContactFragment"
+        android:label="ContactFragment"
+        tools:layout="@layout/fragment_contact" >
+        <action
+            android:id="@+id/action_contactFragment_to_feedbackBtmSheetFragment"
+            app:destination="@id/feedbackBtmSheetFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/feedbackBtmSheetFragment"
+        android:name="com.ngockieubao.orderapp.ui.main.contact.FeedbackBtmSheetFragment"
+        android:label="FeedbackBtmSheetFragment"
+        tools:layout="@layout/btm_sheet_fragment_feedback" />
 </navigation>

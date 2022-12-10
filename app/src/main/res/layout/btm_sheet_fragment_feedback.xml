@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.main.contact.FeedbackBtmSheetFragment">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/red_mix"
+            android:gravity="center"
+            android:text="@string/feed_back_vi"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_feedback_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/string_full_name_vi_not_colon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ln_edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/corner_confirm_order"
+                android:paddingHorizontal="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/tv_feedback_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_feedback_name">
+
+                <EditText
+                    android:id="@+id/editText_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:autofillHints="" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_feedback_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/string_phone_number_vi_not_colon"
+                app:layout_constraintStart_toStartOf="@+id/tv_feedback_name"
+                app:layout_constraintTop_toBottomOf="@+id/ln_edt_name" />
+
+            <LinearLayout
+                android:id="@+id/ln_edt_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/corner_confirm_order"
+                android:paddingHorizontal="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/tv_feedback_phone_number"
+                app:layout_constraintTop_toBottomOf="@+id/tv_feedback_phone_number">
+
+                <EditText
+                    android:id="@+id/editText_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:inputType="text"
+                    tools:ignore="TextFields"
+                    android:autofillHints="" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_feedback_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/string_email"
+                app:layout_constraintStart_toStartOf="@+id/tv_feedback_phone_number"
+                app:layout_constraintTop_toBottomOf="@+id/ln_edt_phone_number" />
+
+            <LinearLayout
+                android:id="@+id/ln_edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/corner_confirm_order"
+                android:paddingHorizontal="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/tv_feedback_email"
+                app:layout_constraintTop_toBottomOf="@+id/tv_feedback_email">
+
+                <EditText
+                    android:id="@+id/editText_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:inputType="text"
+                    tools:ignore="TextFields" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_feedback_feedback_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/comment_vi"
+                app:layout_constraintStart_toStartOf="@+id/tv_feedback_email"
+                app:layout_constraintTop_toBottomOf="@+id/ln_edt_email" />
+
+            <LinearLayout
+                android:id="@+id/ln_edt_feedback_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/corner_confirm_order"
+                android:paddingHorizontal="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/tv_feedback_feedback_message"
+                app:layout_constraintTop_toBottomOf="@+id/tv_feedback_feedback_message">
+
+                <EditText
+                    android:id="@+id/editText_feedback_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:inputType="text"
+                    tools:ignore="TextFields" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/red_mix"
+                android:text="@string/send_feed_back_vi"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ln_edt_feedback_message"
+                app:layout_constraintVertical_bias="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

@@ -12,6 +12,20 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.profile.UserInfoFragment">
 
+        <TextView
+            android:id="@+id/tv_profile_title"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/red_mix"
+            android:gravity="center"
+            android:text="@string/user_info_vi"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/imgv_avatar"
             android:layout_width="100dp"

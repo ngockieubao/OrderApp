@@ -430,6 +430,17 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
+    fun sendFeedback(name: String, contact: String, email: String, message: String) {
+        val feedback = Feedback(name, contact, email, message)
+        db.collection("Feedback").add(feedback)
+            .addOnSuccessListener {
+                Log.d(TAG, "sendFeedback: success")
+            }
+            .addOnFailureListener { ex ->
+                Log.d(TAG, "sendFeedback: failed - $ex")
+            }
+    }
+
     fun checkCurrentUser(): FirebaseUser? {
         return auth
     }

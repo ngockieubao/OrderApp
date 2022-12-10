@@ -8,18 +8,18 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ngockieubao.orderapp.R
-import com.ngockieubao.orderapp.databinding.FragmentEditProfileBtmBinding
+import com.ngockieubao.orderapp.databinding.BtmSheetFragmentEditProfileBinding
 
 class EditProfileBtmFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentEditProfileBtmBinding
+    private lateinit var binding: BtmSheetFragmentEditProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentEditProfileBtmBinding.inflate(inflater, container, false)
+        binding = BtmSheetFragmentEditProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
