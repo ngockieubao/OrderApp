@@ -78,6 +78,7 @@
                     android:layout_marginEnd="18dp"
                     android:background="@drawable/corner_radius"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:weightSum="6">
 
                     <ImageView

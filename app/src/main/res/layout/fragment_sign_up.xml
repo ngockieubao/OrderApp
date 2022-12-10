@@ -10,15 +10,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"
         tools:context=".ui.login.LoginFragment">
 
         <ImageView
             android:id="@+id/imageView_sign_up"
             android:layout_width="match_parent"
             android:layout_height="260dp"
-            android:scaleType="fitXY"
             android:contentDescription="@string/string_todo"
-            android:src="@drawable/img_sign_up"
+            android:src="@drawable/img_splash_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +27,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_input_email"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="350dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             app:counterEnabled="true"
             app:counterMaxLength="25"
@@ -54,8 +55,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_input_passwd_sign_up"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="350dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             app:counterEnabled="true"
             app:counterMaxLength="15"
             app:endIconMode="password_toggle"
@@ -71,47 +73,23 @@
                 android:id="@+id/edt_input_passwd_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/string_password"
+                android:hint="@string/string_password_vi"
                 android:inputType="textPassword"
                 android:maxLength="16" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_input_name_sign_up"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            app:counterEnabled="true"
-            app:counterMaxLength="20"
-            app:endIconMode="clear_text"
-            app:errorEnabled="true"
-            app:errorIconDrawable="@drawable/ic_error"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_input_passwd_sign_up"
-            app:startIconDrawable="@drawable/ic_profile">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_input_name_sign_up"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/string_name"
-                android:inputType="text"
-                android:maxLength="21" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_sign_up_now"
             android:layout_width="200dp"
             android:layout_height="48dp"
-            android:layout_marginTop="36dp"
-            android:text="@string/string_sign_up_now"
-            app:backgroundTint="#49d1c2"
-            app:layout_constraintEnd_toEndOf="@+id/txt_input_name_sign_up"
+            android:layout_marginTop="30dp"
+            android:text="@string/string_sign_up_now_vi"
+            app:backgroundTint="@color/red_mix"
+            app:layout_constraintEnd_toEndOf="@+id/txt_input_passwd_sign_up"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/txt_input_name_sign_up"
-            app:layout_constraintTop_toBottomOf="@+id/txt_input_name_sign_up" />
+            app:layout_constraintStart_toStartOf="@+id/txt_input_passwd_sign_up"
+            app:layout_constraintTop_toBottomOf="@+id/txt_input_passwd_sign_up" />
 
         <LinearLayout
             android:id="@+id/ln_sign_up"
@@ -126,7 +104,7 @@
                 android:id="@+id/tv_already_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/string_already_have_an_account"
+                android:text="@string/string_already_have_an_account_vi"
                 android:textSize="16sp" />
 
             <TextView
@@ -134,9 +112,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="@string/string_login"
+                android:text="@string/string_login_vi"
                 android:textAllCaps="true"
-                android:textColor="#49d1c2"
+                android:textColor="@color/red_mix"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>

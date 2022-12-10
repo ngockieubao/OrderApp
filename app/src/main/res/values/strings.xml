@@ -4,15 +4,22 @@
     <string name="string_todo">TODO</string>
     <string name="string_email">Email</string>
     <string name="string_password">Password</string>
+    <string name="string_password_vi">Mật khẩu</string>
     <string name="string_login">Login</string>
+    <string name="string_login_vi">Đăng nhập</string>
     <string name="string_not_exist_an_account">Doesn\'t exist an account?</string>
+    <string name="string_not_exist_an_account_vi">Chưa có tài khoản?</string>
     <string name="string_sign_up">Sign up</string>
+    <string name="string_sign_up_vi">Đăng ký</string>
     <string name="string_name">Name</string>
     <string name="string_sign_up_now">Sign up now!</string>
+    <string name="string_sign_up_now_vi">Đăng ký ngay!</string>
     <string name="string_already_have_an_account">Already have an account?</string>
+    <string name="string_already_have_an_account_vi">Đã có tài khoản?</string>
     <string name="string_grocery_shopping_has_never_been_this_much_fun">Grocery shopping has never been this much fun.</string>
     <string name="string_long_txt">Grocery shopping has never been this much fun. Grocery shopping has never been this much fun. Grocery shopping has never been this much fun. Grocery shopping has never been this much fun. Grocery shopping has never been this much fun. Grocery shopping has never been this much fun.</string>
     <string name="string_donot_have_an_account">Don\'t have an account?</string>
+    <string name="string_donot_have_an_account_vi">Don\'t have an account?</string>
     <string name="string_note">Receipt</string>
     <string name="string_notification">Notification</string>
     <string name="string_cart">Cart</string>
@@ -54,7 +61,6 @@
 
     <string-array name="spinner_purchase">
         <item>Thanh toán khi nhận hàng</item>
-        <item>Thanh toán MOMO</item>
     </string-array>
 
     <string-array name="spinner_update_receipt">
