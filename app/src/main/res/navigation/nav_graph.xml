@@ -51,10 +51,10 @@
             app:destination="@id/receiptDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/notificationFragment"
-        android:name="com.ngockieubao.orderapp.ui.main.notification.NotificationFragment"
+        android:id="@+id/profileFragment"
+        android:name="com.ngockieubao.orderapp.ui.main.profile.UserInfoFragment"
         android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_user_info" />
     <dialog
         android:id="@+id/confirmOrderFragment"
         android:name="com.ngockieubao.orderapp.ui.main.cart.ConfirmOrderBtmSheet"

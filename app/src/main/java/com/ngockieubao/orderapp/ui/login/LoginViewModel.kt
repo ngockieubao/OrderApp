@@ -130,7 +130,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             checkCurrentUser()?.uid,
             Constants.getUsernameFromEmail(checkCurrentUser()?.email),
             checkCurrentUser()?.email,
-            "default",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm2fmKVxObx6S1S87K3_FwX35IIwAPqgGs0A&usqp=CAU",
             null,
             null
         )

@@ -66,6 +66,9 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     private val ordersFlow: Flow<List<Order>> get() = orderRepository.getAllOrder()
 
+    private val _user = MutableLiveData<User?>()
+    val user: LiveData<User?> = _user
+
     init {
         addCategory()
     }
@@ -417,6 +420,15 @@ class OrderViewModel(application: Application) : ViewModel() {
 //                }
 //        }
 //    }
+
+    suspend fun getUserInfo() {
+        checkCurrentUser()?.uid?.let {
+            val user = db.collection("UserInfo").document(it).get().await()
+            val toObj = user.toObject<User>()
+
+            _user.postValue(toObj)
+        }
+    }
 
     fun checkCurrentUser(): FirebaseUser? {
         return auth

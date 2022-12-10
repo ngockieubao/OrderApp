@@ -22,6 +22,7 @@
     <string name="string_donot_have_an_account_vi">Don\'t have an account?</string>
     <string name="string_note">Receipt</string>
     <string name="string_notification">Notification</string>
+    <string name="string_profile">Profile</string>
     <string name="string_cart">Cart</string>
     <string name="string_cart_vi">Giỏ hàng</string>
     <string name="string_home">Home</string>
@@ -165,10 +166,14 @@
     <string name="string_receipt_code_vi">Mã đơn hàng:</string>
     <string name="string_full_name_vi">Họ tên:</string>
     <string name="string_phone_number_vi">Số điện thoại:</string>
+    <string name="string_phone_number_vi_not_colon">Số điện thoại</string>
     <string name="string_address_vi">Địa chỉ:</string>
+    <string name="string_address_vi_not_colon">Địa chỉ</string>
     <string name="string_menu_vi">Thực đơn:</string>
     <string name="string_time_order_vi">Ngày đặt hàng:</string>
     <string name="string_status_vi">Trạng thái:</string>
     <string name="string_total_vi">Tổng:</string>
     <string name="string_receipt_detail_vi">Chi tiết hóa đơn</string>
+    <string name="string_sign_out_vi">Đăng xuất</string>
+    <string name="full_name_vi">Họ tên</string>
 </resources>

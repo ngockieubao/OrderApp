@@ -10,15 +10,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.ActivityMainBinding
-import com.ngockieubao.orderapp.ui.login.SignOutDialog
 
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
-    private val binding
-        get() = _binding!!
+    private val binding get() = _binding!!
     private lateinit var mOrderViewModel: OrderViewModel
-    private lateinit var dialog: SignOutDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +37,6 @@ class MainActivity : AppCompatActivity() {
 //            finish()
 //        }
 
-        dialog = SignOutDialog()
-        binding.imgvHeaderUser.setOnClickListener {
-            dialog.show(supportFragmentManager, "sign_out")
-        }
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.orderFragment -> {
@@ -61,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.cartFragment -> {
                     binding.constraintHeader.visibility = View.GONE
                 }
-                R.id.notificationFragment -> {
+                R.id.profileFragment -> {
                     binding.constraintHeader.visibility = View.GONE
                 }
                 R.id.receiptFragment -> {
