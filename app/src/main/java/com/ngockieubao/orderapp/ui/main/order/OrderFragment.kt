@@ -115,10 +115,6 @@ class OrderFragment : Fragment() {
         sharedViewModel.resetOrder()
     }
 
-    private fun resetCheckCart() {
-        sharedViewModel.resetCheckCart()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

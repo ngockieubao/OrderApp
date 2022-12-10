@@ -47,69 +47,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ln_receipt_username"
-                style="@style/MarginTopFiveDP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/ln_receipt_code">
-
-                <TextView
-                    android:id="@+id/tv_receipt_username"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/string_full_name_vi" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@{item.name}"
-                    tools:text="Vagabond" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ln_receipt_phone_number"
-                style="@style/MarginTopFiveDP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/ln_receipt_username">
-
-                <TextView
-                    android:id="@+id/tv_receipt_phone_number"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="@string/string_phone_number_vi" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:text="@{item.contact}"
-                    tools:text="03555889678" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ln_receipt_address"
-                style="@style/MarginTopFiveDP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/ln_receipt_phone_number">
-
-                <TextView
-                    android:id="@+id/tv_receipt_address"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="@string/string_address_vi" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:text="@{item.address}"
-                    tools:text="Mai Dịch - Cầu Giấy" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/ln_receipt_list_order"
                 style="@style/MarginTopFiveDP"
                 android:layout_width="match_parent"
@@ -153,26 +90,6 @@
                     android:layout_height="match_parent"
                     android:text="@{item.time}"
                     tools:text="20:50:27 GMT+7, 30-11-2022-Th 4" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ln_receipt_status"
-                style="@style/MarginTopFiveDP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_receipt_status_label"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/string_status_vi" />
-
-                <TextView
-                    android:id="@+id/tv_receipt_status_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@{item.status}"
-                    tools:text="Đặt hàng thành công" />
             </LinearLayout>
 
             <LinearLayout

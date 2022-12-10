@@ -25,7 +25,7 @@ interface OrderDao {
     suspend fun delete(order: Order)
 
     @Query("DELETE FROM order_table")
-    fun clear()
+    suspend fun clear()
 
     @Query("SELECT * FROM order_table")
     fun getAllOrder(): Flow<List<Order>>

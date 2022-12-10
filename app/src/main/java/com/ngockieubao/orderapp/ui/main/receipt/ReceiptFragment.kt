@@ -52,7 +52,9 @@ class ReceiptFragment : Fragment(), UpdateInterface {
 
     override fun clickToUpdateReceipt(item: Receipt?) {
         if (item == null) return
-        val action = ReceiptFragmentDirections.actionReceiptFragmentToReceiptDetailFragment(item)
-        this@ReceiptFragment.findNavController().navigate(action)
+        else {
+            val action = ReceiptFragmentDirections.actionReceiptFragmentToReceiptDetailFragment(item)
+            this@ReceiptFragment.findNavController().navigate(action)
+        }
     }
 }

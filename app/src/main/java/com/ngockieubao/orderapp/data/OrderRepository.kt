@@ -17,7 +17,7 @@ class OrderRepository(application: Application) {
 
     suspend fun deleteOrder(order: Order) = orderDao.delete(order)
 
-     fun clear() = orderDao.clear()
+    suspend fun clear() = orderDao.clear()
 
     fun getAllOrder(): Flow<List<Order>> = orderDao.getAllOrder()
 

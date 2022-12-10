@@ -65,7 +65,7 @@
     </string-array>
 
     <string-array name="spinner_update_receipt">
-        <item>Nhấn để cập nhật thay đổi</item>
+        <item>Chọn mục</item>
         <item>Hủy đơn hàng</item>
     </string-array>
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.ngockieubao.orderapp.data.*
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.util.*
+
 
 class OrderViewModel(application: Application) : ViewModel() {
 
@@ -63,9 +65,6 @@ class OrderViewModel(application: Application) : ViewModel() {
     private var id = 1
 
     private val ordersFlow: Flow<List<Order>> get() = orderRepository.getAllOrder()
-
-    private val _hasOrder = MutableLiveData<Boolean>()
-    val hasOrder: LiveData<Boolean> get() = _hasOrder
 
     init {
         addCategory()
@@ -258,11 +257,7 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
-    fun resetCheckCart() {
-        _hasOrder.value = false
-    }
-
-    private fun clearCart() {
+    suspend fun clearCart() {
         orderRepository.clear()
     }
 
@@ -292,8 +287,8 @@ class OrderViewModel(application: Application) : ViewModel() {
                 name = name,
                 note = note,
                 receipts = listOrder,
-                status = "Đặt hàng thành công",
-                time = "${Utils.formatDate(time)}, ${Utils.formatTime(time)} GMT+7",
+                status = "Đang xử lý",
+                time = "${Utils.formatDate(time)}, ${Utils.formatTime(time)}",
                 total = sum,
                 type = type
             )
@@ -317,7 +312,7 @@ class OrderViewModel(application: Application) : ViewModel() {
                             // assign value
                             _receipt.value = receipt
                             // create receipt success -> clear cart
-                            clearCart()
+//                            clearCart()
                         }
                         .addOnFailureListener {
                             Log.d(TAG, "makeReceipt: failed")
@@ -377,24 +372,51 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
-    suspend fun cancelReceipt(input: String) {
+    fun cancelReceipt(id: String, status: String) {
         checkCurrentUser()?.uid.let {
             // no user
             if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
             // has user
             else {
-                val listReceipt = db.collection("Cart").document(it)
-                    .collection("Receipt").get().await()
-                val listToObj = listReceipt.toObjects<Receipt>()
-
-                if (listToObj.isEmpty()) {
-                    Log.d(TAG, "cancelReceipt: null")
-                } else {
-//                    _listHistory.postValue(listToObj)
-                }
+                db.collection("Cart").document(it)
+                    .collection("Receipt").document(id).update("status", status)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "cancelReceipt: success")
+                    }
+                    .addOnFailureListener {
+                        Log.d(TAG, "cancelReceipt: failed")
+                    }
             }
         }
     }
+
+    suspend fun getStatus(id: String) = flow {
+        checkCurrentUser()?.uid?.let {
+            val docRef = db.collection("Cart").document(it)
+                .collection("Receipt").document(id).get().await()
+            val toObj = docRef.toObject<Receipt>()
+            emit(toObj?.status)
+        }
+    }
+
+
+//    fun getStatusValue(id: String): String {
+//        var res = ""
+//        checkCurrentUser()?.uid?.let {
+//            db.collection("Cart").document(it)
+//                .collection("Receipt").document(id).get()
+//                .addOnSuccessListener { docRef ->
+//                    val toObj = docRef.toObject<Receipt>()
+//                    if (toObj != null) {
+//                        res = toObj.code
+//                        Log.d(TAG, "getStatusValue: $res")
+//                    }
+//                }
+//                .addOnFailureListener { ex ->
+//                    Log.d(TAG, "getStatusValue: failed - $ex")
+//                }
+//        }
+//    }
 
     fun checkCurrentUser(): FirebaseUser? {
         return auth

@@ -162,6 +162,9 @@ class ConfirmOrderBtmSheet : BottomSheetDialogFragment() {
                 this@ConfirmOrderBtmSheet.findNavController().navigate(action)
                 Toast.makeText(requireActivity(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show()
                 sharedViewModel.resetMakeReceipt()
+                lifecycleScope.launch {
+                    sharedViewModel.clearCart()
+                }
             }
         }
     }
