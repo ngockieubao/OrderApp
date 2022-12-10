@@ -55,6 +55,7 @@
     <string name="string_order_detail">Chi tiết đơn hàng</string>
     <string name="string_confirm">Xác nhận</string>
     <string name="string_update_vi">Cập nhật</string>
+    <string name="string_update_profile_vi">Cập nhật thông tin</string>
     <string name="string_sign_in_with_google">Sign in with Google</string>
 
     <!-- format string value  -->
@@ -176,4 +177,5 @@
     <string name="string_receipt_detail_vi">Chi tiết hóa đơn</string>
     <string name="string_sign_out_vi">Đăng xuất</string>
     <string name="full_name_vi">Họ tên</string>
+    <string name="enter_value_vi">Nhập thông tin</string>
 </resources>

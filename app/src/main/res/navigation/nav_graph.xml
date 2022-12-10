@@ -54,7 +54,16 @@
         android:id="@+id/profileFragment"
         android:name="com.ngockieubao.orderapp.ui.main.profile.UserInfoFragment"
         android:label="fragment_notification"
-        tools:layout="@layout/fragment_user_info" />
+        tools:layout="@layout/fragment_user_info">
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileBtmFragment"
+            app:destination="@id/editProfileBtmFragment" />
+        <argument
+            android:name="value"
+            android:defaultValue=" "
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
     <dialog
         android:id="@+id/confirmOrderFragment"
         android:name="com.ngockieubao.orderapp.ui.main.cart.ConfirmOrderBtmSheet"
@@ -88,5 +97,14 @@
             android:name="item"
             app:argType="com.ngockieubao.orderapp.data.Receipt"
             app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/editProfileBtmFragment"
+        android:name="com.ngockieubao.orderapp.ui.main.profile.EditProfileBtmFragment"
+        android:label="EditProfileBtmFragment"
+        tools:layout="@layout/fragment_edit_profile_btm">
+        <action
+            android:id="@+id/action_editProfileBtmFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </dialog>
 </navigation>
