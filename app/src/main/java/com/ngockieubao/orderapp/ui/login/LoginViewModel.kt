@@ -81,11 +81,16 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                             Log.d(TAG, "${task.message}")
                             val emailExistsException = task.message
                             if (task.message == emailExistsException)
-                                Toast.makeText(context, "The email address is already in use by another account.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "The email address is already in use by another account.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             else
                                 Toast.makeText(context, "Register failed", Toast.LENGTH_SHORT).show()
                         }
-                } else Toast.makeText(context, "Password has length more 6 character", Toast.LENGTH_SHORT).show()
+                } else Toast.makeText(context, "Password has length more 6 character", Toast.LENGTH_SHORT)
+                    .show()
             } else Toast.makeText(context, "Invalid email format", Toast.LENGTH_SHORT).show()
         } else Toast.makeText(context, "Email or Password null", Toast.LENGTH_SHORT).show()
     }
@@ -109,9 +114,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                             if (strErr == exception)
                                 Toast.makeText(context, "Your email is not exist", Toast.LENGTH_SHORT).show()
                             else
-                                Toast.makeText(context, "The email or password is not correct", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "The email or password is not correct",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                         }
-                } else Toast.makeText(context, "Password has length more 6 character", Toast.LENGTH_SHORT).show()
+                } else Toast.makeText(context, "Password has length more 6 character", Toast.LENGTH_SHORT)
+                    .show()
             } else Toast.makeText(context, "Invalid email format", Toast.LENGTH_SHORT).show()
         } else Toast.makeText(context, "Email or Password null", Toast.LENGTH_SHORT).show()
     }
@@ -122,6 +132,11 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun checkCurrentUser(): FirebaseUser? {
+        val user = Firebase.auth.currentUser?.email
+        if (user == "admin@gmail.com") {
+            Log.d(TAG, "checkCurrentUser: you are admin")
+            return null
+        }
         return Firebase.auth.currentUser
     }
 

@@ -190,4 +190,12 @@
     <string name="feed_back_vi">Phản hồi</string>
     <string name="comment_vi">Bình luận(*)</string>
     <string name="send_feed_back_vi">Gửi phản hồi</string>
+    <string name="login_for_admin_vi">Đăng nhập dành cho quản trị viên</string>
+    <string name="name">Name</string>
+    <string name="login_name">Tên đăng nhập</string>
+    <string name="sign_out_vi">Đăng xuất</string>
+    <string name="page_for_admin_vi">Trang dành cho quản trị viên</string>
+    <string name="manage_receipt_vi">Quản lý hóa đơn</string>
+    <string name="statistic_vi">Thống kê</string>
+    <string name="manage_product_vi">Quản lý sản phẩm</string>
 </resources>

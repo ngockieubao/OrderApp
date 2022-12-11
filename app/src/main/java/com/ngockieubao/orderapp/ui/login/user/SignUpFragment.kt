@@ -1,4 +1,4 @@
-package com.ngockieubao.orderapp.ui.login
+package com.ngockieubao.orderapp.ui.login.user
 
 import android.os.Bundle
 import android.text.Editable
@@ -13,10 +13,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.LoginViewModelFactory
-import com.ngockieubao.orderapp.databinding.FragmentLoginBinding
+import com.ngockieubao.orderapp.databinding.FragmentSignUpBinding
+import com.ngockieubao.orderapp.ui.login.LoginViewModel
 
-class LoginFragment : Fragment() {
-    private var _binding: FragmentLoginBinding? = null
+class SignUpFragment : Fragment() {
+
+    private var _binding: FragmentSignUpBinding? = null
     private val binding
         get() = _binding!!
 
@@ -29,7 +31,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,16 +41,8 @@ class LoginFragment : Fragment() {
         var email: String? = null
         var passwd: String? = null
 
-        binding.edtInputEmailLogin.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s!!.length > 25) {
-                    binding.edtInputEmailLogin.error = "No more!"
-                } else if (s.length < 25) {
-                    binding.edtInputEmailLogin.error = null
-                    Log.d(TAG, "onCreateView: $email")
-                }
-            }
-
+        binding.edtInputEmailSignUp.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -58,16 +52,8 @@ class LoginFragment : Fragment() {
             }
         })
 
-        binding.edtInputPasswdLogin.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s!!.length > 15) {
-                    binding.edtInputPasswdLogin.error = "Too long!"
-                } else if (s.length < 15) {
-                    binding.edtInputPasswdLogin.error = null
-                    Log.d(TAG, "onCreateView: $passwd")
-                }
-            }
-
+        binding.edtInputPasswdSignUp.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -77,19 +63,19 @@ class LoginFragment : Fragment() {
             }
         })
 
-        binding.btnLoginNow.setOnClickListener {
-            loginViewModel.signIn(email, passwd)
+        binding.btnSignUpNow.setOnClickListener {
+            loginViewModel.createAccount(email, passwd)
         }
 
-        loginViewModel.login.observe(this.viewLifecycleOwner) {
+        loginViewModel.signUp.observe(this.viewLifecycleOwner) {
             if (it == null) return@observe
             else Log.d(TAG, "onCreateView: $it")
-            Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
-            this.findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+            Toast.makeText(requireActivity(), "Register success", Toast.LENGTH_SHORT).show()
+            this.findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
         }
 
-        binding.tvClickToSignUp.setOnClickListener {
-            this.findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        binding.tvClickToLogin.setOnClickListener {
+            this.findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
         }
     }
 
@@ -98,15 +84,7 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 
-    fun checkUser() {
-//        if (loginViewModel.checkCurrentUser() != null) {
-//            this.finish()
-//        } else {
-////            finish()
-//        }
-    }
-
     companion object {
-        private const val TAG = "LoginFragment"
+        private const val TAG = "SignUpFragment"
     }
 }

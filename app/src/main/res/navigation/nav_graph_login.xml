@@ -19,10 +19,13 @@
         <action
             android:id="@+id/action_welcomeFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_adminLoginFragment"
+            app:destination="@id/adminLoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.ngockieubao.orderapp.ui.login.LoginFragment"
+        android:name="com.ngockieubao.orderapp.ui.login.user.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -36,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.ngockieubao.orderapp.ui.login.SignUpFragment"
+        android:name="com.ngockieubao.orderapp.ui.login.user.SignUpFragment"
         android:label="SignUpFragment"
         tools:layout="@layout/fragment_sign_up">
         <action
@@ -48,4 +51,20 @@
         android:name="com.ngockieubao.orderapp.ui.main.MainActivity"
         android:label="MainActivity"
         tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/adminLoginFragment"
+        android:name="com.ngockieubao.orderapp.ui.login.admin.AdminLoginFragment"
+        android:label="AdminLoginFragment"
+        tools:layout="@layout/fragment_admin_login">
+        <action
+            android:id="@+id/action_adminLoginFragment_to_adminActivity"
+            app:destination="@id/adminActivity"
+            app:popUpTo="@id/adminLoginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <activity
+        android:id="@+id/adminActivity"
+        android:name="com.ngockieubao.orderapp.ui.login.admin.AdminActivity"
+        android:label="AdminActivity"
+        tools:layout="@layout/activity_admin" />
 </navigation>

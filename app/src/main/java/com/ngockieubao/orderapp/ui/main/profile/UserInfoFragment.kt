@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentUserInfoBinding
-import com.ngockieubao.orderapp.ui.login.SignOutDialog
+import com.ngockieubao.orderapp.ui.login.user.SignOutDialog
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
 import com.ngockieubao.orderapp.util.setUrl
 import kotlinx.coroutines.launch
@@ -34,7 +34,6 @@ class UserInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         dialog = SignOutDialog()
         binding.btnSignOut.setOnClickListener {

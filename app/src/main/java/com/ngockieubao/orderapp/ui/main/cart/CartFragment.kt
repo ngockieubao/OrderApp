@@ -1,6 +1,7 @@
 package com.ngockieubao.orderapp.ui.main.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,11 +71,15 @@ class CartFragment : Fragment(), UpdateInterface {
         }
 
         binding.btnCheckout.setOnClickListener {
-            lifecycleScope.launch {
-                val listOrder = sharedViewModel.getAllOrder()
-                val bundle = bundleOf("myKey" to listOrder)
-                this@CartFragment.findNavController()
-                    .navigate(R.id.action_cartFragment_to_confirmOrderFragment, bundle)
+            try {
+                lifecycleScope.launch {
+                    val listOrder = sharedViewModel.getAllOrder()
+                    val bundle = bundleOf("myKey" to listOrder)
+                    this@CartFragment.findNavController()
+                        .navigate(R.id.action_cartFragment_to_confirmOrderFragment, bundle)
+                }
+            } catch (ex: Exception) {
+                Log.d("CartFragment", "onViewCreated: $ex")
             }
         }
     }

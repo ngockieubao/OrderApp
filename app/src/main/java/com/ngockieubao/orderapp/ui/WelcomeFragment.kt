@@ -21,15 +21,15 @@ class WelcomeFragment : Fragment() {
     private val loginViewModel: LoginViewModel by activityViewModels {
         LoginViewModelFactory(requireActivity().application)
     }
-    private val oneTapResult = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-        loginViewModel.initOneTapResult(result, requireActivity())
-    }
+    private val oneTapResult =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            loginViewModel.initOneTapResult(result, requireActivity())
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         checkCurrentUser()
-        loginViewModel.initParams(requireActivity())
     }
 
     private fun checkCurrentUser() {
@@ -53,6 +53,8 @@ class WelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loginViewModel.initParams(requireActivity())
+
         binding.btnLogin.setOnClickListener {
             this.findNavController().navigate(R.id.loginFragment)
         }
@@ -67,6 +69,10 @@ class WelcomeFragment : Fragment() {
                 loginViewModel.signUpRequest,
                 oneTapResult
             )
+        }
+        binding.textViewLoginForAdmin.setOnClickListener {
+            val action = WelcomeFragmentDirections.actionWelcomeFragmentToAdminLoginFragment()
+            this.findNavController().navigate(action)
         }
 
         loginViewModel.hasGoogleSignIn.observe(this.viewLifecycleOwner) {

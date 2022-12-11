@@ -1,12 +1,14 @@
-package com.ngockieubao.orderapp.ui.login
+package com.ngockieubao.orderapp.ui.login.user
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.LoginViewModelFactory
 import com.ngockieubao.orderapp.databinding.ActivityLoginBinding
+import com.ngockieubao.orderapp.ui.login.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,7 +23,8 @@ class LoginActivity : AppCompatActivity() {
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory(application))[LoginViewModel::class.java]
+        loginViewModel =
+            ViewModelProvider(this, LoginViewModelFactory(application))[LoginViewModel::class.java]
         checkUser()
     }
 
@@ -34,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
         if (loginViewModel.checkCurrentUser() != null) {
             this.finish()
         } else {
-//            finish()
+            Toast.makeText(this, "No user active", Toast.LENGTH_SHORT).show()
         }
     }
 

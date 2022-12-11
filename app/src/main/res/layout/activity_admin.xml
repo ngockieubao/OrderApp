@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        tools:context=".ui.login.admin.AdminActivity">
+
+        <ImageView
+            android:id="@+id/imageView_admin_logo_app"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="@string/string_todo"
+            android:src="@drawable/img_splash_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_admin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/page_for_admin_vi"
+            android:textColor="@color/red_mix"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_admin_logo_app" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_admin_title">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout_manage_receipt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shadow_layout"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView_manage_receipt"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="@string/string_todo"
+                    android:src="@drawable/img_management"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_manage_receipt"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/manage_receipt_vi"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView_manage_receipt"
+                    app:layout_constraintStart_toStartOf="@+id/imageView_manage_receipt"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_manage_receipt" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout_statistic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:background="@drawable/shadow_layout"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/constraintLayout_manage_receipt"
+                app:layout_constraintStart_toEndOf="@+id/constraintLayout_manage_receipt"
+                app:layout_constraintTop_toTopOf="@+id/constraintLayout_manage_receipt">
+
+                <ImageView
+                    android:id="@+id/imageView_statistic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="@string/string_todo"
+                    android:src="@drawable/img_pie_chart"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_statistic"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/statistic_vi"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView_statistic"
+                    app:layout_constraintStart_toStartOf="@+id/imageView_statistic"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_statistic" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout_update_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shadow_layout"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="@+id/constraintLayout_manage_receipt"
+                app:layout_constraintStart_toStartOf="@+id/constraintLayout_manage_receipt"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_manage_receipt">
+
+                <ImageView
+                    android:id="@+id/imageView_update_product"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="@string/string_todo"
+                    android:src="@drawable/img_inventory_management"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_update_product"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/manage_product_vi"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView_update_product"
+                    app:layout_constraintStart_toStartOf="@+id/imageView_update_product"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_update_product" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout_sign_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shadow_layout"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="@+id/constraintLayout_statistic"
+                app:layout_constraintStart_toStartOf="@+id/constraintLayout_statistic"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_statistic">
+
+                <ImageView
+                    android:id="@+id/imageView_sign_out"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="@string/string_todo"
+                    android:src="@drawable/img_logout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_sign_out"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/sign_out_vi"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView_sign_out"
+                    app:layout_constraintStart_toStartOf="@+id/imageView_sign_out"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_sign_out" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
