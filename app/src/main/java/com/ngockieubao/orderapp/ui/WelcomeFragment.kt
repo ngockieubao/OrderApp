@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.ngockieubao.orderapp.IOnBackPressed
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.LoginViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentWelcomeBinding
@@ -53,8 +54,6 @@ class WelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginViewModel.initParams(requireActivity())
-
         binding.btnLogin.setOnClickListener {
             this.findNavController().navigate(R.id.loginFragment)
         }
@@ -62,6 +61,7 @@ class WelcomeFragment : Fragment() {
             this.findNavController().navigate(R.id.signUpFragment)
         }
         binding.btnOneTap.setOnClickListener {
+            loginViewModel.initParams(requireActivity())
             loginViewModel.displaySignIn(
                 requireActivity(),
                 loginViewModel.oneTapClient,
@@ -92,4 +92,14 @@ class WelcomeFragment : Fragment() {
     companion object {
         private const val TAG = "WelcomeFragment"
     }
+
+//    override fun onBackPressed(): Boolean {
+//        if (loginViewModel.checkCurrentUser() != null) {
+//            //action not popBackStack
+//            this.findNavController().navigate(R.id.action_welcomeFragment_to_mainActivity)
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
 }

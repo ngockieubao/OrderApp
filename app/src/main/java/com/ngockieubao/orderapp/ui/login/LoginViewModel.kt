@@ -132,11 +132,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun checkCurrentUser(): FirebaseUser? {
-        val user = Firebase.auth.currentUser?.email
-        if (user == "admin@gmail.com") {
-            Log.d(TAG, "checkCurrentUser: you are admin")
-            return null
-        }
         return Firebase.auth.currentUser
     }
 

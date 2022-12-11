@@ -73,6 +73,14 @@
         <item>Hủy đơn hàng</item>
     </string-array>
 
+    <string-array name="spinner_manage_invoice">
+        <item>Tất cả</item>
+        <item>Đang xử lý</item>
+        <item>Đang giao hàng</item>
+        <item>Giao hàng thành công</item>
+        <item>Hủy hàng</item>
+    </string-array>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -198,4 +206,5 @@
     <string name="manage_receipt_vi">Quản lý hóa đơn</string>
     <string name="statistic_vi">Thống kê</string>
     <string name="manage_product_vi">Quản lý sản phẩm</string>
+    <string name="back_vi">Quay lại</string>
 </resources>

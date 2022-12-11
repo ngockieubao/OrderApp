@@ -69,6 +69,12 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val _user = MutableLiveData<User?>()
     val user: LiveData<User?> = _user
 
+    private val _admin = MutableLiveData<Admin?>()
+    val admin: LiveData<Admin?> = _admin
+
+    private val _hasAdmin = MutableLiveData<Boolean?>()
+    val hasAdmin: LiveData<Boolean?> = _hasAdmin
+
     init {
         addCategory()
     }
@@ -402,7 +408,6 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
-
 //    fun getStatusValue(id: String): String {
 //        var res = ""
 //        checkCurrentUser()?.uid?.let {
@@ -425,7 +430,7 @@ class OrderViewModel(application: Application) : ViewModel() {
         checkCurrentUser()?.uid?.let {
             val user = db.collection("UserInfo").document(it).get().await()
             val toObj = user.toObject<User>()
-
+            // assign value to observe change data side view
             _user.postValue(toObj)
         }
     }
@@ -440,6 +445,28 @@ class OrderViewModel(application: Application) : ViewModel() {
                 Log.d(TAG, "sendFeedback: failed - $ex")
             }
     }
+
+    fun signInAdmin(username: String, passwd: String) {
+        db.collection("Admin").get()
+            .addOnSuccessListener {
+                val toObj = it.toObjects<Admin>()
+                val size = toObj.size
+                for (doc in 0 until size) {
+                    if (
+                        username == toObj[doc].username &&
+                        passwd == toObj[doc].passwd
+                    ) {
+                        // assign value to observe change data side view
+                        _admin.value = toObj[doc]
+                    }
+                }
+            }
+            .addOnFailureListener { ex ->
+                Log.d(TAG, "signInAdmin: $ex")
+            }
+    }
+
+    fun resetAdmin() = _hasAdmin.value == false
 
     fun checkCurrentUser(): FirebaseUser? {
         return auth

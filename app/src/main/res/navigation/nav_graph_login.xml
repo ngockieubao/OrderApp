@@ -21,7 +21,9 @@
             app:destination="@id/mainActivity" />
         <action
             android:id="@+id/action_welcomeFragment_to_adminLoginFragment"
-            app:destination="@id/adminLoginFragment" />
+            app:destination="@id/adminLoginFragment"
+            app:popUpTo="@id/adminLoginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

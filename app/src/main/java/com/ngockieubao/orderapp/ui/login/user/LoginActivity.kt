@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.ngockieubao.orderapp.IOnBackPressed
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.LoginViewModelFactory
 import com.ngockieubao.orderapp.databinding.ActivityLoginBinding
@@ -34,10 +35,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkUser() {
-        if (loginViewModel.checkCurrentUser() != null) {
-            this.finish()
+        if (loginViewModel.checkCurrentUser() == null) {
+            Toast.makeText(this, "LoginActivity No user active", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "No user active", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "LoginActivity has user active", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -45,4 +46,20 @@ class LoginActivity : AppCompatActivity() {
         super.onDestroy()
         _binding = null
     }
+
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//
+//        val fragment =
+//            this.supportFragmentManager.findFragmentById(R.id.loginFragment)
+//        (fragment as? IOnBackPressed)?.onBackPressed()?.not()?.let {
+//            super.onBackPressed()
+//        }
+//
+//        if (loginViewModel.checkCurrentUser() == null) {
+//            Toast.makeText(this, "LoginActivity has no user active", Toast.LENGTH_SHORT).show()
+//        } else {
+//            Toast.makeText(this, "LoginActivity has user active", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 }

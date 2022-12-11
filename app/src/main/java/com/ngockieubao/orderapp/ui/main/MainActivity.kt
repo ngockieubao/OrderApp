@@ -2,6 +2,7 @@ package com.ngockieubao.orderapp.ui.main
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -33,10 +34,6 @@ class MainActivity : AppCompatActivity() {
         )[OrderViewModel::class.java]
         binding.bottomNavigationView.setupWithNavController(navController)
 
-//        if (mOrderViewModel.checkCurrentUser() == null) {
-//            finish()
-//        }
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.orderFragment -> {
@@ -63,7 +60,6 @@ class MainActivity : AppCompatActivity() {
                     binding.constraintHeader.visibility = View.GONE
                 }
                 else -> {
-//                    binding.constraintHeader.visibility = View.VISIBLE
                     binding.bottomNavigationView.visibility = View.VISIBLE
                 }
             }
@@ -80,13 +76,13 @@ class MainActivity : AppCompatActivity() {
         _binding = null
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        if (mOrderViewModel.checkCurrentUser() == null) {
-//            LoginActivity().finish()
-            this.finish()
-        } else {
-//            finish()
-        }
-    }
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//        if (mOrderViewModel.checkCurrentUser() == null) {
+//            Toast.makeText(this, "MainActivity no user active", Toast.LENGTH_SHORT).show()
+//            this.finish()
+//        } else {
+//            Toast.makeText(this, "MainActivity has user active", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 }
