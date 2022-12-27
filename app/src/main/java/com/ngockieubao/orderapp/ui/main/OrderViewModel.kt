@@ -75,6 +75,9 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val _hasAdmin = MutableLiveData<Boolean?>()
     val hasAdmin: LiveData<Boolean?> = _hasAdmin
 
+    private val _isCancel = MutableLiveData<Boolean?>()
+    val isCancel: LiveData<Boolean?> = _isCancel
+
     init {
         addCategory()
     }
@@ -353,37 +356,6 @@ class OrderViewModel(application: Application) : ViewModel() {
         _itemCartId.postValue(1)
     }
 
-    // get list receipt for admin
-    suspend fun getListReceipt() {
-        val listReceipt = db.collection("Receipt").get().await()
-        val listToObj = listReceipt.toObjects<Receipt>()
-
-        if (listToObj.isEmpty()) {
-            Log.d(TAG, "getHistory: null")
-        } else {
-            _listHistory.postValue(listToObj)
-        }
-    }
-
-//    suspend fun getHistory() {
-//        checkCurrentUser()?.uid.let {
-//            // no user
-//            if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
-//            // has user
-//            else {
-//                val listReceipt = db.collection("Cart").document(it)
-//                    .collection("Receipt").get().await()
-//                val listToObj = listReceipt.toObjects<Receipt>()
-//
-//                if (listToObj.isEmpty()) {
-//                    Log.d(TAG, "getHistory: null")
-//                } else {
-//                    _listHistory.postValue(listToObj)
-//                }
-//            }
-//        }
-//    }
-
     suspend fun getHistory() {
         checkCurrentUser()?.uid.let {
             // no user
@@ -422,44 +394,18 @@ class OrderViewModel(application: Application) : ViewModel() {
             if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
             // has user
             else {
-                db.collection("Cart").document(it)
-                    .collection("Receipt").document(id).update("status", status)
+                db.collection("ReceiptDetail").document(id).update("status", status)
                     .addOnSuccessListener {
                         Log.d(TAG, "cancelReceipt: success")
+                        _isCancel.value = true
                     }
                     .addOnFailureListener {
                         Log.d(TAG, "cancelReceipt: failed")
+                        _isCancel.value = false
                     }
             }
         }
     }
-
-    suspend fun getStatus(id: String) = flow {
-        checkCurrentUser()?.uid?.let {
-            val docRef = db.collection("Cart").document(it)
-                .collection("Receipt").document(id).get().await()
-            val toObj = docRef.toObject<Receipt>()
-            emit(toObj?.status)
-        }
-    }
-
-//    fun getStatusValue(id: String): String {
-//        var res = ""
-//        checkCurrentUser()?.uid?.let {
-//            db.collection("Cart").document(it)
-//                .collection("Receipt").document(id).get()
-//                .addOnSuccessListener { docRef ->
-//                    val toObj = docRef.toObject<Receipt>()
-//                    if (toObj != null) {
-//                        res = toObj.code
-//                        Log.d(TAG, "getStatusValue: $res")
-//                    }
-//                }
-//                .addOnFailureListener { ex ->
-//                    Log.d(TAG, "getStatusValue: failed - $ex")
-//                }
-//        }
-//    }
 
     suspend fun getUserInfo() {
         checkCurrentUser()?.uid?.let {
@@ -511,6 +457,7 @@ class OrderViewModel(application: Application) : ViewModel() {
         super.onCleared()
         _receipt.postValue(null)
         _itemCartId.postValue(null)
+        _isCancel.postValue(null)
     }
 
     companion object {

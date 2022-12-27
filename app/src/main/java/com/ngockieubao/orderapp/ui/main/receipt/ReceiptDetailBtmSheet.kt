@@ -8,7 +8,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ngockieubao.orderapp.R
@@ -17,7 +16,6 @@ import com.ngockieubao.orderapp.data.Receipt
 import com.ngockieubao.orderapp.databinding.BtmSheetFragmentReceiptDetailBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
 import com.ngockieubao.orderapp.util.Utils
-import kotlinx.coroutines.launch
 
 class ReceiptDetailBtmSheet : BottomSheetDialogFragment() {
 
@@ -73,53 +71,14 @@ class ReceiptDetailBtmSheet : BottomSheetDialogFragment() {
                 Toast.makeText(requireActivity(), "Unselect", Toast.LENGTH_SHORT).show()
             } else {
                 valueUpdate?.let { value -> sharedViewModel.cancelReceipt(item.code, value) }
-                Toast.makeText(requireActivity(), "Update success", Toast.LENGTH_SHORT).show()
-                this@ReceiptDetailBtmSheet.dismiss()
-            }
-        }
-
-    }
-
-    private fun checkStatus(item: Receipt?, status: String) {
-        var getStatus = ""
-        if (item == null) return
-        lifecycleScope.launch {
-            sharedViewModel.getStatus(item.code).collect {
-                if (it != null) {
-                    getStatus = it
-                    if (getStatus == status) {
-                        binding.btnConfirm.visibility = View.GONE
-                    } else {
-                        initSpn()
-                        binding.btnConfirm.visibility = View.VISIBLE
-
-                        var valueUpdate: String? = null
-
-                        binding.spinnerUpdateReceipt.onItemSelectedListener =
-                            object : AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>?,
-                                    view: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    valueUpdate = parent?.getItemAtPosition(position).toString()
-                                }
-
-                                override fun onNothingSelected(parent: AdapterView<*>?) {}
-                            }
-
-                        binding.btnConfirm.setOnClickListener {
-                            if (valueUpdate == "Chọn mục") {
-                                Toast.makeText(requireActivity(), "Unselect", Toast.LENGTH_SHORT).show()
-                            } else {
-                                valueUpdate?.let { value -> sharedViewModel.cancelReceipt(item.code, value) }
-                                Toast.makeText(requireActivity(), "Update success", Toast.LENGTH_SHORT).show()
-                                this@ReceiptDetailBtmSheet.dismiss()
-                            }
-                        }
+                sharedViewModel.isCancel.observe(this.viewLifecycleOwner) {
+                    if (it == true) {
+                        Toast.makeText(requireActivity(), "Update success", Toast.LENGTH_SHORT).show()
+                    } else if (it == false) {
+                        Toast.makeText(requireActivity(), "Update failed", Toast.LENGTH_SHORT).show()
                     }
                 }
+                this@ReceiptDetailBtmSheet.dismiss()
             }
         }
 
