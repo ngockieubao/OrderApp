@@ -81,6 +81,14 @@
         <item>Hủy hàng</item>
     </string-array>
 
+    <string-array name="spn_manage_invoice">
+        <item>Chọn mục</item>
+        <item>Đang xử lý</item>
+        <item>Đang giao hàng</item>
+        <item>Giao hàng thành công</item>
+        <item>Hủy hàng</item>
+    </string-array>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

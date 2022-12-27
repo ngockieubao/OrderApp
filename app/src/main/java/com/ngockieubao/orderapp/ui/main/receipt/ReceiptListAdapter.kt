@@ -10,7 +10,7 @@ import com.ngockieubao.orderapp.databinding.RcvPurchaseHistoryBinding
 import com.ngockieubao.orderapp.util.Utils
 
 class ReceiptListAdapter(
-    private val updateInterface: UpdateInterface,
+    private val updateInterface: UpdateInterface
 ) : ListAdapter<Receipt, ReceiptListAdapter.ReceiptViewHolder>(DiffCallBack) {
 
     inner class ReceiptViewHolder(private val binding: RcvPurchaseHistoryBinding) :

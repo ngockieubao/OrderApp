@@ -13,11 +13,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.AdminViewModelFactory
+import com.ngockieubao.orderapp.data.Receipt
 import com.ngockieubao.orderapp.databinding.FragmentManageInvoiceBinding
 import com.ngockieubao.orderapp.ui.login.admin.AdminViewModel
+import com.ngockieubao.orderapp.ui.main.receipt.UpdateInterface
 import kotlinx.coroutines.launch
 
-class ManageInvoiceFragment : Fragment() {
+class ManageInvoiceFragment : Fragment(), UpdateInterface {
 
     private lateinit var binding: FragmentManageInvoiceBinding
     private val sharedViewModel: AdminViewModel by activityViewModels {
@@ -39,7 +41,7 @@ class ManageInvoiceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val rcv = binding.rcvInvoice
-        val adapter = InvoiceListAdapter()
+        val adapter = InvoiceListAdapter(this@ManageInvoiceFragment)
         var type: String? = null
 
         rcv.layoutManager =
@@ -55,6 +57,7 @@ class ManageInvoiceFragment : Fragment() {
                 type = parent?.getItemAtPosition(position).toString()
                 type?.let { switchFilter(it) }
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
@@ -90,6 +93,14 @@ class ManageInvoiceFragment : Fragment() {
                     sharedViewModel.getInvoiceByFilter(status)
                 }
             }
+        }
+    }
+
+    override fun clickToUpdateReceipt(item: Receipt?) {
+        if (item == null) return
+        else {
+            val action = ManageInvoiceFragmentDirections.actionManageInvoiceFragmentToInvoiceDetailBtmSheet(item)
+            this@ManageInvoiceFragment.findNavController().navigate(action)
         }
     }
 }

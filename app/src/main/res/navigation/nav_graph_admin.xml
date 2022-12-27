@@ -23,7 +23,11 @@
         android:id="@+id/manageInvoiceFragment"
         android:name="com.ngockieubao.orderapp.ui.login.admin.invoice.ManageInvoiceFragment"
         android:label="ManageInvoiceFragment"
-        tools:layout="@layout/fragment_manage_invoice" />
+        tools:layout="@layout/fragment_manage_invoice">
+        <action
+            android:id="@+id/action_manageInvoiceFragment_to_invoiceDetailBtmSheet"
+            app:destination="@id/invoiceDetailBtmSheet" />
+    </fragment>
     <fragment
         android:id="@+id/statisticFragment"
         android:name="com.ngockieubao.orderapp.ui.login.admin.statistic.StatisticFragment"
@@ -34,4 +38,14 @@
         android:name="com.ngockieubao.orderapp.ui.login.admin.product.ManageProductFragment"
         android:label="fragment_manage_product"
         tools:layout="@layout/fragment_manage_product" />
+    <dialog
+        android:id="@+id/invoiceDetailBtmSheet"
+        android:name="com.ngockieubao.orderapp.ui.login.admin.invoice.InvoiceDetailBtmSheet"
+        android:label="InvoiceDetailBtmSheet"
+        tools:layout="@layout/fragment_invoice_detail_btm_sheet">
+        <argument
+            android:name="item"
+            app:argType="com.ngockieubao.orderapp.data.Receipt"
+            app:nullable="true" />
+    </dialog>
 </navigation>

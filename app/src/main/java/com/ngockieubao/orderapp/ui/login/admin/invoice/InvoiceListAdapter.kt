@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ngockieubao.orderapp.data.Receipt
 import com.ngockieubao.orderapp.databinding.RcvListInvoiceBinding
+import com.ngockieubao.orderapp.ui.main.receipt.UpdateInterface
 import com.ngockieubao.orderapp.util.Utils
 
-class InvoiceListAdapter : ListAdapter<Receipt, InvoiceListAdapter.InvoiceViewHolder>(DiffCallBack) {
+class InvoiceListAdapter(
+    private val updateInterface: UpdateInterface
+) : ListAdapter<Receipt, InvoiceListAdapter.InvoiceViewHolder>(DiffCallBack) {
 
     inner class InvoiceViewHolder(private val rcvListInvoiceBinding: RcvListInvoiceBinding) :
         RecyclerView.ViewHolder(rcvListInvoiceBinding.root) {
@@ -20,6 +23,9 @@ class InvoiceListAdapter : ListAdapter<Receipt, InvoiceListAdapter.InvoiceViewHo
                 tvReceiptCodeValue.text = item.code
                 tvReceiptTotalPurchaseValue.text = Utils.formatPrice(item.total)
                 tvReceiptTypePurchaseValue.text = item.type
+                lnReceiptContainer.setOnClickListener {
+                    updateInterface.clickToUpdateReceipt(item)
+                }
             }
         }
     }
