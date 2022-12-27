@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
@@ -39,17 +40,22 @@ class ManageInvoiceFragment : Fragment() {
 
         val rcv = binding.rcvInvoice
         val adapter = InvoiceListAdapter()
+        var type: String? = null
 
         rcv.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         rcv.adapter = adapter
 
-        lifecycle.coroutineScope.launch {
-            sharedViewModel.getAllInvoice()
-        }
-
         sharedViewModel.listInvoice.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
+        }
+
+        binding.spnCategoryInvoice.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                type = parent?.getItemAtPosition(position).toString()
+                type?.let { switchFilter(it) }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         binding.imgvBtnBack.setOnClickListener {
@@ -69,6 +75,21 @@ class ManageInvoiceFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
             spinner.adapter = adapter
+        }
+    }
+
+    private fun switchFilter(status: String) {
+        when (status) {
+            "Tất cả" -> {
+                lifecycle.coroutineScope.launch {
+                    sharedViewModel.getAllInvoice()
+                }
+            }
+            else -> {
+                lifecycle.coroutineScope.launch {
+                    sharedViewModel.getInvoiceByFilter(status)
+                }
+            }
         }
     }
 }

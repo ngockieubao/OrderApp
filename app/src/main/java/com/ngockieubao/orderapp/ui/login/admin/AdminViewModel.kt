@@ -14,8 +14,8 @@ class AdminViewModel(application: Application) : ViewModel() {
 
     private val db = Firebase.firestore
 
-    private val _listInvoice = MutableLiveData<List<Receipt?>>()
-    val listInvoice: LiveData<List<Receipt?>> = _listInvoice
+    private val _listInvoice = MutableLiveData<List<Receipt?>?>()
+    val listInvoice: LiveData<List<Receipt?>?> = _listInvoice
 
     suspend fun getAllInvoice() {
         val res = db.collection("ReceiptDetail").get().await()
@@ -28,18 +28,21 @@ class AdminViewModel(application: Application) : ViewModel() {
         _listInvoice.value = list
     }
 
-    suspend fun getInvoiceByFilter(type: String) {
-        val res = db.collection("ReceiptDetail").get().await()
+    suspend fun getInvoiceByFilter(status: String) {
+        val res = db.collection("ReceiptDetail")
+            .whereEqualTo("status", status).get().await()
         val toObj = res.toObjects<Receipt>()
         val list = mutableListOf<Receipt>()
 
         for (item in toObj) {
-            when (type) {
-                "D" -> {
-                    list.add(item)
-                }
-            }
+            list.add(item)
         }
         _listInvoice.value = list
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        _listInvoice.value = null
     }
 }
