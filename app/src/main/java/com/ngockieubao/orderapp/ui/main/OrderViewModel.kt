@@ -299,7 +299,8 @@ class OrderViewModel(application: Application) : ViewModel() {
                 status = "Đang xử lý",
                 time = "${Utils.formatDate(time)}, ${Utils.formatTime(time)}",
                 total = sum,
-                type = type
+                type = type,
+                userID = checkCurrentUser()!!.uid
             )
             // add receipt to firestore
             checkCurrentUser()?.uid.let {
@@ -307,16 +308,11 @@ class OrderViewModel(application: Application) : ViewModel() {
                 if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
                 else {
                     // for admin
-                    db.collection("ReceiptDetail").add(receipt.toHashMap()).await()
-                    // for user
-                    // create receipt with document id random generate
-                    db.collection("Cart").document(it)
-                        .collection("Receipt").add(receipt.toHashMap())
+                    db.collection("ReceiptDetail").add(receipt.toHashMap())
                         .addOnSuccessListener { docRef ->
                             Log.d(TAG, "makeReceipt: ${docRef.id}")
                             // update code receipt by doc id generated above
-                            db.collection("Cart").document(it)
-                                .collection("Receipt").document(docRef.id)
+                            db.collection("ReceiptDetail").document(docRef.id)
                                 .update("code", docRef.id)
                             // assign value
                             _receipt.value = receipt
@@ -326,6 +322,26 @@ class OrderViewModel(application: Application) : ViewModel() {
                         .addOnFailureListener {
                             Log.d(TAG, "makeReceipt: failed")
                         }
+
+//                    // for user
+//                    // create receipt with document id random generate
+//                    db.collection("Cart").document(it)
+//                        .collection("Receipt").add(receipt.toHashMap())
+//                        .addOnSuccessListener { docRef ->
+//                            Log.d(TAG, "makeReceipt: ${docRef.id}")
+//                            // update code receipt by doc id generated above
+//                            db.collection("Cart").document(it)
+//                                .collection("Receipt").document(docRef.id)
+//                                .update("code", docRef.id)
+//                            // assign value
+//                            _receipt.value = receipt
+//                            // create receipt success -> clear cart
+////                            clearCart()
+//                        }
+//                        .addOnFailureListener {
+//                            Log.d(TAG, "makeReceipt: failed")
+//                        }
+
                 }
             }
         }
@@ -349,14 +365,33 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
+//    suspend fun getHistory() {
+//        checkCurrentUser()?.uid.let {
+//            // no user
+//            if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
+//            // has user
+//            else {
+//                val listReceipt = db.collection("Cart").document(it)
+//                    .collection("Receipt").get().await()
+//                val listToObj = listReceipt.toObjects<Receipt>()
+//
+//                if (listToObj.isEmpty()) {
+//                    Log.d(TAG, "getHistory: null")
+//                } else {
+//                    _listHistory.postValue(listToObj)
+//                }
+//            }
+//        }
+//    }
+
     suspend fun getHistory() {
         checkCurrentUser()?.uid.let {
             // no user
             if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
             // has user
             else {
-                val listReceipt = db.collection("Cart").document(it)
-                    .collection("Receipt").get().await()
+                val listReceipt = db.collection("ReceiptDetail")
+                    .whereEqualTo("userID", checkCurrentUser()!!.uid).get().await()
                 val listToObj = listReceipt.toObjects<Receipt>()
 
                 if (listToObj.isEmpty()) {

@@ -40,6 +40,7 @@ class SignUpFragment : Fragment() {
 
         var email: String? = null
         var passwd: String? = null
+        var repasswd: String? = null
 
         binding.edtInputEmailSignUp.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -63,8 +64,23 @@ class SignUpFragment : Fragment() {
             }
         })
 
+        binding.edtInputConfirmPasswdSignUp.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    repasswd = s.toString()
+                } else
+                    Toast.makeText(requireActivity(), "Repassword is not empty", Toast.LENGTH_SHORT).show()
+            }
+        })
+
         binding.btnSignUpNow.setOnClickListener {
-            loginViewModel.createAccount(email, passwd)
+            if (repasswd == passwd) {
+                loginViewModel.createAccount(email, passwd)
+            } else {
+                Toast.makeText(requireActivity(), "Confirm password wrong!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         loginViewModel.signUp.observe(this.viewLifecycleOwner) {

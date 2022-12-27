@@ -6,15 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.LinearLayout
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ngockieubao.orderapp.R
+import com.ngockieubao.orderapp.base.AdminViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentManageInvoiceBinding
-import com.ngockieubao.orderapp.ui.main.receipt.OrderedListAdapter
+import com.ngockieubao.orderapp.ui.login.admin.AdminViewModel
+import kotlinx.coroutines.launch
 
 class ManageInvoiceFragment : Fragment() {
 
     private lateinit var binding: FragmentManageInvoiceBinding
+    private val sharedViewModel: AdminViewModel by activityViewModels {
+        AdminViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +38,19 @@ class ManageInvoiceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val rcv = binding.rcvInvoice
-        val adapter = OrderedListAdapter()
+        val adapter = InvoiceListAdapter()
+
+        rcv.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        rcv.adapter = adapter
+
+        lifecycle.coroutineScope.launch {
+            sharedViewModel.getAllInvoice()
+        }
+
+        sharedViewModel.listInvoice.observe(this.viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
 
         binding.imgvBtnBack.setOnClickListener {
             this.findNavController().navigateUp()

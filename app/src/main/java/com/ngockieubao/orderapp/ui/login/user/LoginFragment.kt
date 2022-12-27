@@ -42,9 +42,9 @@ class LoginFragment : Fragment() {
 
         binding.edtInputEmailLogin.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s!!.length > 25) {
+                if (s!!.length > 30) {
                     binding.edtInputEmailLogin.error = "No more!"
-                } else if (s.length < 25) {
+                } else if (s.length < 30) {
                     binding.edtInputEmailLogin.error = null
                     Log.d(TAG, "onCreateView: $email")
                 }

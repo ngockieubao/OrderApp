@@ -12,7 +12,8 @@ data class Receipt(
     val status: String,
     val time: String,
     val total: Double,
-    val type: String
+    val type: String,
+    val userID: String
 ) : Serializable {
 
     var id: Int = 1
@@ -27,7 +28,8 @@ data class Receipt(
         status = "",
         time = "",
         total = 0.0,
-        type = ""
+        type = "",
+        userID = ""
     )
 
     fun toHashMap(): HashMap<String, Any?> {
@@ -41,7 +43,8 @@ data class Receipt(
             "status" to status,
             "time" to time,
             "total" to total,
-            "type" to type
+            "type" to type,
+            "userID" to userID
         )
     }
 }
