@@ -26,9 +26,6 @@
             android:name=".ui.login.admin.AdminActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.login.user.LoginActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">

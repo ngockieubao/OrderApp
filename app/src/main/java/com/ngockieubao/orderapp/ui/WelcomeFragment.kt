@@ -33,15 +33,6 @@ class WelcomeFragment : Fragment() {
         checkCurrentUser()
     }
 
-    private fun checkCurrentUser() {
-        val currentUser = loginViewModel.checkCurrentUser()
-        if (currentUser == null) return
-        else {
-            this.findNavController().navigate(R.id.action_welcomeFragment_to_mainActivity)
-            Toast.makeText(requireActivity(), "${currentUser.email}", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,6 +62,7 @@ class WelcomeFragment : Fragment() {
             )
         }
         binding.textViewLoginForAdmin.setOnClickListener {
+//            val action = WelcomeFragmentDirections.actionWelcomeFragmentToAdminLoginFragment()
             val action = WelcomeFragmentDirections.actionWelcomeFragmentToAdminLoginFragment()
             this.findNavController().navigate(action)
         }
@@ -78,9 +70,18 @@ class WelcomeFragment : Fragment() {
         loginViewModel.hasGoogleSignIn.observe(this.viewLifecycleOwner) {
             if (it == false) return@observe
             if (it == true) {
-                this.findNavController().navigate(R.id.action_welcomeFragment_to_mainActivity)
+                this.findNavController().navigate(R.id.action_welcomeFragment_to_homeFragment)
             }
             loginViewModel.resetSignInGoogle()
+        }
+    }
+
+    private fun checkCurrentUser() {
+        val currentUser = loginViewModel.checkCurrentUser()
+        if (currentUser == null) return
+        else {
+            this.findNavController().navigate(R.id.action_welcomeFragment_to_homeFragment)
+            Toast.makeText(requireActivity(), "${currentUser.email}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -95,7 +96,7 @@ class WelcomeFragment : Fragment() {
 
 //    override fun onBackPressed(): Boolean {
 //        if (loginViewModel.checkCurrentUser() != null) {
-//            //action not popBackStack
+//            // action not popBackStack
 //            this.findNavController().navigate(R.id.action_welcomeFragment_to_mainActivity)
 //            return true
 //        } else {

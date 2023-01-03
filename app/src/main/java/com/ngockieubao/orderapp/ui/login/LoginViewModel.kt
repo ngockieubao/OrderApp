@@ -62,6 +62,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     val hasGoogleSignIn: LiveData<Boolean?>
         get() = _hasGoogleSignIn
 
+    private val _hasSignOut = MutableLiveData<Boolean?>()
+    val hasSignOut: LiveData<Boolean?>
+        get() = _hasSignOut
+
     fun createAccount(email: String?, passwd: String?) {
         if (!TextUtils.checkEmailPasswdNull(email, passwd)) {
             if (TextUtils.isValidEmail(email)) {
@@ -112,7 +116,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                         .addOnFailureListener() { exception ->
                             val strErr = exception
                             if (strErr == exception)
-                                Toast.makeText(context, "Your email is not exist", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Login failed, Please try again later! \n$exception", Toast.LENGTH_SHORT)
+                                    .show()
                             else
                                 Toast.makeText(
                                     context,
@@ -129,6 +134,11 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     fun signOut() {
         Firebase.auth.signOut()
         _login.value = null
+        _hasSignOut.value = true
+    }
+
+    fun resetSignOut() {
+        _hasSignOut.value = false
     }
 
     fun checkCurrentUser(): FirebaseUser? {
@@ -317,6 +327,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         super.onCleared()
         _signUp.value = null
         _login.value = null
+        _hasSignOut.value = null
     }
 
     companion object {

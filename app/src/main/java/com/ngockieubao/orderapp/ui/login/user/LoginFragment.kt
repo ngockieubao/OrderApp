@@ -86,7 +86,7 @@ class LoginFragment : Fragment() {
             if (it == null) return@observe
             else Log.d(TAG, "onCreateView: $it")
             Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
-            this.findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+            this.findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
 
         binding.tvClickToSignUp.setOnClickListener {
@@ -97,14 +97,6 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    fun checkUser() {
-//        if (loginViewModel.checkCurrentUser() != null) {
-//            this.finish()
-//        } else {
-////            finish()
-//        }
     }
 
     companion object {

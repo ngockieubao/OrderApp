@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.ngockieubao.orderapp.base.LoginViewModelFactory
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentUserInfoBinding
+import com.ngockieubao.orderapp.ui.login.LoginViewModel
 import com.ngockieubao.orderapp.ui.login.user.SignOutDialog
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
 import com.ngockieubao.orderapp.util.setUrl
@@ -18,8 +20,12 @@ import kotlinx.coroutines.launch
 class UserInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentUserInfoBinding
-    private val sharedViewModel: OrderViewModel by activityViewModels {
+    private val mOrderViewModel: OrderViewModel by activityViewModels {
         OrderViewModelFactory(requireActivity().application)
+    }
+
+    private val loginViewModel: LoginViewModel by activityViewModels {
+        LoginViewModelFactory(requireActivity().application)
     }
     private lateinit var dialog: SignOutDialog
 
@@ -35,23 +41,18 @@ class UserInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dialog = SignOutDialog()
-        binding.btnSignOut.setOnClickListener {
-            dialog.show(childFragmentManager, "sign_out")
-        }
-
         lifecycleScope.launch {
-            sharedViewModel.getUserInfo()
+            mOrderViewModel.getUserInfo()
         }
 
-        sharedViewModel.user.observe(this.viewLifecycleOwner) {
+        mOrderViewModel.user.observe(this.viewLifecycleOwner) {
             if (it == null) return@observe
             binding.apply {
                 imgvAvatar.setUrl(it.photoUrl)
-                tvInfoUserName.text = sharedViewModel.checkCurrentUser()?.displayName
+                tvInfoUserName.text = mOrderViewModel.checkCurrentUser()?.displayName
                 tvInfoPhoneNumber.text = it.contact.toString()
                 tvInfoAddress.text = it.address
-                tvInfoEmail.text = sharedViewModel.checkCurrentUser()?.email
+                tvInfoEmail.text = mOrderViewModel.checkCurrentUser()?.email
             }
         }
 
@@ -67,6 +68,19 @@ class UserInfoFragment : Fragment() {
             }
             imgvRightChevronEmail.setOnClickListener {
 //                navigateToEdtBtm()
+            }
+
+        }
+
+        binding.btnSignOut.setOnClickListener {
+            dialog = SignOutDialog()
+            dialog.show(childFragmentManager, "sign_out")
+            loginViewModel.hasSignOut.observe(this.viewLifecycleOwner) {
+                if (it == null) return@observe
+                if (it == true) {
+                    val action = UserInfoFragmentDirections.actionProfileFragmentToWelcomeFragment()
+                    this@UserInfoFragment.findNavController().navigate(action)
+                }
             }
         }
     }

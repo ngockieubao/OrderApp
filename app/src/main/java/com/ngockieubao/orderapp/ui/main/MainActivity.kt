@@ -9,13 +9,17 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ngockieubao.orderapp.R
+import com.ngockieubao.orderapp.base.LoginViewModelFactory
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.ActivityMainBinding
+import com.ngockieubao.orderapp.ui.login.LoginViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var loginViewModel: LoginViewModel
     private lateinit var mOrderViewModel: OrderViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +31,9 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragNavHost) as NavHostFragment
         val navController = navHostFragment.navController
+
+        loginViewModel =
+            ViewModelProvider(this, LoginViewModelFactory(application))[LoginViewModel::class.java]
 
         mOrderViewModel = ViewModelProvider(
             this@MainActivity,
@@ -59,6 +66,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.receiptDetailFragment -> {
                     binding.constraintHeader.visibility = View.GONE
                 }
+                R.id.welcomeFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
                 else -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE
                 }
@@ -74,6 +85,14 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun checkUser() {
+        if (loginViewModel.checkCurrentUser() == null) {
+            Toast.makeText(this, "No user active", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "User ${loginViewModel.checkCurrentUser()!!.email} is active", Toast.LENGTH_SHORT).show()
+        }
     }
 
 //    override fun onBackPressed() {

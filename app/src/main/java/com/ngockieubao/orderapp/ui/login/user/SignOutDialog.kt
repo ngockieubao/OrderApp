@@ -2,7 +2,6 @@ package com.ngockieubao.orderapp.ui.login.user
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -23,8 +22,6 @@ class SignOutDialog : DialogFragment() {
             builder.setMessage("Are you sure to log out?")
                 .setPositiveButton("Yes") { dialog, id ->
                     loginViewModel.signOut()
-                    val intent = Intent(requireActivity(), LoginActivity::class.java)
-                    startActivity(intent)
                     Toast.makeText(requireActivity(), "Signed out", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("No") { _, _ ->
