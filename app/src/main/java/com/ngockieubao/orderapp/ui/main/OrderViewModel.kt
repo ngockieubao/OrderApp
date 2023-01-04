@@ -44,6 +44,9 @@ class OrderViewModel(application: Application) : ViewModel() {
     private val _listProductPopular = MutableLiveData<List<Product>>()
     val listProductPopular: LiveData<List<Product>> = _listProductPopular
 
+    private val _listBanner = MutableLiveData<List<Banner>>()
+    val listBanner: LiveData<List<Banner>> get() = _listBanner
+
     private val _defaultQuantity = 1
     val defaultQuantity = _defaultQuantity
 
@@ -77,6 +80,9 @@ class OrderViewModel(application: Application) : ViewModel() {
 
     private val _isCancel = MutableLiveData<Boolean?>()
     val isCancel: LiveData<Boolean?> = _isCancel
+
+    private val _banner = MutableLiveData<Int>()
+    val banner: LiveData<Int> = _banner
 
     init {
         addCategory()
@@ -309,8 +315,8 @@ class OrderViewModel(application: Application) : ViewModel() {
             checkCurrentUser()?.uid.let {
                 // no user
                 if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
+                // has user
                 else {
-                    // for admin
                     db.collection("ReceiptDetail").add(receipt.toHashMap())
                         .addOnSuccessListener { docRef ->
                             Log.d(TAG, "makeReceipt: ${docRef.id}")
@@ -319,32 +325,10 @@ class OrderViewModel(application: Application) : ViewModel() {
                                 .update("code", docRef.id)
                             // assign value
                             _receipt.value = receipt
-                            // create receipt success -> clear cart
-//                            clearCart()
                         }
                         .addOnFailureListener {
                             Log.d(TAG, "makeReceipt: failed")
                         }
-
-//                    // for user
-//                    // create receipt with document id random generate
-//                    db.collection("Cart").document(it)
-//                        .collection("Receipt").add(receipt.toHashMap())
-//                        .addOnSuccessListener { docRef ->
-//                            Log.d(TAG, "makeReceipt: ${docRef.id}")
-//                            // update code receipt by doc id generated above
-//                            db.collection("Cart").document(it)
-//                                .collection("Receipt").document(docRef.id)
-//                                .update("code", docRef.id)
-//                            // assign value
-//                            _receipt.value = receipt
-//                            // create receipt success -> clear cart
-////                            clearCart()
-//                        }
-//                        .addOnFailureListener {
-//                            Log.d(TAG, "makeReceipt: failed")
-//                        }
-
                 }
             }
         }
@@ -375,7 +359,7 @@ class OrderViewModel(application: Application) : ViewModel() {
         }
     }
 
-    suspend fun getBanner() = flow {
+    suspend fun getProductOrderByPopular() = flow {
         val listBanner = db.collection("Product")
             .whereGreaterThanOrEqualTo("sold", 180).get().await()
         val listToObj = listBanner.toObjects<Banner>()
@@ -386,6 +370,31 @@ class OrderViewModel(application: Application) : ViewModel() {
                 delay(5000)
             }
         }
+    }
+
+    suspend fun getBanner() {
+//        val listBanner = db.collection("Banner").get().await()
+//        val listToObj = listBanner.toObjects<Banner>()
+
+        val listBanner = db.collection("Product")
+            .whereGreaterThanOrEqualTo("sold", 180).get().await()
+        val listToObj = listBanner.toObjects<Banner>()
+
+        if (listToObj.isEmpty()) {
+            Log.d(TAG, "getBanner: null")
+        } else {
+            var res = 0
+            for (item in listBanner) res++
+            _banner.postValue(res)
+            _listBanner.postValue(listToObj)
+        }
+    }
+
+    suspend fun getSizeListBanner(): Int {
+        val listBanner = db.collection("Banner").get().await()
+        var res = 0
+        for (item in listBanner) res++
+        return res
     }
 
     fun cancelReceipt(id: String, status: String) {

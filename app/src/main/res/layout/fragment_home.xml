@@ -61,6 +61,32 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
+                <RelativeLayout
+                    android:id="@+id/constraintLayout_view_pager_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="18dp">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/view_pager_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="185dp" />
+
+                    <me.relex.circleindicator.CircleIndicator3
+                        android:id="@+id/circle_indicator_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        app:ci_drawable="@drawable/bg_indicator_3" />
+                </RelativeLayout>
+
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shape_imgv_voucher"
                     android:layout_width="match_parent"
@@ -68,6 +94,7 @@
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="18dp"
                     android:scaleType="centerCrop"
+                    android:visibility="gone"
                     app:shapeAppearanceOverlay="@style/CornerRadiusImage"
                     tools:src="@drawable/img_voucher_pizza" />
 
@@ -110,7 +137,7 @@
                     android:id="@+id/constraint_category_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="18dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center">
 
