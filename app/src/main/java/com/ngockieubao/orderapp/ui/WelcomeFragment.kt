@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.ngockieubao.orderapp.IOnBackPressed
 import com.ngockieubao.orderapp.R
 import com.ngockieubao.orderapp.base.LoginViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentWelcomeBinding
@@ -19,6 +18,7 @@ class WelcomeFragment : Fragment() {
 
     private var _binding: FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
+
     private val loginViewModel: LoginViewModel by activityViewModels {
         LoginViewModelFactory(requireActivity().application)
     }
@@ -85,13 +85,24 @@ class WelcomeFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+//        checkSignOut()
+    }
+
+    private fun checkSignOut() {
+        loginViewModel.hasSignOut.observe(this.viewLifecycleOwner) {
+            if (it == null) return@observe
+            if (it == true) {
+                // do check user sign out -> do not back to home fragment
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        private const val TAG = "WelcomeFragment"
     }
 
 //    override fun onBackPressed(): Boolean {
@@ -103,4 +114,8 @@ class WelcomeFragment : Fragment() {
 //            return false
 //        }
 //    }
+
+    companion object {
+        private const val TAG = "WelcomeFragment"
+    }
 }

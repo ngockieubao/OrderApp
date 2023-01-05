@@ -456,7 +456,7 @@ class OrderViewModel(application: Application) : ViewModel() {
             }
     }
 
-    fun resetAdmin() = _hasAdmin.value == false
+    fun signOutAdmin() = _hasAdmin.postValue(false)
 
     fun checkCurrentUser(): FirebaseUser? {
         return auth

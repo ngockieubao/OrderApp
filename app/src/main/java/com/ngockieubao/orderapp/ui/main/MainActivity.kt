@@ -70,6 +70,34 @@ class MainActivity : AppCompatActivity() {
                     binding.constraintHeader.visibility = View.GONE
                     binding.bottomNavigationView.visibility = View.GONE
                 }
+                R.id.homeAdminFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.adminLoginFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.manageInvoiceFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.manageProductFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.statisticFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.editProfileBtmFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.invoiceDetailBtmSheet -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
                 else -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE
                 }
@@ -91,17 +119,11 @@ class MainActivity : AppCompatActivity() {
         if (loginViewModel.checkCurrentUser() == null) {
             Toast.makeText(this, "No user active", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "User ${loginViewModel.checkCurrentUser()!!.email} is active", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "User ${loginViewModel.checkCurrentUser()!!.email} is active",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
-
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        if (mOrderViewModel.checkCurrentUser() == null) {
-//            Toast.makeText(this, "MainActivity no user active", Toast.LENGTH_SHORT).show()
-//            this.finish()
-//        } else {
-//            Toast.makeText(this, "MainActivity has user active", Toast.LENGTH_SHORT).show()
-//        }
-//    }
 }

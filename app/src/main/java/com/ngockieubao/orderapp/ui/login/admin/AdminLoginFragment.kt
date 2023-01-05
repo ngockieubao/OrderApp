@@ -9,21 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.ngockieubao.orderapp.base.LoginViewModelFactory
 import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.databinding.FragmentAdminLoginBinding
-import com.ngockieubao.orderapp.ui.login.LoginViewModel
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
 
 class AdminLoginFragment : Fragment() {
 
     private lateinit var binding: FragmentAdminLoginBinding
-    private val loginViewModel: LoginViewModel by activityViewModels {
-        LoginViewModelFactory(requireActivity().application)
-    }
     private val sharedViewModel: OrderViewModel by activityViewModels {
         OrderViewModelFactory(requireActivity().application)
     }
@@ -51,7 +45,6 @@ class AdminLoginFragment : Fragment() {
                     binding.edtInputAdminLoginName.error = null
                 }
             }
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -68,7 +61,6 @@ class AdminLoginFragment : Fragment() {
                     binding.edtInputAdminLoginPasswd.error = null
                 }
             }
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
@@ -83,15 +75,13 @@ class AdminLoginFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show()
             } else {
                 sharedViewModel.signInAdmin(email!!, passwd!!)
-
                 sharedViewModel.admin.observe(this.viewLifecycleOwner) {
                     if (it == null) return@observe
                     else {
                         Log.d(TAG, "onCreateView: $it")
                         Toast.makeText(requireActivity(), "Welcome, admin!", Toast.LENGTH_SHORT).show()
-//                        val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
-//                        ft.addToBackStack("admin_login")
-                        val action = AdminLoginFragmentDirections.actionAdminLoginFragmentToAdminActivity()
+                        val action =
+                            AdminLoginFragmentDirections.actionAdminLoginFragmentToHomeAdminFragment()
                         this.findNavController().navigate(action)
                     }
                 }
