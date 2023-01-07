@@ -37,7 +37,10 @@ class HomeAdminFragment : Fragment() {
             this.findNavController().navigate(action)
         }
         binding.constraintLayoutStatistic.setOnClickListener { }
-        binding.constraintLayoutUpdateProduct.setOnClickListener { }
+        binding.constraintLayoutUpdateProduct.setOnClickListener {
+            val action = HomeAdminFragmentDirections.actionHomeAdminFragmentToManageProductFragment()
+            this@HomeAdminFragment.findNavController().navigate(action)
+        }
 
         binding.constraintLayoutSignOut.setOnClickListener {
             dialog = SignOutAdminDialog()

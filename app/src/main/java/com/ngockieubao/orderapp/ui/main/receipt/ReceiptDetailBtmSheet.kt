@@ -43,6 +43,7 @@ class ReceiptDetailBtmSheet : BottomSheetDialogFragment() {
 
         val rcv = binding.rcvListProductOrdered
         val adapter = OrderedListAdapter()
+
         rcv.layoutManager =
             GridLayoutManager(requireActivity(), 2, GridLayoutManager.HORIZONTAL, false)
 
@@ -71,15 +72,6 @@ class ReceiptDetailBtmSheet : BottomSheetDialogFragment() {
                 Toast.makeText(requireActivity(), "Unselect", Toast.LENGTH_SHORT).show()
             } else {
                 valueUpdate?.let { value -> sharedViewModel.cancelReceipt(item.code, value) }
-                sharedViewModel.isCancel.observe(this.viewLifecycleOwner) {
-                    if (it == true) {
-                        Toast.makeText(requireActivity(), "Update success", Toast.LENGTH_SHORT).show()
-                    }
-                    if (it == false) {
-                        Toast.makeText(requireActivity(), "Không thể hủy đơn đã giao!", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
                 this@ReceiptDetailBtmSheet.dismiss()
             }
         }

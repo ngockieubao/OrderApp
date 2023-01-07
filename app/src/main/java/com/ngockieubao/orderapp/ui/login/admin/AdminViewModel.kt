@@ -11,6 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import com.ngockieubao.orderapp.data.Product
 import com.ngockieubao.orderapp.data.Receipt
 import kotlinx.coroutines.tasks.await
 
@@ -23,6 +24,9 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _listInvoice = MutableLiveData<List<Receipt?>?>()
     val listInvoice: LiveData<List<Receipt?>?> = _listInvoice
+
+    private val _listProduct = MutableLiveData<List<Product?>?>()
+    val listProduct: LiveData<List<Product?>?> = _listProduct
 
     suspend fun getAllInvoice() {
         val res = db.collection("ReceiptDetail").get().await()
@@ -84,11 +88,34 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
+    suspend fun getAllProduct() {
+        val docs = db.collection("Product").get().await()
+        val docsToObj = docs.toObjects<Product>()
+        val list = mutableListOf<Product>()
+
+        for (item in docsToObj) {
+            list.add(item)
+        }
+        _listProduct.postValue(list)
+    }
+
+    suspend fun getProductByFilter(type: String) {
+        val docs = db.collection("Product")
+            .whereEqualTo("type", type).get().await()
+        val docsToObj = docs.toObjects<Product>()
+        val list = mutableListOf<Product>()
+
+        for (item in docsToObj) {
+            list.add(item)
+        }
+        _listProduct.postValue(list)
+    }
 
     override fun onCleared() {
         super.onCleared()
 
-        _listInvoice.value = null
+        _listInvoice.postValue(null)
+        _listProduct.postValue(null)
     }
 
     companion object {

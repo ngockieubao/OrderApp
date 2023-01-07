@@ -222,7 +222,11 @@
         android:id="@+id/manageProductFragment"
         android:name="com.ngockieubao.orderapp.ui.login.admin.product.ManageProductFragment"
         android:label="fragment_manage_product"
-        tools:layout="@layout/fragment_manage_product" />
+        tools:layout="@layout/fragment_manage_product" >
+        <action
+            android:id="@+id/action_manageProductFragment_to_mgrProductDetail"
+            app:destination="@id/mgrProductDetail" />
+    </fragment>
     <dialog
         android:id="@+id/invoiceDetailBtmSheet"
         android:name="com.ngockieubao.orderapp.ui.login.admin.invoice.InvoiceDetailBtmSheet"
@@ -233,4 +237,9 @@
             app:argType="com.ngockieubao.orderapp.data.Receipt"
             app:nullable="true" />
     </dialog>
+    <fragment
+        android:id="@+id/mgrProductDetail"
+        android:name="com.ngockieubao.orderapp.ui.login.admin.product.MgrProductDetail"
+        android:label="MgrProductDetail"
+        tools:layout="@layout/fragment_mgr_product_detail" />
 </navigation>

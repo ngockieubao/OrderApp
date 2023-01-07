@@ -89,6 +89,16 @@
         <item>Hủy đơn hàng</item>
     </string-array>
 
+    <string-array name="spn_manage_product">
+        <item>Tất cả</item>
+        <item>Cơm</item>
+        <item>Phở</item>
+        <item>Lẩu</item>
+        <item>Đồ ăn vặt</item>
+        <item>Đồ ăn nhanh</item>
+        <item>Đồ uống</item>
+    </string-array>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -211,7 +221,7 @@
     <string name="login_name">Tên đăng nhập</string>
     <string name="sign_out_vi">Đăng xuất</string>
     <string name="page_for_admin_vi">Trang dành cho quản trị viên</string>
-    <string name="manage_receipt_vi">Quản lý hóa đơn</string>
+    <string name="manage_invoice_vi">Quản lý hóa đơn</string>
     <string name="statistic_vi">Thống kê</string>
     <string name="manage_product_vi">Quản lý sản phẩm</string>
     <string name="back_vi">Quay lại</string>
