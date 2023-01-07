@@ -4,18 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ngockieubao.orderapp.R
+import com.ngockieubao.orderapp.base.AdminViewModelFactory
 import com.ngockieubao.orderapp.data.Receipt
 import com.ngockieubao.orderapp.databinding.FragmentInvoiceDetailBtmSheetBinding
+import com.ngockieubao.orderapp.ui.login.admin.AdminViewModel
 import com.ngockieubao.orderapp.ui.main.receipt.OrderedListAdapter
 import com.ngockieubao.orderapp.util.Utils
 
 class InvoiceDetailBtmSheet : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentInvoiceDetailBtmSheetBinding
+    private val mAdminViewModel: AdminViewModel by activityViewModels {
+        AdminViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +51,24 @@ class InvoiceDetailBtmSheet : BottomSheetDialogFragment() {
 
         var valueUpdate: String? = null
         initSpn()
+        binding.spinnerUpdateInvoice.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    valueUpdate = parent?.getItemAtPosition(position).toString()
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
+
+        binding.btnConfirm.setOnClickListener {
+            if (item == null) return@setOnClickListener
+            if (valueUpdate == "Chọn mục") {
+                Toast.makeText(requireActivity(), "Vui lòng chọn hình thức", Toast.LENGTH_SHORT).show()
+            } else {
+                valueUpdate?.let { value -> mAdminViewModel.updateInvoice(item.code, value) }
+                this@InvoiceDetailBtmSheet.dismiss()
+            }
+        }
     }
 
     private fun initSpn() {

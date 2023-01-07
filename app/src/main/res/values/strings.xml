@@ -86,7 +86,7 @@
         <item>Đang xử lý</item>
         <item>Đang giao hàng</item>
         <item>Giao hàng thành công</item>
-        <item>Hủy hàng</item>
+        <item>Hủy đơn hàng</item>
     </string-array>
 
     <string name="large_text">
