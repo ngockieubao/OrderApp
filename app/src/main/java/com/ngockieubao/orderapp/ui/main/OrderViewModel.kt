@@ -1,10 +1,12 @@
 package com.ngockieubao.orderapp.ui.main
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -23,12 +25,15 @@ import kotlinx.coroutines.tasks.await
 import java.util.*
 
 
-class OrderViewModel(application: Application) : ViewModel() {
+class OrderViewModel(application: Application) : AndroidViewModel(application) {
 
     private val db = Firebase.firestore
     private val auth = Firebase.auth.currentUser
 //    private val job = Job()
 //    private val scope: CoroutineScope = CoroutineScope(job + Dispatchers.IO)
+
+    @SuppressLint("StaticFieldLeak")
+    private val context = getApplication<Application>().applicationContext
 
     private val orderRepository: OrderRepository = OrderRepository(application)
 
@@ -403,14 +408,36 @@ class OrderViewModel(application: Application) : ViewModel() {
             if (it == null) Log.d(TAG, "makeReceipt: Unknown user")
             // has user
             else {
-                db.collection("ReceiptDetail").document(id).update("status", status)
-                    .addOnSuccessListener {
-                        Log.d(TAG, "cancelReceipt: success")
-                        _isCancel.value = true
+                // handle invoice delivery success
+                db.collection("ReceiptDetail").document(id).get()
+                    .addOnSuccessListener { doc ->
+                        val toObj = doc.toObject<Receipt>()
+                        if (toObj != null) {
+                            when (toObj.status) {
+                                "Giao hàng thành công" -> {
+                                    Toast.makeText(context, "Không thể hủy đơn đã được giao", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                                "Hủy đơn hàng" -> {
+                                    Toast.makeText(context, "Đơn hàng đã bị hủy", Toast.LENGTH_SHORT).show()
+                                }
+                                else -> {
+                                    db.collection("ReceiptDetail").document(id).update("status", status)
+                                        .addOnSuccessListener {
+                                            Log.d(TAG, "cancelReceipt: success")
+                                            Toast.makeText(context, "Hủy thành công", Toast.LENGTH_SHORT).show()
+                                        }
+                                        .addOnFailureListener { ex ->
+                                            Log.d(TAG, "cancelReceipt: cancel failed - $ex")
+                                        }
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "cancelReceipt: get doc - null")
+                        }
                     }
-                    .addOnFailureListener {
-                        Log.d(TAG, "cancelReceipt: failed")
-                        _isCancel.value = false
+                    .addOnFailureListener { ex ->
+                        Log.d(TAG, "cancelReceipt: get doc failed - $ex")
                     }
             }
         }

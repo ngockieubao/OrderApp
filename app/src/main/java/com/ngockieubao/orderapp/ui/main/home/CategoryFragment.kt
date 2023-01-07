@@ -12,7 +12,6 @@ import com.ngockieubao.orderapp.base.OrderViewModelFactory
 import com.ngockieubao.orderapp.data.Category
 import com.ngockieubao.orderapp.databinding.FragmentCategoryBinding
 import com.ngockieubao.orderapp.ui.main.OrderViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CategoryFragment : Fragment() {
@@ -63,8 +62,6 @@ class CategoryFragment : Fragment() {
         lifecycleScope.launch {
             when (item.name) {
                 "Cơm" -> {
-                    // handles run by coroutine: load data done -> populate ui
-                    delay(1000)
                     binding.tvCategoryTitleHeader.text = item.name
                     orderViewModel.getProductByCategory(item.name)
                 }

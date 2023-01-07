@@ -74,14 +74,15 @@ class ReceiptDetailBtmSheet : BottomSheetDialogFragment() {
                 sharedViewModel.isCancel.observe(this.viewLifecycleOwner) {
                     if (it == true) {
                         Toast.makeText(requireActivity(), "Update success", Toast.LENGTH_SHORT).show()
-                    } else if (it == false) {
-                        Toast.makeText(requireActivity(), "Update failed", Toast.LENGTH_SHORT).show()
+                    }
+                    if (it == false) {
+                        Toast.makeText(requireActivity(), "Không thể hủy đơn đã giao!", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
                 this@ReceiptDetailBtmSheet.dismiss()
             }
         }
-
     }
 
     private fun initSpn() {

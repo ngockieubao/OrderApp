@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 class ManageInvoiceFragment : Fragment(), UpdateInterface {
 
     private lateinit var binding: FragmentManageInvoiceBinding
-    private val sharedViewModel: AdminViewModel by activityViewModels {
+    private val mAdminViewModel: AdminViewModel by activityViewModels {
         AdminViewModelFactory(requireActivity().application)
     }
 
@@ -48,7 +48,7 @@ class ManageInvoiceFragment : Fragment(), UpdateInterface {
             LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         rcv.adapter = adapter
 
-        sharedViewModel.listInvoice.observe(this.viewLifecycleOwner) {
+        mAdminViewModel.listInvoice.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
         }
 
@@ -85,12 +85,12 @@ class ManageInvoiceFragment : Fragment(), UpdateInterface {
         when (status) {
             "Tất cả" -> {
                 lifecycle.coroutineScope.launch {
-                    sharedViewModel.getAllInvoice()
+                    mAdminViewModel.getAllInvoice()
                 }
             }
             else -> {
                 lifecycle.coroutineScope.launch {
-                    sharedViewModel.getInvoiceByFilter(status)
+                    mAdminViewModel.getInvoiceByFilter(status)
                 }
             }
         }
@@ -99,7 +99,8 @@ class ManageInvoiceFragment : Fragment(), UpdateInterface {
     override fun clickToUpdateReceipt(item: Receipt?) {
         if (item == null) return
         else {
-            val action = ManageInvoiceFragmentDirections.actionManageInvoiceFragmentToInvoiceDetailBtmSheet(item)
+            val action =
+                ManageInvoiceFragmentDirections.actionManageInvoiceFragmentToInvoiceDetailBtmSheet(item)
             this@ManageInvoiceFragment.findNavController().navigate(action)
         }
     }
