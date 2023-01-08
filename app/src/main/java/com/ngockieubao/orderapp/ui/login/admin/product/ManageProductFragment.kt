@@ -98,7 +98,7 @@ class ManageProductFragment : Fragment(), MgrInterface {
     override fun clickToMgr(item: Product?) {
         if (item == null) return
         else {
-            val action = ManageProductFragmentDirections.actionManageProductFragmentToMgrProductDetail()
+            val action = ManageProductFragmentDirections.actionManageProductFragmentToMgrProductDetail(item)
             this@ManageProductFragment.findNavController().navigate(action)
         }
     }

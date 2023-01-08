@@ -3,6 +3,7 @@ package com.ngockieubao.orderapp.data
 import java.io.Serializable
 
 data class Product(
+    val category: Int,
     val delivery: String,
     val description: String,
     val expiry: String,
@@ -17,5 +18,5 @@ data class Product(
 ) : Serializable {
     var id: Int = 1
 
-    constructor() : this("", "", "", "", "", 0.0, 0.0, 0, "", "", "")
+    constructor() : this(0,"", "", "", "", "", 0.0, 0.0, 0, "", "", "")
 }

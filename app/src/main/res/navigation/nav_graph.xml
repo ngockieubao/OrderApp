@@ -241,5 +241,10 @@
         android:id="@+id/mgrProductDetail"
         android:name="com.ngockieubao.orderapp.ui.login.admin.product.MgrProductDetail"
         android:label="MgrProductDetail"
-        tools:layout="@layout/fragment_mgr_product_detail" />
+        tools:layout="@layout/fragment_mgr_product_detail" >
+        <argument
+            android:name="item"
+            app:argType="com.ngockieubao.orderapp.data.Product"
+            app:nullable="true" />
+    </fragment>
 </navigation>
