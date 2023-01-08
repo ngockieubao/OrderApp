@@ -28,6 +28,9 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
     private val _listProduct = MutableLiveData<List<Product?>?>()
     val listProduct: LiveData<List<Product?>?> = _listProduct
 
+    private val _isSuccess = MutableLiveData<Boolean?>()
+    val isSuccess: MutableLiveData<Boolean?> = _isSuccess
+
     suspend fun getAllInvoice() {
         val res = db.collection("ReceiptDetail").get().await()
         val toObj = res.toObjects<Receipt>()
@@ -111,11 +114,41 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
         _listProduct.postValue(list)
     }
 
+    fun edtProduct(
+        docID: String, name: String, price: String, category: Int,
+        expiry: String, type: String, weight: String, description: String
+    ) {
+        // use product docID to update
+        db.collection("Product").document(docID)
+            .update(
+                "name", name,
+                "price", price.toDouble(),
+                "category", category,
+                "expiry", expiry,
+                "type", type,
+                "weight", weight,
+                "description", description
+            )
+            .addOnSuccessListener {
+                _isSuccess.value = true
+                Toast.makeText(context, "edit success", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { ex ->
+                Log.d(TAG, "edtProduct: failed - $ex")
+                Toast.makeText(context, "edit failed", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun reset() {
+        _isSuccess.value = false
+    }
+
     override fun onCleared() {
         super.onCleared()
 
         _listInvoice.postValue(null)
         _listProduct.postValue(null)
+        _isSuccess.value = null
     }
 
     companion object {

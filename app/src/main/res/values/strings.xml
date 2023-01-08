@@ -235,7 +235,7 @@
     <string name="manage_product_vi">Quản lý sản phẩm</string>
     <string name="back_vi">Quay lại</string>
     <string name="product_name_vi">Tên sản phẩm:</string>
-    <string name="price_vi">Đơn giá:</string>
+    <string name="price_vi">Đơn giá (VNĐ):</string>
     <string name="category_vi">Danh mục:</string>
     <string name="expiry_vi">Hạn sử dụng:</string>
     <string name="weight_vi">Trọng lượng:</string>

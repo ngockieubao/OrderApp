@@ -7,17 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ngockieubao.orderapp.R
+import com.ngockieubao.orderapp.base.AdminViewModelFactory
 import com.ngockieubao.orderapp.data.Product
 import com.ngockieubao.orderapp.databinding.FragmentMgrProductDetailBinding
-import com.ngockieubao.orderapp.util.Utils
+import com.ngockieubao.orderapp.ui.login.admin.AdminViewModel
 import com.ngockieubao.orderapp.util.Utils.toEditable
 import com.ngockieubao.orderapp.util.setUrl
 
 class MgrProductDetail : Fragment() {
 
     private lateinit var binding: FragmentMgrProductDetailBinding
+    private val mAdminViewModel: AdminViewModel by activityViewModels {
+        AdminViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,25 +43,54 @@ class MgrProductDetail : Fragment() {
 
         initSpn()
         showInfo(item)
-//        setCategoryProduct()
 
-        binding.imgvBtnBack.setOnClickListener {
-            this.findNavController().navigateUp()
-        }
-    }
-
-    private fun setCategoryProduct() {
+        var category: Int? = null
         var type: String? = null
 
         binding.spnProductType.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
                     type = parent?.getItemAtPosition(position).toString()
+                    category = position + 1
                 }
 
-                override fun onNothingSelected(p0: AdapterView<*>?) {
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
+
+        binding.btnSave.setOnClickListener {
+            if (item != null) {
+                val docID = item.docID
+                val name = binding.edtProductName.text.toString()
+                val price = binding.edtProductPrice.text.toString()
+                val expiry = binding.edtProductExpiry.text.toString()
+                val weight = binding.edtProductWeight.text.toString()
+                val description = binding.edtProductDescription.text.toString()
+
+                if (category == null) {
+                    Toast.makeText(requireActivity(), "category null", Toast.LENGTH_SHORT).show()
+                } else if (type == null) {
+                    Toast.makeText(requireActivity(), "type null", Toast.LENGTH_SHORT).show()
+                } else {
+                    edtProduct(docID, name, price, category!!, expiry, type!!, weight, description)
+                    mAdminViewModel.isSuccess.observe(this.viewLifecycleOwner) {
+                        if (it == null) return@observe
+                        if (it == true) {
+                            mAdminViewModel.reset()
+                            this.findNavController().navigateUp()
+                        }
+                    }
                 }
             }
+        }
+
+        binding.imgvBtnBack.setOnClickListener {
+            this.findNavController().navigateUp()
+        }
     }
 
     private fun initSpn() {
@@ -77,12 +112,19 @@ class MgrProductDetail : Fragment() {
         if (item == null) return
         binding.apply {
             edtProductName.text = item.name.toEditable()
-            edtProductPrice.text = Utils.formatPrice(item.price).toEditable()
+            edtProductPrice.text = item.price.toString().toEditable()
             edtProductExpiry.text = item.expiry.toEditable()
             edtProductWeight.text = item.weight.toEditable()
             edtProductDescription.text = item.description.toEditable()
             imgvProduct.setUrl(item.url)
             spnProductType.setSelection(item.category.minus(1))
         }
+    }
+
+    private fun edtProduct(
+        docID: String, name: String, price: String, category: Int,
+        expiry: String, type: String, weight: String, description: String
+    ) {
+        mAdminViewModel.edtProduct(docID, name, price, category, expiry, type, weight, description)
     }
 }

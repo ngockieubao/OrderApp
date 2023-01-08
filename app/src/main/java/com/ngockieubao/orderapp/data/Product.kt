@@ -6,6 +6,7 @@ data class Product(
     val category: Int,
     val delivery: String,
     val description: String,
+    val docID: String,
     val expiry: String,
     val instock: String,
     val name: String,
@@ -18,5 +19,5 @@ data class Product(
 ) : Serializable {
     var id: Int = 1
 
-    constructor() : this(0,"", "", "", "", "", 0.0, 0.0, 0, "", "", "")
+    constructor() : this(0, "", "", "", "", "", "", 0.0, 0.0, 0, "", "", "")
 }
