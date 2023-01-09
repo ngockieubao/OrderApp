@@ -31,6 +31,9 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
     private val _isSuccess = MutableLiveData<Boolean?>()
     val isSuccess: MutableLiveData<Boolean?> = _isSuccess
 
+    private val _isDelete = MutableLiveData<Boolean?>()
+    val isDelete: MutableLiveData<Boolean?> = _isDelete
+
     suspend fun getAllInvoice() {
         val res = db.collection("ReceiptDetail").get().await()
         val toObj = res.toObjects<Receipt>()
@@ -131,16 +134,34 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
             )
             .addOnSuccessListener {
                 _isSuccess.value = true
-                Toast.makeText(context, "edit success", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Đã cập nhật sản phẩm", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { ex ->
                 Log.d(TAG, "edtProduct: failed - $ex")
-                Toast.makeText(context, "edit failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Lỗi cập nhật sản phẩm", Toast.LENGTH_SHORT).show()
             }
     }
 
     fun reset() {
         _isSuccess.value = false
+    }
+
+    fun delProduct(
+        docID: String
+    ) {
+        db.collection("Product").document(docID).delete()
+            .addOnSuccessListener {
+                _isDelete.value = true
+                Toast.makeText(context, "Xoá thành công", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { ex ->
+                Log.d(TAG, "delProduct: failed - $ex")
+                Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun resetDel() {
+        _isDelete.value = false
     }
 
     override fun onCleared() {
@@ -149,6 +170,7 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
         _listInvoice.postValue(null)
         _listProduct.postValue(null)
         _isSuccess.value = null
+        _isDelete.value = null
     }
 
     companion object {

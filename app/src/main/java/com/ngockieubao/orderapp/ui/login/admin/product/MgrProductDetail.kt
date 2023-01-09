@@ -1,13 +1,13 @@
 package com.ngockieubao.orderapp.ui.login.admin.product
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.view.Window
+import android.widget.*
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ngockieubao.orderapp.R
@@ -81,8 +81,26 @@ class MgrProductDetail : Fragment() {
                         if (it == null) return@observe
                         if (it == true) {
                             mAdminViewModel.reset()
-                            this.findNavController().navigateUp()
+                            this@MgrProductDetail.findNavController().navigateUp()
                         }
+                    }
+                }
+            }
+        }
+
+        binding.btnDel.setOnClickListener {
+            if (item != null) {
+                val docID = item.docID
+//                dialog = ConfirmDeleteDialog()
+//                dialog.show(childFragmentManager, "delete")
+//                mAdminViewModel.delProduct(docID)
+
+                showDialog(docID)
+                mAdminViewModel.isDelete.observe(this.viewLifecycleOwner) {
+                    if (it == null) return@observe
+                    if (it == true) {
+                        mAdminViewModel.resetDel()
+                        this@MgrProductDetail.findNavController().navigateUp()
                     }
                 }
             }
@@ -126,5 +144,25 @@ class MgrProductDetail : Fragment() {
         expiry: String, type: String, weight: String, description: String
     ) {
         mAdminViewModel.edtProduct(docID, name, price, category, expiry, type, weight, description)
+    }
+
+    private fun showDialog(docID: String) {
+        val dialog = activity?.let { Dialog(it) }
+        if (dialog != null) {
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.custom_dialog)
+            val yesBtn = dialog.findViewById(R.id.btn_yes) as Button
+            val noBtn = dialog.findViewById(R.id.btn_no) as Button
+
+            yesBtn.setOnClickListener {
+                mAdminViewModel.delProduct(docID)
+                dialog.dismiss()
+            }
+            noBtn.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
     }
 }
