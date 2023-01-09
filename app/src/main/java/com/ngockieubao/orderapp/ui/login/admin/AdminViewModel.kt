@@ -34,6 +34,9 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
     private val _isDelete = MutableLiveData<Boolean?>()
     val isDelete: MutableLiveData<Boolean?> = _isDelete
 
+    private val _isAdded = MutableLiveData<Boolean?>()
+    val isAdded: MutableLiveData<Boolean?> = _isAdded
+
     suspend fun getAllInvoice() {
         val res = db.collection("ReceiptDetail").get().await()
         val toObj = res.toObjects<Receipt>()
@@ -164,6 +167,48 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
         _isDelete.value = false
     }
 
+    fun addProduct(
+        name: String,
+        price: String,
+        expiry: String,
+        weight: String,
+        description: String,
+        category: Int,
+        type: String
+    ) {
+        val product = Product(0, "", "", "", "", "", "", 0.0, 0.0, 0, "", "", "")
+        db.collection("Product").add(product.toHashMap())
+            .addOnSuccessListener { doc ->
+                db.collection("Product").document(doc.id)
+                    .update(
+                        "name", name,
+                        "price", price.toDouble(),
+                        "category", category,
+                        "expiry", expiry,
+                        "type", type,
+                        "weight", weight,
+                        "description", description,
+                        "docID", doc.id
+                    )
+                    .addOnSuccessListener {
+                        _isAdded.value = true
+                        Toast.makeText(context, "Đã thêm sản phẩm", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { ex ->
+                        Log.d(TAG, "addProduct: failed - $ex")
+                        Toast.makeText(context, "Lỗi thêm sản phẩm", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener { ex ->
+                Log.d(TAG, "addProduct: failed - $ex")
+                Toast.makeText(context, "Thêm thất bại", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun resetAdded() {
+        _isAdded.value = false
+    }
+
     override fun onCleared() {
         super.onCleared()
 
@@ -171,6 +216,7 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
         _listProduct.postValue(null)
         _isSuccess.value = null
         _isDelete.value = null
+        _isAdded.value = null
     }
 
     companion object {

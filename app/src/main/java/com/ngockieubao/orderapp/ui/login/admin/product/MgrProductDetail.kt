@@ -91,9 +91,6 @@ class MgrProductDetail : Fragment() {
         binding.btnDel.setOnClickListener {
             if (item != null) {
                 val docID = item.docID
-//                dialog = ConfirmDeleteDialog()
-//                dialog.show(childFragmentManager, "delete")
-//                mAdminViewModel.delProduct(docID)
 
                 showDialog(docID)
                 mAdminViewModel.isDelete.observe(this.viewLifecycleOwner) {

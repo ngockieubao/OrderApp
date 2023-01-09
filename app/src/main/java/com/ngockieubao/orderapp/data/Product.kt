@@ -20,4 +20,22 @@ data class Product(
     var id: Int = 1
 
     constructor() : this(0, "", "", "", "", "", "", 0.0, 0.0, 0, "", "", "")
+
+    fun toHashMap(): HashMap<String, Any?> {
+        return hashMapOf(
+            "category" to category,
+            "delivery" to delivery,
+            "description" to description,
+            "docID" to docID,
+            "expiry" to expiry,
+            "instock" to instock,
+            "name" to name,
+            "price" to price,
+            "rating" to rating,
+            "sold" to sold,
+            "type" to type,
+            "url" to url,
+            "weight" to weight
+        )
+    }
 }

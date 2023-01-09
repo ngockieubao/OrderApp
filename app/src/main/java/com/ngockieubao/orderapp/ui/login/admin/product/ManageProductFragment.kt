@@ -60,6 +60,11 @@ class ManageProductFragment : Fragment(), MgrInterface {
             adapter.submitList(it)
         }
 
+        binding.floatingBtnAddProduct.setOnClickListener {
+            val action = ManageProductFragmentDirections.actionManageProductFragmentToAddProductFragment()
+            this@ManageProductFragment.findNavController().navigate(action)
+        }
+
         binding.imgvBtnBack.setOnClickListener {
             this.findNavController().navigateUp()
         }

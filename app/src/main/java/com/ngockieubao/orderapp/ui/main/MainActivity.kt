@@ -102,6 +102,10 @@ class MainActivity : AppCompatActivity() {
                     binding.constraintHeader.visibility = View.GONE
                     binding.bottomNavigationView.visibility = View.GONE
                 }
+                R.id.addProductFragment -> {
+                    binding.constraintHeader.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
                 else -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE
                 }

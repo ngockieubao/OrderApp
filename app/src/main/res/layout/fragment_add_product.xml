@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.login.admin.product.AddProductFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/red_mix"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imgv_btn_back"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/string_todo"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_left_chevron_64"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_add_product_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:text="@string/add_product_vi"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="15dp"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_add_product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:text="@string/product_name_vi"
+                        android:textColor="@color/red_mix"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/edt_add_product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="15dp"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@+id/tv_add_product_name"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_add_product_name"
+                        tools:ignore="LabelFor,TouchTargetSizeCheck"
+                        tools:text="Mì cay bò" />
+
+                    <TextView
+                        android:id="@+id/tv_add_product_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/price_vi"
+                        android:textColor="@color/red_mix"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@+id/edt_add_product_name"
+                        app:layout_constraintTop_toBottomOf="@+id/edt_add_product_name" />
+
+                    <EditText
+                        android:id="@+id/edt_add_product_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="15dp"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor,TouchTargetSizeCheck"
+                        tools:text="90.000" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imgv_add_product"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/string_todo"
+                    android:src="@drawable/img_pizza_cheese" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/detail_vi"
+                    android:textColor="@color/red_mix"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/tv_add_product_category"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="start|center"
+                        android:text="@string/category_vi"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_weight="3"
+                        android:background="@drawable/corner_confirm_order"
+                        android:gravity="center"
+                        tools:ignore="RtlSymmetry">
+
+                        <Spinner
+                            android:id="@+id/spn_add_product_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:ignore="TouchTargetSizeCheck"
+                            tools:listitem="@layout/layout_spn_update_receipt" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/tv_add_product_expiry"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="start|center"
+                        android:text="@string/expiry_vi"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/edt_add_product_expiry"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_weight="3"
+                        android:autofillHints=""
+                        android:gravity="center"
+                        android:inputType="textPersonName"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor,TextFields,TouchTargetSizeCheck"
+                        tools:text="12 giờ" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/tv_add_product_weight"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="start|center"
+                        android:text="@string/weight_vi"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/edt_add_product_weight"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_weight="3"
+                        android:autofillHints=""
+                        android:gravity="center"
+                        android:inputType="textPersonName"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor,TextFields,TouchTargetSizeCheck"
+                        tools:text="500 grams" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/product_description_vi"
+                    android:textColor="@color/red_mix"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/corner_confirm_order">
+
+                    <EditText
+                        android:id="@+id/edt_add_product_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:autofillHints=""
+                        android:background="@null"
+                        android:ellipsize="end"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:padding="10dp"
+                        android:singleLine="false"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor"
+                        tools:text="@string/large_text" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_add"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:backgroundTint="@color/red_mix"
+                    android:text="@string/add_product_vi"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -108,6 +108,16 @@
         <item>Đồ ăn vặt</item>
     </string-array>
 
+    <string-array name="spn_add_product_manager">
+        <item>Chọn mục</item>
+        <item>Cơm</item>
+        <item>Lẩu</item>
+        <item>Phở</item>
+        <item>Đồ ăn nhanh</item>
+        <item>Đồ uống</item>
+        <item>Đồ ăn vặt</item>
+    </string-array>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -246,4 +256,5 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="are_you_sure_to_delete_this_product">Are you sure to delete this product?</string>
+    <string name="add_product_vi">Thêm sản phẩm</string>
 </resources>
