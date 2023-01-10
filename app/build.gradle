@@ -61,6 +61,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     // Firestore
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    // Storage
+    implementation 'com.google.firebase:firebase-storage-ktx'
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

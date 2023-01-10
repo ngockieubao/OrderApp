@@ -69,6 +69,7 @@ class MgrProductDetail : Fragment() {
                 val price = binding.edtProductPrice.text.toString()
                 val expiry = binding.edtProductExpiry.text.toString()
                 val weight = binding.edtProductWeight.text.toString()
+                val delivery = binding.edtProductDelivery.text.toString()
                 val description = binding.edtProductDescription.text.toString()
 
                 if (category == null) {
@@ -76,7 +77,7 @@ class MgrProductDetail : Fragment() {
                 } else if (type == null) {
                     Toast.makeText(requireActivity(), "type null", Toast.LENGTH_SHORT).show()
                 } else {
-                    edtProduct(docID, name, price, category!!, expiry, type!!, weight, description)
+                    edtProduct(docID, name, price, category!!, expiry, type!!, weight, delivery, description)
                     mAdminViewModel.isSuccess.observe(this.viewLifecycleOwner) {
                         if (it == null) return@observe
                         if (it == true) {
@@ -130,6 +131,7 @@ class MgrProductDetail : Fragment() {
             edtProductPrice.text = item.price.toString().toEditable()
             edtProductExpiry.text = item.expiry.toEditable()
             edtProductWeight.text = item.weight.toEditable()
+            edtProductDelivery.text = item.delivery.toEditable()
             edtProductDescription.text = item.description.toEditable()
             imgvProduct.setUrl(item.url)
             spnProductType.setSelection(item.category.minus(1))
@@ -138,9 +140,9 @@ class MgrProductDetail : Fragment() {
 
     private fun edtProduct(
         docID: String, name: String, price: String, category: Int,
-        expiry: String, type: String, weight: String, description: String
+        expiry: String, type: String, weight: String, delivery: String, description: String
     ) {
-        mAdminViewModel.edtProduct(docID, name, price, category, expiry, type, weight, description)
+        mAdminViewModel.edtProduct(docID, name, price, category, expiry, type, weight, delivery, description)
     }
 
     private fun showDialog(docID: String) {

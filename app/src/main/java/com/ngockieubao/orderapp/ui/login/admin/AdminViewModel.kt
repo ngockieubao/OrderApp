@@ -2,6 +2,7 @@ package com.ngockieubao.orderapp.ui.login.admin
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Bitmap
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -11,9 +12,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.ngockieubao.orderapp.data.Product
 import com.ngockieubao.orderapp.data.Receipt
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 
 class AdminViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -21,6 +24,7 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
 
     private val db = Firebase.firestore
+    private val storage = Firebase.storage
 
     private val _listInvoice = MutableLiveData<List<Receipt?>?>()
     val listInvoice: LiveData<List<Receipt?>?> = _listInvoice
@@ -78,13 +82,11 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
                             db.collection("ReceiptDetail").document(id).update("status", status)
                                 .addOnSuccessListener {
                                     Log.d(TAG, "cancelReceipt: success")
-                                    Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_SHORT)
-                                        .show()
+                                    Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
                                 }
                                 .addOnFailureListener { ex ->
                                     Log.d(TAG, "cancelReceipt: cancel failed - $ex")
-                                    Toast.makeText(context, "Cập nhật thất bại", Toast.LENGTH_SHORT)
-                                        .show()
+                                    Toast.makeText(context, "Cập nhật thất bại", Toast.LENGTH_SHORT).show()
                                 }
                         }
                     }
@@ -122,7 +124,7 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 
     fun edtProduct(
         docID: String, name: String, price: String, category: Int,
-        expiry: String, type: String, weight: String, description: String
+        expiry: String, type: String, weight: String, delivery: String, description: String
     ) {
         // use product docID to update
         db.collection("Product").document(docID)
@@ -133,6 +135,7 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
                 "expiry", expiry,
                 "type", type,
                 "weight", weight,
+                "delivery", delivery,
                 "description", description
             )
             .addOnSuccessListener {
@@ -172,9 +175,11 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
         price: String,
         expiry: String,
         weight: String,
+        delivery: String,
         description: String,
         category: Int,
-        type: String
+        type: String,
+        bitmap: Bitmap
     ) {
         val product = Product(0, "", "", "", "", "", "", 0.0, 0.0, 0, "", "", "")
         db.collection("Product").add(product.toHashMap())
@@ -187,10 +192,12 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
                         "expiry", expiry,
                         "type", type,
                         "weight", weight,
+                        "delivery", delivery,
                         "description", description,
                         "docID", doc.id
                     )
                     .addOnSuccessListener {
+                        addImageUrl(bitmap, doc.id)
                         _isAdded.value = true
                         Toast.makeText(context, "Đã thêm sản phẩm", Toast.LENGTH_SHORT).show()
                     }
@@ -207,6 +214,45 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 
     fun resetAdded() {
         _isAdded.value = false
+    }
+
+    private fun updateUrl(docID: String, newUrl: String) {
+        db.collection("Product").document(docID).update("url", newUrl)
+            .addOnSuccessListener {
+                Log.d(TAG, "updateUrl: success")
+            }
+            .addOnFailureListener { ex ->
+                Log.d(TAG, "updateUrl: failed -$ex")
+            }
+    }
+
+    private fun addImageUrl(bitmap: Bitmap, docID: String) {
+        val storageRef = storage.reference
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val filename = System.currentTimeMillis().toString()
+        val data = baos.toByteArray()
+
+        val productsRef = storageRef.child("products").child("${filename}.jpg")
+        productsRef.putBytes(data)
+            .addOnSuccessListener {
+                productsRef.downloadUrl
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val downloadUri = task.result.toString()
+                            updateUrl(docID, downloadUri)
+                            Log.d(TAG, "addImageUrl: upload success")
+                        } else {
+                            Log.d(TAG, "addImageUrl: downloadUrl failed")
+                        }
+                    }
+                    .addOnFailureListener { ex ->
+                        Log.d(TAG, "addImageUrl: downloadUrl failed - $ex")
+                    }
+            }
+            .addOnFailureListener { ex ->
+                Log.d(TAG, "addImageUrl: upload failed - $ex")
+            }
     }
 
     override fun onCleared() {

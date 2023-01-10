@@ -257,4 +257,5 @@
     <string name="yes">Yes</string>
     <string name="are_you_sure_to_delete_this_product">Are you sure to delete this product?</string>
     <string name="add_product_vi">Thêm sản phẩm</string>
+    <string name="delivery_time_vi">Thời gian giao:</string>
 </resources>

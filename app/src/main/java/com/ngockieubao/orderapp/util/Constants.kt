@@ -20,4 +20,6 @@ object Constants {
         val s = email.split("@")
         return s[0].trim()
     }
+
+    const val LIBRARY_PICKER = 12312
 }

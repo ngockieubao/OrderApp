@@ -55,6 +55,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="15dp"
@@ -116,13 +117,38 @@
                         tools:text="90.000" />
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/imgv_add_product"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout_add_image_product_container"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/string_todo"
-                    android:src="@drawable/img_pizza_cheese" />
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imgv_add_product"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:contentDescription="@string/string_todo"
+                        android:elevation="4dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/upload_image"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@string/string_todo"
+                        android:elevation="8dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_camera"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -231,6 +257,36 @@
                         tools:ignore="LabelFor,TextFields,TouchTargetSizeCheck"
                         tools:text="500 grams" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/tv_add_product_delivery"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="start|center"
+                        android:text="@string/delivery_time_vi"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/edt_add_product_delivery"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_weight="3"
+                        android:autofillHints=""
+                        android:gravity="center"
+                        android:inputType="textPersonName"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor,TextFields,TouchTargetSizeCheck"
+                        tools:text="20 - 30 mins" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -267,7 +323,6 @@
                         tools:ignore="LabelFor"
                         tools:text="@string/large_text" />
                 </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
